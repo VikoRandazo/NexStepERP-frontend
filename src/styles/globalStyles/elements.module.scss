@@ -1,12 +1,12 @@
 svg {
-    cursor: pointer;
-    width: 1.25em;
-    aspect-ratio: 1 / 1;
+  font-size: 1.25em;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
 }
 
 *::-webkit-scrollbar {
-    height: 0.25em;
-    width: 0.25em;
+    height: 0;
+    width: 0;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -16,4 +16,17 @@ svg {
 
   ::-webkit-scrollbar-track {
     background-color: $scrollerTrack; 
+  }
+
+  ul { 
+    list-style: none;
+  }
+
+  input[type="text"] {
+    padding: 8px 16px;
+    border-radius: 0.75em;
+    outline: none;
+    border: none;
+    flex: 1;
+    width: 220px;
   }

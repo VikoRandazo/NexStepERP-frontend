@@ -19,13 +19,11 @@
   & > .graphs {
     width: 100%;
     height: 20em;
-    // border: 0.125em solid #000;
     @extend %flexRow;
     gap: 1em;
   }
 
   & > .rating {
-    border: 0.125em solid #000;
     width: 100%;
     height: 20em;
     @extend %flexRow;

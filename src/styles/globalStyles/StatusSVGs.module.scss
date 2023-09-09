@@ -1,0 +1,14 @@
+@import "./colorPallete.module.scss";
+
+.outOfStock {
+  font-size: 1.25em;
+  color: $outOfStock;
+}
+.stockAlert {
+  font-size: 1.25em;
+  color: $warning;
+}
+.success {
+  font-size: 1.25em;
+  color: $success;
+}

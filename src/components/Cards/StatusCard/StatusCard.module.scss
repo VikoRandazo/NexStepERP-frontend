@@ -2,12 +2,11 @@
 @import "../../../styles/globalStyles/colorPallete.module.scss";
 
 .StatusCard {
-  min-width: auto;
+ width: auto;
   height: 100%;
   background-color: #fff;
   border-radius: 0.75em;
   aspect-ratio: 2 / 1;
-  // flex-shrink: 0;
   padding: 1em;
   @extend %flexCol;
 

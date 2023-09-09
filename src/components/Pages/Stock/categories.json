@@ -1,0 +1,97 @@
+[
+  {
+    "id": 0,
+    "name": "All",
+    "description": "A collection of all available product categories"
+  },
+  {
+    "id": 1,
+    "name": "Electronics",
+    "description": "Devices such as smartphones, tablets, and laptops"
+  },
+  {
+    "id": 2,
+    "name": "Home",
+    "description": "Products including refrigerators, washing machines, and microwaves"
+  },
+  {
+    "id": 3,
+    "name": "Furniture",
+    "description": "Household furniture like sofas, beds, and tables"
+  },
+  {
+    "id": 4,
+    "name": "Clothing",
+    "description": "Varieties of clothing including shirts, trousers, and dresses"
+  },
+  {
+    "id": 5,
+    "name": "Footwear",
+    "description": "A variety of footwear including sneakers, boots, and sandals"
+  },
+  {
+    "id": 6,
+    "name": "Accessories",
+    "description": "Fashion accessories such as watches, jewelry, and sunglasses"
+  },
+  {
+    "id": 7,
+    "name": "Beauty & Personal Care",
+    "description": "Products for skincare, haircare, and cosmetics"
+  },
+  {
+    "id": 8,
+    "name": "Sports & Fitness",
+    "description": "Sporting goods and fitness equipment"
+  },
+  {
+    "id": 9,
+    "name": "Books & Stationery",
+    "description": "Books, notebooks, pens, and other stationery items"
+  },
+  {
+    "id": 10,
+    "name": "Groceries",
+    "description": "Daily essentials including food items, beverages, and household supplies"
+  },
+  {
+    "id": 11,
+    "name": "Automotive",
+    "description": "Automotive parts, accessories, and tools"
+  },
+  {
+    "id": 12,
+    "name": "Health & Wellness",
+    "description": "Products for health and wellbeing, including supplements and medical supplies"
+  },
+  {
+    "id": 13,
+    "name": "Toys & Games",
+    "description": "A range of toys and games for children of all ages"
+  },
+  {
+    "id": 14,
+    "name": "Garden & Outdoor",
+    "description": "Products for gardening and outdoor leisure activities"
+  },
+  {
+    "id": 15,
+    "name": "Pet Supplies",
+    "description": "Supplies for pets including food, toys, and grooming products"
+  },
+  {
+    "id": 16,
+    "name": "Kitchen",
+    "description": "Supplies for pets including food, toys, and grooming products"
+  },
+  {
+    "id": 17,
+    "name": "Apearel",
+    "description": "Supplies for pets including food, toys, and grooming products"
+  },
+  {
+    "id": 18,
+    "name": "Sports",
+    "description": "Supplies for pets including food, toys, and grooming products"
+  }
+]

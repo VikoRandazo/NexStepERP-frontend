@@ -1,0 +1,57 @@
+@import "../../../../styles/globalStyles/Flex.module.scss";
+@import "../../../../styles/globalStyles/colorPallete.module.scss";
+@import "../../../../styles/globalStyles/elements.module.scss";
+@import "../../../../styles/globalStyles/StatusSVGs.module.scss";
+
+.ProductCard {
+  background-color: #fff;
+  width: calc(33% - 0.5em);
+  aspect-ratio: 3 / 1;
+  padding: 1em;
+  border-radius: 1em;
+  @extend %flexRow;
+  gap: 1em;
+
+  & > .img {
+    width: auto;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    white-space: wrap;
+    overflow: hidden;
+    border-radius: 0.75em;
+
+    & > img {
+      object-fit: cover;
+      height: 100%;
+      width: auto;
+    }
+  }
+
+  & > .details {
+    flex: 1 1 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @extend %flexCol;
+    gap: 0.25em;
+
+    & > .title {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    & > .stock {
+      font-size: 0.875em;
+      overflow: hidden;
+      white-space: wrap;
+      text-overflow: ellipsis;
+      @extend %flexRow;
+      align-items: center;
+      gap: 0.5em;
+      margin-top: auto;
+    }
+  }
+
+  & > .options {
+  }
+}
