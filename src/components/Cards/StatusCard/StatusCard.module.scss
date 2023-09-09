@@ -1,0 +1,48 @@
+@import "../../../styles/globalStyles/Flex.module.scss";
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+
+.StatusCard {
+  min-width: auto;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 0.75em;
+  aspect-ratio: 2 / 1;
+  // flex-shrink: 0;
+  padding: 1em;
+  @extend %flexCol;
+
+  & > .header {
+    width: 100%;
+    @extend %flexRow;
+    gap: 0.5em;
+
+    & > .categoryIcon {
+      height: auto;
+      width: 3em;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      @extend %flexRow;
+      align-items: center;
+      justify-content: center;
+      background-color: $softBg;
+    }
+
+    & > .category {
+      width: 100%;
+      height: 100%;
+      & > .description {
+        font-size: 0.75em;
+      }
+    }
+  }
+
+  & > .main {
+    width: 100%;
+    flex: 1 0 0;
+    // height: 100%;
+  }
+
+  & > .footer {
+    width: 100%;
+  }
+}

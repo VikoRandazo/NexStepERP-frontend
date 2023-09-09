@@ -1,0 +1,11 @@
+@keyframes expandSideBar {
+    from {
+        width: 5%;
+        opacity: 0;
+    }
+
+   to {
+        width: 20%;
+        opacity: 1;
+    }
+}

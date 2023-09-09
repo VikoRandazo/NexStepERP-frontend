@@ -1,0 +1,12 @@
+@import "../../../../styles/globalStyles/Flex.module.scss";
+@import "../../../../styles/globalStyles/BasicBtn.module.scss";
+
+.BtnTransparent {
+  background-color: transparent;
+  @extend %BasicButton;
+  
+  & > svg {
+    width: 100%;
+    height: 100%;
+  }
+}

@@ -1,0 +1,19 @@
+svg {
+    cursor: pointer;
+    width: 1.25em;
+    aspect-ratio: 1 / 1;
+}
+
+*::-webkit-scrollbar {
+    height: 0.25em;
+    width: 0.25em;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color:$scrollerThumb; 
+    border-radius: 1em;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: $scrollerTrack; 
+  }

@@ -1,0 +1,49 @@
+@import "../../../styles/globalStyles/Flex.module.scss";
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+
+.SideBar {
+  width: 100%;
+  height: 100%;
+  padding: 1em;
+  border-radius: 1em;
+  background-color: #fff;
+  @extend %flexCol;
+  gap: 1em;
+
+  & > .header {
+    height: 8%;
+    width: 100%;
+    @extend %flexRow;
+    border-bottom: 0.125em solid rgba($colorDivider, 0.75);
+    padding: 0.25em;
+    & > .logo {
+      @extend %flexRow;
+      width: 100%;
+      height: 100%;
+      padding: 0.5em;
+      & > svg {
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+
+  & > .main {
+    height: 75%;
+    width: 100%;
+
+    & > .navItems {
+      width: 100%;
+      @extend %flexCol;
+      gap: 0.5em;
+    }
+  }
+
+  & > .footer {
+    height: 10%;
+    width: 100%;
+    @extend %flexRow;
+    align-items: center;
+    justify-content: center;
+  }
+}

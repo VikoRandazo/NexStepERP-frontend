@@ -1,0 +1,10 @@
+%BasicButton {
+  @extend %flexRow;
+
+  width: 100%;
+  height: 2.5em;
+  gap: 0.5em;
+  flex: 1 1 0;
+  border: none;
+  border-radius: 1em;
+}

@@ -1,0 +1,34 @@
+@import "../../../styles/globalStyles/Flex.module.scss";
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+
+.Overview {
+  width: 100%;
+  min-height: 100%;
+  @extend %flexCol;
+  gap: 1em;
+  overflow-y: auto;
+
+  & > .statusUpdates {
+    @extend %flexRow;
+    gap: 1em;
+    height:10em;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  & > .graphs {
+    width: 100%;
+    height: 20em;
+    // border: 0.125em solid #000;
+    @extend %flexRow;
+    gap: 1em;
+  }
+
+  & > .rating {
+    border: 0.125em solid #000;
+    width: 100%;
+    height: 20em;
+    @extend %flexRow;
+    gap: 1em;
+  }
+}

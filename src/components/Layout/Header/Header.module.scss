@@ -1,0 +1,63 @@
+@import "../../../styles/globalStyles/Flex.module.scss";
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+@import "../../../styles/globalStyles/elements.module.scss";
+
+.Header {
+  height: 100%;
+  max-width: 100%;
+  background-color: #fff;
+  @extend %flexRow;
+  border-radius: 1em;
+  padding: 0.5em 1em;
+
+  & > .user {
+    height: 100%;
+    width: 25%;
+    @extend %flexRow;
+    gap: 1em;
+    align-items: center;
+
+    & > .userImg {
+      height: 100%;
+      width: 100%;
+      aspect-ratio: 1/ 1;
+      overflow: hidden;
+      border-radius: 50%;
+      border: 0.25em solid $primary;
+
+      & > img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+
+    & > .userDetails {
+      width: 100%;
+      height: 100%;
+      @extend %flexCol;
+      justify-content: center;
+    }
+
+    & > .system {
+      width: 100%;
+      height: 100%;
+      @extend %flexRow;
+      align-items: center;
+      justify-content: center;
+      gap: 1em;
+
+      & > *svg {
+        width: 1.5em;
+        height: 1.5em;
+        color: $secondary;
+      }
+    }
+  }
+  & > .title {
+    width: 100%;
+    min-height: 100%;
+    @extend %flexRow;
+    align-items: center;
+  }
+}
