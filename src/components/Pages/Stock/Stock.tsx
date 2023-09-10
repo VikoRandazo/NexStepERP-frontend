@@ -6,6 +6,7 @@ import instance from "../../../api/axiosInstance";
 import { Product } from "../../../models/ProductType";
 import ProductCard from "./ProductCard/ProductCard";
 import { HiMagnifyingGlass } from "react-icons/hi2";
+
 interface StockProps {}
 
 const Stock: FC<StockProps> = () => {

@@ -1,0 +1,15 @@
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+@import "../../../styles/globalStyles/Flex.module.scss";
+
+.Option {
+    padding: 0.5em;
+    display: none;
+    cursor: pointer;
+    &:hover {
+        background-color: $softBg;
+    }
+
+    &.active {
+        @extend %flexRow;
+    }
+}

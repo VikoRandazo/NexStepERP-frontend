@@ -1,6 +1,8 @@
 import React, { FC, ReactElement, useState } from "react";
 import styles from "./SidebarItem.module.scss";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { appSettingsActions } from "../../../../store/slices/appSettings";
 
 interface SidebarItemProps {
   name: string;
@@ -17,9 +19,13 @@ const SidebarItem: FC<SidebarItemProps> = ({
   setActiveNavItem,
 }) => {
   const navigate = useNavigate();
+  const dispatch= useDispatch()
+
+
   const handleClick = () => {
     navigate(`/${name}`);
     setActiveNavItem(name);
+    dispatch(appSettingsActions.setPageName(name))
   };
 
   return (

@@ -18,6 +18,7 @@ import { sideBarActions } from "../../../store/slices/sideBar";
 import { NavItem } from "../../../models/Nav";
 import { useNavigate } from "react-router-dom";
 import SidebarItem from "./SidebarItem/SidebarItem";
+import { appSettingsActions } from "../../../store/slices/appSettings";
 
 interface SideBarProps {}
 
