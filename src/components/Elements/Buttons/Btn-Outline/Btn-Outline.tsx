@@ -1,12 +1,18 @@
-import React, { FC } from 'react';
+import React, { FC, ReactElement } from 'react';
 import styles from './Btn-Outline.module.scss';
 
-interface BtnOutlineProps {}
+interface BtnOutlineProps {
+  icon?: ReactElement;
+  text: string;
+  action: () => void;
 
-const BtnOutline: FC<BtnOutlineProps> = () => (
-  <div className={styles.BtnOutline}>
-    BtnOutline Component
-  </div>
+}
+
+const BtnOutline: FC<BtnOutlineProps> = ({icon, text, action}) => (
+  <button className={styles.BtnOutline}>
+      <span className={styles.icon}>{icon}</span>
+      <span className={styles.text}>{text}</span>
+    </button>  
 );
 
 export default BtnOutline;

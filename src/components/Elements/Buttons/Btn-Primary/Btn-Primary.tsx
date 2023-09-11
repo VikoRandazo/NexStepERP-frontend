@@ -2,7 +2,7 @@ import React, { FC, ReactElement } from "react";
 import styles from "./Btn-Primary.module.scss";
 
 interface BtnPrimaryProps {
-  icon: ReactElement;
+  icon?: ReactElement;
   text: string;
   action: () => void;
 }

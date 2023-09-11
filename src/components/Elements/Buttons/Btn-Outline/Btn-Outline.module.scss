@@ -1,1 +1,25 @@
-.BtnOutline {}
+@import "../../../../styles/globalStyles/Flex.module.scss";
+@import "../../../../styles/globalStyles/BasicBtn.module.scss";
+
+.BtnOutline {
+  @extend %BasicButton;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: #fff;
+  width: fit-content;
+  flex: 0;
+  border: 0.125em solid $secondary;
+  color: $secondary;
+  & > *span {
+    flex: 1;
+  }
+  & > .icon {
+    font-size: 1em;
+  }
+
+  &:hover {
+    background-color: $secondary;
+    color: #fff;
+  }
+}

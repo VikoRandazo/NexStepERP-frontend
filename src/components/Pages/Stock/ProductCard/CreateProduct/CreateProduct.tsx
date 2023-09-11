@@ -1,8 +1,10 @@
 import React, { FC } from "react";
 import styles from "./CreateProduct.module.scss";
-import Label from "../../../../Elements/Label/Label";
 import Input from "../../../../Elements/Input/Input";
 import { InputField } from "../../../../Elements/Input/InputField";
+import BtnPrimary from "../../../../Elements/Buttons/Btn-Primary/Btn-Primary";
+import { HiMiniSparkles } from "react-icons/hi2";
+import BtnOutline from "../../../../Elements/Buttons/Btn-Outline/Btn-Outline";
 
 interface CreateProductProps {}
 
@@ -24,10 +26,14 @@ const CreateProduct: FC<CreateProductProps> = () => {
 
   return (
     <div className={styles.CreateProduct}>
-
       {fields.map((field) => {
         return <Input field={field} onChange={handleChange} />;
       })}
+
+      <div className={styles.footer}>
+        <BtnPrimary icon={<HiMiniSparkles />} text={`Create Product`} action={() => {}} />
+      </div>
+      <p>to close this modal - click on the background</p>
     </div>
   );
 };

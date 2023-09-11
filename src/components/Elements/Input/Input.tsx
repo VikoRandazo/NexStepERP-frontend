@@ -22,8 +22,8 @@ const Input: FC<InputProps> = ({ field, onChange }) => {
 
   return (
     <div className={styles.Input}>
-      <Label key={key} />
-      <input key={key} type={type ? type : "text"} onChange={onChange} />;
+      <Label label={key} />
+      <input key={key} type={type ? type : "text"} onChange={onChange} />
     </div>
   );
 };

@@ -2,13 +2,13 @@ import React, { FC } from "react";
 import styles from "./Label.module.scss";
 
 interface LabelProps {
-  key: string;
+  label: string;
 }
 
-const Label: FC<LabelProps> = ({ key }) => {
+const Label: FC<LabelProps> = ({ label }) => {
 
   return(
-    <label className={styles.Label}>{key}</label>
+    <label className={styles.Label}>{label}</label>
     )
 };
 

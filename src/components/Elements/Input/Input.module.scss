@@ -1,3 +1,23 @@
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+@import "../../../styles/globalStyles/Flex.module.scss";
+
 .Input {
-    
+  @extend %flexCol;
+  width: 100%;
+
+  & > label {
+    background-color: #fff;
+    width: fit-content;
+    padding: 0 0.25em;
+    font-size: 0.875em;
+    transform: translate(1.5em , 0.5em);
+  }
+  & > input {
+    outline: none;
+    border: 0.125em solid rgba($secondary, 0.25);
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    width: 100%;
+
+  }
 }
