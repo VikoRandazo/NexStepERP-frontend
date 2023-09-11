@@ -8,11 +8,11 @@ interface OptionProps {
 }
 
 const Option: FC<OptionProps> = ({ option, isActive }) => {
-  const {name, action} = option
+  const {name, icon, action} = option
 
   return (
     <li onClick={action} className={isActive ? `${styles.Option} ${styles.active}` : `${styles.Option}`}>
-      {name}
+      {icon} {name}
     </li>
   );
 };

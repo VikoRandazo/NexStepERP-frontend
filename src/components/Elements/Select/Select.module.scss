@@ -1,18 +1,22 @@
 @import "../../../styles/globalStyles/Flex.module.scss";
 @import "../../../styles/globalStyles/colorPallete.module.scss";
+@import "../../../styles/animations/select.module.scss";
 
 .Select {
   position: absolute;
   top: 1em;
   left: 0;
   width: 10em;
-  height: auto;
+  height: 0;
   border-radius: 0.75em;
   background-color: #fff;
   overflow: hidden;
   box-shadow: 0 1em 2em rgba($secondary, 0.1);
-  display: none;
+  transition: all 0.3s ease-in-out;
+  
   &.active {
-    @extend %flexCol;
+    animation: openMenu 0.3s ease-in-out;
+    height: auto;
+    flex-direction: column;
   }
 }

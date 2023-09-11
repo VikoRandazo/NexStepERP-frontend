@@ -1,16 +1,17 @@
 @import "../../../styles/globalStyles/colorPallete.module.scss";
 
 .Category {
-    cursor: pointer;
-    background-color: #fff;
-    padding: 0.5em 1em;
-    border-radius: 0.75em;
-    font-size: 0.875em;
-    font-weight: 500;
-transition: all 0.3s ease;
-    &.active {
-        
-        color: $primaryText;
-        background-color: rgba($primary, 0.25);
-    }
+  cursor: pointer;
+  background-color: #fff;
+  padding: 0.5em 1em;
+  border-radius: 0.75em;
+  font-size: 0.875em;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 0.125em solid transparent;
+  &.active {
+    color: $primaryText;
+    background-color: rgba($primary, 0.25);
+    border: 0.125em solid $primary;
+  }
 }

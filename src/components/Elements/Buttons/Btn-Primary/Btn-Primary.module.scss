@@ -1,1 +1,20 @@
-.BtnPrimary {}
+@import "../../../../styles/globalStyles/Flex.module.scss";
+@import "../../../../styles/globalStyles/BasicBtn.module.scss";
+
+
+.BtnPrimary {
+    @extend %BasicButton;
+    align-items: center;
+    justify-content: center;
+    background-color: $primary;
+    color: #fff;
+    width: fit-content;
+    flex: 0;
+
+    & > *span {
+        flex : 1 ;
+    }
+  & > .icon {
+   font-size: 1em;
+    }
+}

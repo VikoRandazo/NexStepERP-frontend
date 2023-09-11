@@ -21,7 +21,6 @@ const Router: FC<RouterProps> = () => (
 
     {/* default */}
     <Route path={"/"} element={<Overview />} />
-    
   </Routes>
 );
 

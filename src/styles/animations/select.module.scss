@@ -1,0 +1,12 @@
+@keyframes openMenu {
+  0% {
+    display: none;
+    height: 0;
+  }
+  100% {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex-wrap: nowrap;
+  }
+}

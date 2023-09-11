@@ -6,10 +6,14 @@ import {
   HiExclamationCircle,
   HiCheckCircle,
   HiMinusCircle,
+  HiPencilSquare,
+  HiTrash,
+  HiDocumentText,
 } from "react-icons/hi2";
 import Select from "../../../Elements/Select/Select";
 import { OptionType } from "../../../../models/Elements/Option";
 import instance from "../../../../api/axiosInstance";
+import Modal from "../../../Modal/Modal";
 
 interface ProductCardProps {
   product: Product;
@@ -17,6 +21,8 @@ interface ProductCardProps {
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
   const [isOpenSelectMenu, setIsOpenSelectMenu] = useState<boolean>(false);
+  const [isOpenProductModal, setIsOpenProductModal] = useState<boolean>(false);
+  const [isOpenEditProductModal, setIsOpenEditProductModal] = useState<boolean>(false);
 
   const inStock = {
     inStock: product.stockQuantity && product.stockQuantity > 5,
@@ -25,35 +31,35 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
   };
 
   const OptionActionOpen = async () => {
-    
-  }
+    setIsOpenProductModal(true);
+  };
   const OptionActionEdit = async () => {
-
-  }
+    setIsOpenEditProductModal(true);
+  };
   const OptionActionDelete = async () => {
     try {
-      
-      const response = await instance.delete(`/products/${product._id}`)
+      const response = await instance.delete(`/products/${product._id}`);
       console.log(response);
-      
     } catch (error) {
       console.log(error);
-      
     }
-  }
-
-
+  };
 
   const options: OptionType[] = [
-    { name: `Open`, action: OptionActionOpen },
-    { name: `Edit`, action: OptionActionEdit },
-    { name: `Delete`, action: OptionActionDelete },
+    { name: `Open`, icon: <HiDocumentText />, action: OptionActionOpen },
+    { name: `Edit`, icon: <HiPencilSquare />, action: OptionActionEdit },
+    { name: `Delete`, icon: <HiTrash />, action: OptionActionDelete },
   ];
-
-
 
   return (
     <div className={styles.ProductCard}>
+      <Modal
+        title={""}
+        description={""}
+        children={"dsgkljlk"}
+        isOpenModal={isOpenProductModal}
+        setIsOpenModal={setIsOpenProductModal}
+      />
       <div className={styles.img}>
         <img src={product.imageUrl} alt={product.name} />
       </div>

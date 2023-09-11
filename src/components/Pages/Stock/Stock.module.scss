@@ -11,38 +11,52 @@
     height: 3em;
     overflow-x: auto;
     white-space: nowrap;
+    margin-bottom: 1em;
     @extend %flexRow;
 
     & > .list {
       @extend %flexRow;
-      gap: 1em;
+      gap: 0.5em;
       align-items: center;
     }
   }
   & > .search {
     @extend %flexRow;
     align-items: center;
-    gap: 0.5em;
+    justify-content: space-between;
+    gap: 1em;
     overflow: hidden;
-    width: 25%;
-    
+    width: 100%;
+
     & > span {
       background-color: #fff;
-      padding: 0.5em ;
+      padding: 0.5em;
       border-radius: 0.75em;
-      z-index: 1;
+      z-index: 9;
       cursor: pointer;
     }
-    
+
     & > input {
-      transition: transform 0.3s ease;
       transform: translateX(-120%);
+      transition: all 0.75s ease;
+      z-index: -1;
 
       &.active {
         transform: translateX(0);
+        z-index: 1;
       }
     }
-    
+    & > .createProduct {
+      width: 100%;
+      @extend %flexRow;
+      align-items: center;
+      justify-content: flex-end;
+      margin-left: auto;
+
+      & > button {
+        width: 10em;
+      }
+    }
   }
 
   & > .products {
@@ -52,5 +66,4 @@
     gap: 1em;
     padding: 1em;
   }
-
 }

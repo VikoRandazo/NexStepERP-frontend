@@ -2,14 +2,21 @@
 @import "../../../styles/globalStyles/Flex.module.scss";
 
 .Option {
-    padding: 0.5em;
-    display: none;
-    cursor: pointer;
-    &:hover {
-        background-color: $softBg;
-    }
+  padding: 0.5em;
+  display: none;
+  cursor: pointer;
+  @extend %flexRow;
+  gap: 0.5em;
+  align-items: center;
+  justify-content: space-between;
+  & > svg {
+    font-size: 1.25em;
+  }
+  &:hover {
+    background-color: $softBg;
+  }
 
-    &.active {
-        @extend %flexRow;
-    }
+  &.active {
+    @extend %flexRow;
+  }
 }

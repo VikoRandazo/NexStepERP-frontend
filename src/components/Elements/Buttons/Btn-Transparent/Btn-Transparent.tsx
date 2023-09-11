@@ -1,14 +1,15 @@
-import React, { FC } from "react";
+import React, { FC, ReactElement } from "react";
 import styles from "./Btn-Transparent.module.scss";
 
 interface BtnTransparentProps {
-  children: any;
+  text?: string;
+  icon?: ReactElement;
   action: () => void;
 }
 
-const BtnTransparent: FC<BtnTransparentProps> = ({ children, action }) => (
+const BtnTransparent: FC<BtnTransparentProps> = ({ action, text, icon }) => (
   <button className={styles.BtnTransparent} onClick={action}>
-    {children}
+    {text} {icon}
   </button>
 );
 

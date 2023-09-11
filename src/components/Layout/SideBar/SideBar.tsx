@@ -64,9 +64,10 @@ const SideBar: FC<SideBarProps> = () => {
         </ul>
       </nav>
       <div className={styles.footer}>
-        <BtnTransparent action={handleExpandSideBar}>
-          {isExpended ? <HiArrowLeftCircle /> : <HiArrowRightCircle />}
-        </BtnTransparent>
+        <BtnTransparent
+          icon={isExpended ? <HiArrowLeftCircle /> : <HiArrowRightCircle />}
+          action={handleExpandSideBar}
+        />
       </div>
     </div>
   );

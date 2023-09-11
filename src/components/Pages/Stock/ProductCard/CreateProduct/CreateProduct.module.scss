@@ -1,0 +1,8 @@
+@import "../../../../../styles/globalStyles/Flex.module.scss";
+.CreateProduct {
+    width: 100%;
+    height: 100%;
+@extend %flexCol;
+gap: 0.5em;
+background-color: aquamarine;
+}
