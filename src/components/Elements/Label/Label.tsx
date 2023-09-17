@@ -3,12 +3,13 @@ import styles from "./Label.module.scss";
 
 interface LabelProps {
   label: string;
+  for: string
 }
 
 const Label: FC<LabelProps> = ({ label }) => {
 
   return(
-    <label className={styles.Label}>{label}</label>
+    <label htmlFor={label} className={styles.Label}>{label}</label>
     )
 };
 

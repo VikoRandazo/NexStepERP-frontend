@@ -1,0 +1,46 @@
+.Table {
+  width: 100%;
+  height: 100%;
+  table-layout: auto;
+
+  thead {
+    & > tr {
+      width: 100%;
+      & > th {
+        padding: 1em;
+        max-width: 20vh;
+        text-align: left;
+
+        & > .checkboxTh {
+          background-color: aqua;
+          width: min-content;
+          height: 100%;
+        }
+
+        & > p {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+
+  tbody {
+    & > tr {
+      width: 100%;
+      & > td {
+        font-size: 0.875em;
+        padding: 1em;
+
+
+
+        & > div {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,7 @@
 @import "../../styles/globalStyles/Flex.module.scss";
 @import "../../styles/globalStyles/colorPallete.module.scss";
 
+
 .Modal {
   width: 100vw;
   height: 100vh;
@@ -8,8 +9,12 @@
   inset: 0;
   z-index: 999999;
   display: none;
-
+  opacity: 0;
+  
+  
   &.active {
+    overflow-y: auto;
+    opacity: 1;
     @extend %flexRow;
   }
 
@@ -22,20 +27,18 @@
     justify-content: center;
 
     & > .content {
-      min-width: 10%;
-      min-height: 10%;
+      width: min(70%, 1280px);
+      max-height: 100%;
       padding: 2em 3em;
       background-color: #fff;
       border-radius: 1em;
+      aspect-ratio: 2 / 1;
       filter: drop-shadow(0 1em 2em rgba($ShadowMedium, 0.25));
 
       & > .header {
         @extend %flexCol;
         gap: 0.25em;
         margin-bottom: 1em;
-        & > p {
-          font-size: 0.875em;
-        }
       }
     }
   }

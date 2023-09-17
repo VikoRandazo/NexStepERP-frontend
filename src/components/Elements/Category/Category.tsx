@@ -9,6 +9,7 @@ interface CategoryProps {
 }
 
 const Category: FC<CategoryProps> = ({ category, active, setCurrentCategory }) => {
+  
   const selectCategory = (e: React.MouseEvent<HTMLLIElement>) => {
     setCurrentCategory(e.currentTarget.innerText);
   };

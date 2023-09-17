@@ -16,7 +16,7 @@ import BtnTransparent from "../../Elements/Buttons/Btn-Transparent/Btn-Transpare
 import { useDispatch } from "react-redux";
 import { sideBarActions } from "../../../store/slices/sideBar";
 import { NavItem } from "../../../models/Nav";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SidebarItem from "./SidebarItem/SidebarItem";
 import { appSettingsActions } from "../../../store/slices/appSettings";
 
@@ -25,6 +25,8 @@ interface SideBarProps {}
 const SideBar: FC<SideBarProps> = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation().pathname;
+
   const [isExpended, setIsExpended] = useState<boolean>(true);
   const [activeNavItem, setActiveNavItem] = useState<string>(`Overview`);
 
@@ -50,9 +52,10 @@ const SideBar: FC<SideBarProps> = () => {
       </div>
       <nav className={styles.main}>
         <ul className={styles.navItems}>
-          {navigation.map((item: NavItem) => {
+          {navigation.map((item: NavItem, index) => {
             return (
               <SidebarItem
+                key={index}
                 name={item.name}
                 icon={item.icon}
                 isExpanded={isExpended}

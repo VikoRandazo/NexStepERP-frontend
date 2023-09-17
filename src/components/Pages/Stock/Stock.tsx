@@ -3,24 +3,23 @@ import styles from "./Stock.module.scss";
 import categories from "./categories.json";
 import Category from "../../Elements/Category/Category";
 import instance from "../../../api/axiosInstance";
-import { Product } from "../../../models/ProductType";
-import ProductCard from "./ProductCard/ProductCard";
+import { ProductType } from "../../../models/ProductType";
 import { HiMagnifyingGlass, HiPlus } from "react-icons/hi2";
 import Modal from "../../Modal/Modal";
 import BtnPrimary from "../../Elements/Buttons/Btn-Primary/Btn-Primary";
-import CreateProduct from "./ProductCard/CreateProduct/CreateProduct";
+import Table from "../../Table/Table";
 
 interface StockProps {}
 
 const Stock: FC<StockProps> = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+  const [titles, setTitles] = useState<string[]>([""]);
+  const [products, setProducts] = useState<ProductType[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
+  const [tableColumns, setTableColumns] = useState<string[]>([""]);
+  const [tableData, setTableData] = useState<ProductType[]>([]);
 
   const [currentCategory, setCurrentCategory] = useState<string>(`All`);
-  const [searchInput, setSearchInput] = useState<string>("");
-
-  const [isSearchDisplayed, setIsSearchDisplayed] = useState<boolean>(false);
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(true);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
   const getProducts = async () => {
     try {
@@ -31,7 +30,6 @@ const Stock: FC<StockProps> = () => {
       console.log(error);
     }
   };
-
   const filterProducts = () => {
     setFilteredProducts(() => {
       if (currentCategory === `All`) {
@@ -43,13 +41,22 @@ const Stock: FC<StockProps> = () => {
       }
     });
   };
+  const prepareTableData = () => {
+    setTableColumns([
+      `name`,
+      `price`,
+      `category`,
+      `stockQuantity`,
+      `manufacturer`,
+      `purchasesAmount`,
+    ]);
 
-  const searchProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.currentTarget;
-    setSearchInput(value);
-    setFilteredProducts(() =>
-      products.filter((product) => product.name.toLowerCase().includes(searchInput.toLowerCase()))
-    );
+    setTableData(() => {
+      return filteredProducts.map((product) => {
+        const { _id, description, imageUrl, ...restOfProduct } = product;
+        return restOfProduct;
+      });
+    });
   };
 
   useEffect(() => {
@@ -60,20 +67,19 @@ const Stock: FC<StockProps> = () => {
     filterProducts();
   }, [products, currentCategory]);
 
+  useEffect(() => {
+    prepareTableData();
+  }, [filteredProducts]);
+
   return (
     <div className={styles.Stock}>
-      <Modal
-        isOpenModal={isOpenModal}
-        setIsOpenModal={setIsOpenModal}
-        children={<CreateProduct />}
-        title={"Create New Product"}
-        description={"Set product's details to initiate a new item record."}
-      />
+      <Modal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} children={""} />
       <div className={styles.categories}>
         <ul className={styles.list}>
           {categories.map((category) => {
             return (
               <Category
+                key={category.id}
                 category={category}
                 active={currentCategory === category.name}
                 setCurrentCategory={setCurrentCategory}
@@ -83,23 +89,16 @@ const Stock: FC<StockProps> = () => {
         </ul>
       </div>
       <div className={styles.search}>
-        <span onClick={() => setIsSearchDisplayed((prevstate) => !prevstate)}>
-          <HiMagnifyingGlass />
-        </span>
-        <input
-          className={isSearchDisplayed ? styles.active : ""}
-          onChange={searchProduct}
-          type="text"
-          placeholder="Laptop / Chair / Coffee Mug ..."
-        />
         <div className={styles.createProduct}>
-          <BtnPrimary icon={<HiPlus />} text={"Create Product"} action={() => setIsOpenModal(true)} />
+          <BtnPrimary
+            icon={<HiPlus />}
+            text={"Create Product"}
+            action={() => setIsOpenModal(true)}
+          />
         </div>
       </div>
       <div className={styles.products}>
-        {filteredProducts.map((product: Product) => {
-          return <ProductCard product={product} />;
-        })}
+        <Table data={tableData} columns={tableColumns} />
       </div>
     </div>
   );

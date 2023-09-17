@@ -9,7 +9,7 @@ interface BtnPrimaryProps {
 
 const BtnPrimary: FC<BtnPrimaryProps> = ({ icon, text, action }) => {
   return (
-    <button onClick={action} className={styles.BtnPrimary}>
+    <button type="submit" onClick={action} className={styles.BtnPrimary}>
       <span className={styles.icon}>{icon}</span>
       <span className={styles.text}>{text}</span>
     </button>
