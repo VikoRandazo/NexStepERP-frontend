@@ -12,6 +12,8 @@
         font-size: 0.875em;
         padding: 1em;
         text-align: left;
+        max-width: 10em;
+        overflow: hidden;
 
         & > .checkboxTh {
           @extend %flexRow;

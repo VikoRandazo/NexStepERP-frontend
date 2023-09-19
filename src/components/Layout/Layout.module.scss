@@ -8,7 +8,7 @@
   width: 100vw;
   @extend %flexRow;
   gap: 1em;
-  background-color: $colorBackground;
+  background-color: $background-light;
 
   & > .sidebar {
     width: 6%;

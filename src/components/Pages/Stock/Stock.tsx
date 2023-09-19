@@ -9,6 +9,7 @@ import Modal from "../../Modal/Modal";
 import BtnPrimary from "../../Elements/Buttons/Btn-Primary/Btn-Primary";
 import Table from "../../Table/Table";
 import BtnOutline from "../../Elements/Buttons/Btn-Outline/Btn-Outline";
+import CreateProduct from "./CreateProduct/CreateProduct";
 
 interface StockProps {}
 
@@ -89,7 +90,7 @@ const Stock: FC<StockProps> = () => {
 
   return (
     <div className={styles.Stock}>
-      <Modal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} children={""} />
+      <Modal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} children={<CreateProduct />} />
       <div className={styles.categories}>
         <ul className={styles.list}>
           {categories.map((category) => {

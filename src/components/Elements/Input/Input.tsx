@@ -16,18 +16,18 @@ interface InputProps {
 }
 
 const Input: FC<InputProps> = ({ field, value, onChange, error, touched, onBlur, textarea }) => {
-  const { key, type } = field;
+  const { key, type, title } = field;
 
   return (
     <div className={styles.Input}>
-      <Label for={key} label={key} />
+      <Label for={key} label={title} />
       {textarea ? (
         <textarea maxLength={1500} name={field.key} value={value} onChange={onChange}></textarea>
       ) : (
         <input
-          key={field.key}
-          type={field.type}
-          name={field.key}
+          key={key}
+          type={type}
+          name={key}
           value={value}
           onChange={onChange}
           onBlur={onBlur}

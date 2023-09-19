@@ -1,23 +1,38 @@
+// brand
 $primary: #8ce5de;
 $primaryText: #2cc0b4;
-
 $secondary: #223143;
-$colorBackground: #f8f9fa;
 
-$colorDivider: #e9ecef;
+// background
+$background-light: #F8F9FA;
+$background-medium: #E9ECEF;
+$background-dark: #DEE2E6;
+
+$background-grey-light: #ced4da;
+$background-grey-medium: #adb5bd;
+
 
 // elements Bg
+$softDivider: #e9ecef;
 $filledBg: #8ce5de;
 $softBg: #8ce5de20;
+
 // shadows
 $ShadowThin: #ced4da;
 $ShadowMedium: #6c757d;
 
 // scroller
 $scrollerThumb: #ced4da;
-$scrollerTrack: #e9ecef;
 
 // status
 $success: #3e8914;
 $warning: #ff9914;
 $outOfStock: #f21b3f;
+
+
+
+// text
+$text-color-light: #6C757D;
+$text-color-medium: #495057;
+$text-color-dark: #343A40;
+

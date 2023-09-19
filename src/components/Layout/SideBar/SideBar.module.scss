@@ -14,7 +14,7 @@
     height: 8%;
     width: 100%;
     @extend %flexRow;
-    border-bottom: 0.125em solid rgba($colorDivider, 0.75);
+    border-bottom: 0.125em solid rgba($softDivider, 0.75);
     padding: 0.25em;
     & > .logo {
       @extend %flexRow;
