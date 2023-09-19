@@ -9,17 +9,16 @@
   color: #fff;
   width: fit-content;
   flex: 0;
-  border: 0.125em solid $secondary;
-  color: $secondary;
-  & > *span {
-    flex: 1;
-  }
+  border: 0.0675em solid rgba($outOfStock, 0.25);
+  color: rgba($outOfStock, 1);
+
   & > .icon {
-    font-size: 1em;
+    width: 100%;
+    height: 100%;
   }
 
   &:hover {
-    background-color: $secondary;
+    background-color: $outOfStock;
     color: #fff;
   }
 }

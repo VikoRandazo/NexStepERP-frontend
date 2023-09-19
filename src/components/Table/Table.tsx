@@ -1,18 +1,57 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from "./Table.module.scss";
 
 interface TableProps {
   columns: string[];
   data: any[];
+  deleteUrl?: string;
+  selectedRows?: Set<any>;
+  setSelectedRows: React.Dispatch<React.SetStateAction<Set<any>>>;
 }
 
-const Table: FC<TableProps> = ({ columns, data }) => {
+const Table: FC<TableProps> = ({ columns, data, selectedRows, setSelectedRows }) => {
+  const [selectAll, setSelectAll] = useState<boolean>(false);
+
+
+  const handleSelection = (e: React.ChangeEvent<HTMLInputElement>, row: any) => {
+    setSelectedRows((prevSelectedRows) => {
+      const newSelectedRows = new Set(prevSelectedRows);
+      if (e.target.checked) {
+        newSelectedRows.add(row);
+        
+      } else {
+        newSelectedRows.delete(row);
+      }
+      return newSelectedRows;
+    });
+  };
+
+
+  const handleSelectAllChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectAll(e.target.checked);
+  };
+   
+  useEffect(() => {
+    if (selectAll) {
+      setSelectedRows(new Set(data.map(item => item._id)));
+    } else {
+      setSelectedRows(new Set());
+    }
+  }, [selectAll, data]);
+
   return (
     <table className={styles.Table}>
       <thead>
         <tr>
           <th>
-            <div className={styles.checkboxTh}></div>
+            <div className={styles.checkboxTh}>
+              <input
+                onChange={handleSelectAllChange}
+                checked={selectAll}
+                type="checkbox"
+                className={styles.checkboxTH}
+              />
+            </div>
           </th>
           {columns.map((column, index) => {
             return (
@@ -26,9 +65,15 @@ const Table: FC<TableProps> = ({ columns, data }) => {
       <tbody>
         {data
           ? data.map((item, index) => (
-              <tr key={index}>
+              <tr key={index} className={selectedRows?.has(item._id) ? `${styles.rowTd} ${styles.selectedRow}` : styles.rowId}>
                 <td>
-                <input className={styles.c} type="checkbox" name="selectedRow" />
+                  <input
+                    onChange={(e) => handleSelection(e, item._id)}
+                    className={styles.checkboxTD}
+                    type="checkbox"
+                    name="selectedRow"
+                    checked={selectAll ? selectedRows?.has(item._id) : selectedRows?.has(item._id)}
+                    />
                 </td>
                 {Object.values(item).map((value: any, index) => (
                   <td key={index}>{value}</td>

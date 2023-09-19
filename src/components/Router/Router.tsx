@@ -5,8 +5,7 @@ import Register from "../Auth/Register/Register";
 import ForgotPassword from "../Auth/ForgotPassword/ForgotPassword";
 import Overview from "../Pages/Overview/Overview";
 import Stock from "../Pages/Stock/Stock";
-import Clients from "../Clients/Clients";
-
+import Clients from "../Pages/Clients/Clients";
 interface RouterProps {}
 
 const Router: FC<RouterProps> = () => {

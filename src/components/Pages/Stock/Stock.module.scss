@@ -6,15 +6,15 @@
 .Stock {
   height: 100%;
   width: 100%;
-  
+  @extend %flexCol;
+  gap: 1em;
+
   & > .categories {
     width: 100%;
     height: 3em;
     overflow-x: auto;
     white-space: nowrap;
-    margin-bottom: 1em;
     @extend %flexRow;
-    
     & > .list {
       @extend %flexRow;
       gap: 0.5em;
@@ -25,7 +25,6 @@
     @extend %flexRow;
     align-items: center;
     gap: 1em;
-    overflow: hidden;
     width: 100%;
 
     & > span {
@@ -47,7 +46,6 @@
       }
     }
 
-    
     & > .createProduct {
       width: 100%;
       @extend %flexRow;

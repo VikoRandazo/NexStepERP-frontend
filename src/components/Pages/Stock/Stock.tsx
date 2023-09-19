@@ -4,15 +4,15 @@ import categories from "./categories.json";
 import Category from "../../Elements/Category/Category";
 import instance from "../../../api/axiosInstance";
 import { ProductType } from "../../../models/ProductType";
-import { HiMagnifyingGlass, HiPlus } from "react-icons/hi2";
+import { HiPlus, HiTrash } from "react-icons/hi2";
 import Modal from "../../Modal/Modal";
 import BtnPrimary from "../../Elements/Buttons/Btn-Primary/Btn-Primary";
 import Table from "../../Table/Table";
+import BtnOutline from "../../Elements/Buttons/Btn-Outline/Btn-Outline";
 
 interface StockProps {}
 
 const Stock: FC<StockProps> = () => {
-  const [titles, setTitles] = useState<string[]>([""]);
   const [products, setProducts] = useState<ProductType[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
   const [tableColumns, setTableColumns] = useState<string[]>([""]);
@@ -20,6 +20,8 @@ const Stock: FC<StockProps> = () => {
 
   const [currentCategory, setCurrentCategory] = useState<string>(`All`);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+
+  const [selectedRows, setSelectedRows] = useState<Set<any>>(new Set());
 
   const getProducts = async () => {
     try {
@@ -43,6 +45,7 @@ const Stock: FC<StockProps> = () => {
   };
   const prepareTableData = () => {
     setTableColumns([
+      `id`,
       `name`,
       `price`,
       `category`,
@@ -53,10 +56,19 @@ const Stock: FC<StockProps> = () => {
 
     setTableData(() => {
       return filteredProducts.map((product) => {
-        const { _id, description, imageUrl, ...restOfProduct } = product;
+        const { description, imageUrl, ...restOfProduct } = product;
         return restOfProduct;
       });
     });
+  };
+
+  const deleteFunction = async () => {
+    try {
+      const response = await instance.post(`/products/delete`, selectedRows);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -70,6 +82,10 @@ const Stock: FC<StockProps> = () => {
   useEffect(() => {
     prepareTableData();
   }, [filteredProducts]);
+
+  useEffect(() => {
+    console.log(selectedRows);
+  }, [selectedRows]);
 
   return (
     <div className={styles.Stock}>
@@ -89,6 +105,9 @@ const Stock: FC<StockProps> = () => {
         </ul>
       </div>
       <div className={styles.search}>
+        <div className={styles.actions}>
+          <BtnOutline icon={<HiTrash />} text={`Delete ${selectedRows.size > 0 ? `(${selectedRows.size})` : ""}`} action={deleteFunction}></BtnOutline>
+        </div>
         <div className={styles.createProduct}>
           <BtnPrimary
             icon={<HiPlus />}
@@ -98,7 +117,13 @@ const Stock: FC<StockProps> = () => {
         </div>
       </div>
       <div className={styles.products}>
-        <Table data={tableData} columns={tableColumns} />
+        <Table
+          data={tableData}
+          columns={tableColumns}
+          deleteUrl={`/products/delete`}
+          selectedRows={selectedRows}
+          setSelectedRows={setSelectedRows}
+        />
       </div>
     </div>
   );
