@@ -31,7 +31,7 @@ const Input: FC<InputProps> = ({ field, value, onChange, error, touched, onBlur,
           value={value}
           onChange={onChange}
           onBlur={onBlur}
-          placeholder={touched ? error : ""}
+          placeholder={touched ? error : error}
         />
       )}
     </div>

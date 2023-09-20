@@ -46,9 +46,15 @@
       &:hover {
         background-color: $softBg;
       }
-      & > td {
+      & > .tdCell {
         font-size: 0.875em;
         padding: 1em;
+
+        &.name {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+
 
         & > .checkboxTD {
           width: 1.25em;

@@ -10,6 +10,7 @@ import BtnPrimary from "../../Elements/Buttons/Btn-Primary/Btn-Primary";
 import Table from "../../Table/Table";
 import BtnOutline from "../../Elements/Buttons/Btn-Outline/Btn-Outline";
 import CreateProduct from "./CreateProduct/CreateProduct";
+import EditProduct from "./EditProduct/EditProduct";
 
 interface StockProps {}
 
@@ -23,6 +24,7 @@ const Stock: FC<StockProps> = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
   const [selectedRows, setSelectedRows] = useState<Set<any>>(new Set());
+  const [modalContent, setmodalContent] = useState<JSX.Element | null>(null);
 
   const getProducts = async () => {
     try {
@@ -90,7 +92,7 @@ const Stock: FC<StockProps> = () => {
 
   return (
     <div className={styles.Stock}>
-      <Modal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} children={<CreateProduct />} />
+      <Modal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} children={modalContent} />
       <div className={styles.categories}>
         <ul className={styles.list}>
           {categories.map((category) => {
@@ -107,13 +109,20 @@ const Stock: FC<StockProps> = () => {
       </div>
       <div className={styles.search}>
         <div className={styles.actions}>
-          <BtnOutline icon={<HiTrash />} text={`Delete ${selectedRows.size > 0 ? `(${selectedRows.size})` : ""}`} action={deleteFunction}></BtnOutline>
+          <BtnOutline
+            icon={<HiTrash />}
+            text={`Delete ${selectedRows.size > 0 ? `(${selectedRows.size})` : ""}`}
+            action={deleteFunction}
+          ></BtnOutline>
         </div>
         <div className={styles.createProduct}>
           <BtnPrimary
             icon={<HiPlus />}
             text={"Create Product"}
-            action={() => setIsOpenModal(true)}
+            action={() => {
+              setmodalContent(<CreateProduct />);
+              setIsOpenModal(true);
+            }}
           />
         </div>
       </div>
@@ -124,6 +133,10 @@ const Stock: FC<StockProps> = () => {
           deleteUrl={`/products/delete`}
           selectedRows={selectedRows}
           setSelectedRows={setSelectedRows}
+          cellAction={() => {
+            setmodalContent(<EditProduct />);
+            setIsOpenModal(true);
+          }}
         />
       </div>
     </div>

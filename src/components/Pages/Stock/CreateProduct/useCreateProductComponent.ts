@@ -6,8 +6,7 @@ import { ProductInitState } from "../../../../models/ProductType";
 import { useEffect, useState } from "react";
 
 export const useCreateProductComponent = () => {
-    const [localImageUrl, setLocalImageUrl] = useState<string | null>(null);
-    // {
+  // {
   //   "name": "Test Product",
   //   "description": "This is a test product description.",
   //   "price": 99.99,
@@ -28,40 +27,46 @@ export const useCreateProductComponent = () => {
     { key: "price", type: "text", title: "Price", group: 3 },
   ];
 
-  const { handleChange, values, handleSubmit, errors, touched, handleBlur } = useFormik({
-    initialValues: ProductInitState,
-    validationSchema: validationCreateProduct,
-    onSubmit: async () => {
-      try {
-        const response = await instance.post(`http://localhost:5000/products/new`, values);
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  });
+  const { handleChange, values, handleSubmit, errors, touched, handleBlur, setFieldValue } =
+    useFormik({
+      initialValues: ProductInitState,
+      validationSchema: validationCreateProduct,
+      onSubmit: async () => {
+        try {
+          const response = await instance.post(`http://localhost:5000/products/new`, values);
+          console.log(response.data);
+        } catch (error) {
+          console.log(error);
+          
+        }
+      },
+    });
 
   const groupFields = fields.reduce((acc: any, field: any) => {
     acc[field.group] = acc[field.group] || [];
     acc[field.group].push(field);
     return acc;
   }, {});
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.currentTarget.files;
 
     if (files) {
       const file = files[0];
       const url = URL.createObjectURL(file);
-      setLocalImageUrl(url);
+
+      setFieldValue(`imageUrl`, url);
     }
   };
 
   const removeImage = () => {
-    setLocalImageUrl(null)
-  }
+    setFieldValue(`imageUrl`, "");
+  };
+
   useEffect(() => {
-    console.log(localImageUrl);
-  }, [localImageUrl]);
+    console.log(errors);
+    
+  },[errors])
 
   return {
     fields,
@@ -73,7 +78,6 @@ export const useCreateProductComponent = () => {
     values,
     groupFields,
     handleImageChange,
-    localImageUrl,
-    removeImage
+    removeImage,
   };
 };

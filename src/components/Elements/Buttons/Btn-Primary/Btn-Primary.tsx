@@ -4,12 +4,12 @@ import styles from "./Btn-Primary.module.scss";
 interface BtnPrimaryProps {
   icon?: ReactElement;
   text: string;
-  action: () => void;
+  action?: () => void;
 }
 
 const BtnPrimary: FC<BtnPrimaryProps> = ({ icon, text, action }) => {
   return (
-    <button type="submit" onClick={action} className={styles.BtnPrimary}>
+    <button type="submit" className={styles.BtnPrimary} onClick={action}>
       <span className={styles.icon}>{icon}</span>
       <span className={styles.text}>{text}</span>
     </button>

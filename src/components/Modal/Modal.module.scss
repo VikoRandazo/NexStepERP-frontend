@@ -1,7 +1,6 @@
 @import "../../styles/globalStyles/Flex.module.scss";
 @import "../../styles/globalStyles/colorPallete.module.scss";
 
-
 .Modal {
   width: 100vw;
   height: 100vh;
@@ -10,8 +9,7 @@
   z-index: 999999;
   display: none;
   opacity: 0;
-  
-  
+
   &.active {
     overflow-y: auto;
     opacity: 1;
@@ -28,7 +26,7 @@
 
     & > .content {
       height: min(90%, 670px);
-      padding: 2em 3em;
+      padding: 2em 1em;
       background-color: #fff;
       border-radius: 1em;
       aspect-ratio: 3.5 / 4;

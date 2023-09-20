@@ -17,7 +17,7 @@ export const validationCreateProduct = yup.object().shape({
     .required("*Price is required")
     .min(0.01, "*Price should be at least 0.01"),
 
-  imageUrl: yup.string().url("Must be a valid URL"),
+  imageUrl: yup.string(),
 
   category: yup
     .string()

@@ -19,11 +19,12 @@ const CreateProduct: FC<CreateProductProps> = () => {
     values,
     groupFields,
     handleImageChange,
-    localImageUrl,
-    removeImage
+    removeImage,
   } = useCreateProductComponent();
+
+
   return (
-    <div className={styles.CreateProduct}>
+    <form onSubmit={handleSubmit} className={styles.CreateProduct}>
       <div className={styles.container}>
         <div className={styles.header}>
           <h2>Create a New Product</h2>
@@ -31,17 +32,17 @@ const CreateProduct: FC<CreateProductProps> = () => {
         </div>
         <div className={styles.main}>
           <div className={styles.image}>
-            {localImageUrl ? (
+            {values.imageUrl ? (
               <div className={styles.imageContainer}>
-                <img src={localImageUrl} alt={`imageUploaded`} />
-                <span onClick={removeImage}>
+                <img src={values.imageUrl} alt={`imageUploaded`} />
+                <span className={styles.removeImage} onClick={removeImage}>
                   <HiXMark />
                 </span>
               </div>
             ) : (
               <div className={styles.uploadImageContainer}>
-              <input type="file" name="imageUrl" onChange={handleImageChange} />
-              <HiPlus />
+                <input type="file" name="imageUrl" onChange={handleImageChange} />
+                <HiPlus />
               </div>
             )}
           </div>
@@ -57,6 +58,7 @@ const CreateProduct: FC<CreateProductProps> = () => {
                     onBlur={handleBlur}
                     touched={touched[field.key]}
                     textarea={field.textarea}
+                    error={errors[field.key]}
                   />
                 ))}
               </div>
@@ -64,10 +66,10 @@ const CreateProduct: FC<CreateProductProps> = () => {
           </div>
         </div>
         <div className={styles.footer}>
-          <BtnPrimary icon={<HiSparkles />} text={"Create Product"} action={() => {}} />
+          <BtnPrimary icon={<HiSparkles />} text={"Create Product"} />
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 
