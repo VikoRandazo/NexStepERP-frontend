@@ -9,7 +9,7 @@ interface BtnOutlineProps {
 }
 
 const BtnOutline: FC<BtnOutlineProps> = ({icon, text, action}) => (
-  <button className={styles.BtnOutline}>
+  <button className={styles.BtnOutline} onClick={action}>
       <span className={styles.icon}>{icon}</span>
       <span className={styles.text}>{text}</span>
     </button>  

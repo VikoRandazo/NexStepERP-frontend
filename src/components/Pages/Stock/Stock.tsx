@@ -3,14 +3,14 @@ import styles from "./Stock.module.scss";
 import categories from "./categories.json";
 import Category from "../../Elements/Category/Category";
 import instance from "../../../api/axiosInstance";
-import { ProductType } from "../../../models/ProductType";
+import { ProductInitState, ProductType } from "../../../models/ProductType";
 import { HiPlus, HiTrash } from "react-icons/hi2";
 import Modal from "../../Modal/Modal";
 import BtnPrimary from "../../Elements/Buttons/Btn-Primary/Btn-Primary";
 import Table from "../../Table/Table";
 import BtnOutline from "../../Elements/Buttons/Btn-Outline/Btn-Outline";
-import CreateProduct from "./CreateProduct/CreateProduct";
-import EditProduct from "./EditProduct/EditProduct";
+import CreateProduct from "./CreateProduct/ProductForm";
+import ProductForm from "./CreateProduct/ProductForm";
 
 interface StockProps {}
 
@@ -23,8 +23,9 @@ const Stock: FC<StockProps> = () => {
   const [currentCategory, setCurrentCategory] = useState<string>(`All`);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
-  const [selectedRows, setSelectedRows] = useState<Set<any>>(new Set());
   const [modalContent, setmodalContent] = useState<JSX.Element | null>(null);
+  const [clickedProduct, setClickedProduct] = useState(ProductInitState);
+  const [selectedRows, setselectedRows] = useState<ProductType[]>([]);
 
   const getProducts = async () => {
     try {
@@ -49,12 +50,12 @@ const Stock: FC<StockProps> = () => {
   const prepareTableData = () => {
     setTableColumns([
       `id`,
-      `name`,
-      `price`,
-      `category`,
-      `stockQuantity`,
-      `manufacturer`,
-      `purchasesAmount`,
+      `Name`,
+      `Price`,
+      `Category`,
+      `Stock Quantity`,
+      `Manufacturer`,
+      `Purchases Amount`,
     ]);
 
     setTableData(() => {
@@ -66,6 +67,8 @@ const Stock: FC<StockProps> = () => {
   };
 
   const deleteFunction = async () => {
+    console.log("SAfas");
+
     try {
       const response = await instance.post(`/products/delete`, selectedRows);
       console.log(response.data);
@@ -111,32 +114,32 @@ const Stock: FC<StockProps> = () => {
         <div className={styles.actions}>
           <BtnOutline
             icon={<HiTrash />}
-            text={`Delete ${selectedRows.size > 0 ? `(${selectedRows.size})` : ""}`}
+            text={`Delete ${selectedRows.length > 0 ? `(${selectedRows.length})` : ""}`}
             action={deleteFunction}
-          ></BtnOutline>
+          />
         </div>
         <div className={styles.createProduct}>
           <BtnPrimary
             icon={<HiPlus />}
             text={"Create Product"}
             action={() => {
-              setmodalContent(<CreateProduct />);
+              setmodalContent(<ProductForm mode="create" product={clickedProduct} />);
               setIsOpenModal(true);
             }}
           />
         </div>
       </div>
       <div className={styles.products}>
-        <Table
+        <Table<ProductType>
           data={tableData}
           columns={tableColumns}
-          deleteUrl={`/products/delete`}
-          selectedRows={selectedRows}
-          setSelectedRows={setSelectedRows}
-          cellAction={() => {
-            setmodalContent(<EditProduct />);
+          cellAction={(clickedItem: any) => {
+            setClickedProduct(clickedItem);
+            setmodalContent(<ProductForm mode="edit" product={clickedItem} />);
             setIsOpenModal(true);
           }}
+          selectedRows={selectedRows}
+          setSelectedRows={setselectedRows}
         />
       </div>
     </div>

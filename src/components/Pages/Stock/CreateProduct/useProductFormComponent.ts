@@ -1,11 +1,11 @@
 import { useFormik } from "formik";
 import { InputField } from "../../../Elements/Input/InputField";
-import { validationCreateProduct } from "./CreateProductValidation";
+import { validationProduct } from "./ProductValidation";
 import instance from "../../../../api/axiosInstance";
-import { ProductInitState } from "../../../../models/ProductType";
+import { ProductInitState, ProductType } from "../../../../models/ProductType";
 import { useEffect, useState } from "react";
 
-export const useCreateProductComponent = () => {
+export const useProductFormComponent = (product: ProductType, mode: string) => {
   // {
   //   "name": "Test Product",
   //   "description": "This is a test product description.",
@@ -18,7 +18,6 @@ export const useCreateProductComponent = () => {
   // }
 
   const fields: InputField[] = [
-    // { key: "imageUrl", type: "text", title: "Product Image", group: 1 },
     { key: "name", type: "text", title: "Product Title", group: 1 },
     { key: "description", type: "text", title: "Description", textarea: true, group: 1 },
     { key: "category", type: "text", title: "Category", group: 1 },
@@ -30,14 +29,23 @@ export const useCreateProductComponent = () => {
   const { handleChange, values, handleSubmit, errors, touched, handleBlur, setFieldValue } =
     useFormik({
       initialValues: ProductInitState,
-      validationSchema: validationCreateProduct,
+      validationSchema: validationProduct,
       onSubmit: async () => {
         try {
-          const response = await instance.post(`http://localhost:5000/products/new`, values);
-          console.log(response.data);
+          if (mode === `create`) {
+            const response = await instance.post(`http://localhost:5000/products/new`, values);
+            console.log(response.data);
+          } else if (mode === `edit`) {
+            // instead of all object required to pass the updated fields only
+            const response = await instance.post(`http://localhost:5000/products/${product._id}`, values);
+            console.log(response.data);
+
+          } else {
+            const response = await instance.post(`http://localhost:5000/products/findProduct`, product._id);
+            console.log(response.data);
+          }
         } catch (error) {
           console.log(error);
-          
         }
       },
     });
@@ -65,8 +73,7 @@ export const useCreateProductComponent = () => {
 
   useEffect(() => {
     console.log(errors);
-    
-  },[errors])
+  }, [errors]);
 
   return {
     fields,

@@ -1,0 +1,49 @@
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+
+.Checkbox {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+
+  & > .slider {
+    border-radius: 50em;
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: rgba($primary, 0.25);
+
+    &::before {
+      position: absolute;
+      border-radius: 50%;
+      content: "";
+      height: 24px;
+      width: 24px;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      background-color: $secondary;
+      transition: all 0.3s ease;
+    }
+  }
+
+  & > input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked ~ .slider::before {
+      transform: translateX(24px);
+      background-color: $primary;
+    }
+
+    & ~ .slider {
+      transition: all 0.3s ease;
+      background-color: rgba($secondary, 0.25);
+    }
+
+    &:checked ~ .slider {
+      background-color: rgba($primary, 0.25);
+    }
+  }
+}

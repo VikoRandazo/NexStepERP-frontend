@@ -8,9 +8,8 @@
   background-color: transparent;
   color: #fff;
   width: fit-content;
-  flex: 0;
-  border: 0.0675em solid rgba($outOfStock, 0.25);
-  color: rgba($outOfStock, 1);
+  border: 0.0675em solid rgba($warning, 0.25);
+  color: rgba($warning, 1);
 
   & > .icon {
     width: 100%;
@@ -18,7 +17,7 @@
   }
 
   &:hover {
-    background-color: $outOfStock;
+    background-color: $warning;
     color: #fff;
   }
 }

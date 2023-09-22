@@ -1,14 +1,18 @@
 import React, { FC, useEffect } from "react";
-import styles from "./CreateProduct.module.scss";
+import styles from "./ProductForm.module.scss";
 import Input from "../../../Elements/Input/Input";
-import { useCreateProductComponent } from "./useCreateProductComponent";
+import { useProductFormComponent } from "./useProductFormComponent";
 import { InputField } from "../../../Elements/Input/InputField";
 import BtnPrimary from "../../../Elements/Buttons/Btn-Primary/Btn-Primary";
 import { HiPlus, HiSparkles, HiXMark } from "react-icons/hi2";
+import { ProductType } from "../../../../models/ProductType";
 
-interface CreateProductProps {}
+interface ProductFormProps {
+  product: ProductType;
+  mode: `edit` | `create`;
+}
 
-const CreateProduct: FC<CreateProductProps> = () => {
+const ProductForm: FC<ProductFormProps> = ({product, mode}) => {
   const {
     fields,
     handleChange,
@@ -20,11 +24,10 @@ const CreateProduct: FC<CreateProductProps> = () => {
     groupFields,
     handleImageChange,
     removeImage,
-  } = useCreateProductComponent();
-
+  } = useProductFormComponent( product, mode);
 
   return (
-    <form onSubmit={handleSubmit} className={styles.CreateProduct}>
+    <form onSubmit={handleSubmit} className={styles.ProductForm}>
       <div className={styles.container}>
         <div className={styles.header}>
           <h2>Create a New Product</h2>
@@ -73,4 +76,4 @@ const CreateProduct: FC<CreateProductProps> = () => {
   );
 };
 
-export default CreateProduct;
+export default ProductForm;
