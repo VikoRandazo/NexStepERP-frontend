@@ -17,8 +17,6 @@ interface StockProps {}
 const Stock: FC<StockProps> = () => {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
-  const [tableColumns, setTableColumns] = useState<string[]>([""]);
-  const [tableData, setTableData] = useState<ProductType[]>([]);
 
   const [currentCategory, setCurrentCategory] = useState<string>(`All`);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
@@ -47,28 +45,8 @@ const Stock: FC<StockProps> = () => {
       }
     });
   };
-  const prepareTableData = () => {
-    setTableColumns([
-      `id`,
-      `Name`,
-      `Price`,
-      `Category`,
-      `Stock Quantity`,
-      `Manufacturer`,
-      `Purchases Amount`,
-    ]);
-
-    setTableData(() => {
-      return filteredProducts.map((product) => {
-        const { description, imageUrl, ...restOfProduct } = product;
-        return restOfProduct;
-      });
-    });
-  };
 
   const deleteFunction = async () => {
-    console.log("SAfas");
-
     try {
       const response = await instance.post(`/products/delete`, selectedRows);
       console.log(response.data);
@@ -85,9 +63,6 @@ const Stock: FC<StockProps> = () => {
     filterProducts();
   }, [products, currentCategory]);
 
-  useEffect(() => {
-    prepareTableData();
-  }, [filteredProducts]);
 
   useEffect(() => {
     console.log(selectedRows);
@@ -116,6 +91,7 @@ const Stock: FC<StockProps> = () => {
             icon={<HiTrash />}
             text={`Delete ${selectedRows.length > 0 ? `(${selectedRows.length})` : ""}`}
             action={deleteFunction}
+            disabled={selectedRows.length > 0 ? false : true}
           />
         </div>
         <div className={styles.createProduct}>
@@ -131,16 +107,14 @@ const Stock: FC<StockProps> = () => {
       </div>
       <div className={styles.products}>
         <Table<ProductType>
-          data={tableData}
-          columns={tableColumns}
+          data={products}
           cellAction={(clickedItem: any) => {
             setClickedProduct(clickedItem);
             setmodalContent(<ProductForm mode="edit" product={clickedItem} />);
             setIsOpenModal(true);
-          }}
+          } }
           selectedRows={selectedRows}
-          setSelectedRows={setselectedRows}
-        />
+          setSelectedRows={setselectedRows}         />
       </div>
     </div>
   );

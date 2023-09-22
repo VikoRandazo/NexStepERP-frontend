@@ -5,18 +5,18 @@ import { TableColumn } from "../../TableModels";
 import Checkbox from "../../../Elements/Checkbox/Checkbox";
 
 interface TrHeaderProps {
-  columns: TableColumn[];
+  columns: string[];
   selectAll: boolean;
-  handleSelectAll: (checked: boolean) => void
+  handleSelectAll: (checked: boolean) => void;
 }
 
-const TrHeader: FC<TrHeaderProps> = ({ columns, selectAll, handleSelectAll}) => {
+const TrHeader: FC<TrHeaderProps> = ({ columns, selectAll, handleSelectAll }) => {
 
   return (
     <tr className={styles.TrHeader}>
       <TH column={<Checkbox checked={selectAll} onChange={handleSelectAll} />} />
-      {columns.map(({ id, column }) => {
-        return <TH key={id} column={column} />;
+      {columns.map((column , i) => {
+        return <TH key={i} column={column} />;
       })}
     </tr>
   );

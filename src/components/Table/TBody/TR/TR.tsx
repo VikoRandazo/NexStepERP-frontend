@@ -26,15 +26,31 @@ const Tr = <T extends object>({ item, selectedRows, setSelectedRows }: TrProps<T
         }
         return [...newSet]
       });
+
+
+
+
     },
     [item]
   );
+
+  const filterTd = () => {
+    const cells = Object.entries({...item})
+    const mappedKeys = cells.map(([key, value]) => key)
+    const filterCells = mappedKeys.filter((key) => key !== `_id`)
+    // console.log(filterCells);
+    return filterCells
+  }
+
+useEffect(() => {
+filterTd()
+},[])
 
   return (
     <tr className={styles.Tr}>
       <Td children={<Checkbox checked={isChecked} onChange={handleCheckboxChange} />} />
 
-      {Object.values(item).map((value, i) => {
+      {Object.values(item).map((value, i) => {           
         return <Td key={i} value={value} />;
       })}
     </tr>

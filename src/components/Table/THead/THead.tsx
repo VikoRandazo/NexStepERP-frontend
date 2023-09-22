@@ -4,15 +4,18 @@ import TrHeader from "./TrHeader/TrHeader";
 import { TableColumn } from "../TableModels";
 
 interface THeadProps {
-  columns: TableColumn[];
+  columns:string[];
 }
 
 const THead: FC<THeadProps> = ({ columns }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange = (checked: boolean) => {
-    setIsChecked(checked);
+    setIsChecked(checked);    
   };
+
+
+  
   return (
     <thead className={styles.THead}>
       <TrHeader columns={columns} selectAll={isChecked} handleSelectAll={handleCheckboxChange}/>

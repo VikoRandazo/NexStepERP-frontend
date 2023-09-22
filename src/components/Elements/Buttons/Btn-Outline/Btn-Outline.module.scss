@@ -1,5 +1,6 @@
 @import "../../../../styles/globalStyles/Flex.module.scss";
 @import "../../../../styles/globalStyles/BasicBtn.module.scss";
+@import "../../../../styles/globalStyles/colorPallete.module.scss";
 
 .BtnOutline {
   @extend %BasicButton;
@@ -8,16 +9,27 @@
   background-color: transparent;
   color: #fff;
   width: fit-content;
-  border: 0.0675em solid rgba($warning, 0.25);
-  color: rgba($warning, 1);
-
+  border: 0.125em solid rgba($primary, 0.25);
+  color: rgba($primary, 1);
+ box-shadow: (0 0.125em 0.25em rgba($ShadowMedium, 0.25));
+ transition: all 0.4s ease;
   & > .icon {
     width: 100%;
     height: 100%;
   }
 
   &:hover {
-    background-color: $warning;
+    background-color: $primary;
     color: #fff;
+  }
+
+  &.disabled {
+    border: 0.125em solid rgba($text-color-light, 0.25);
+    color: $text-color-light;
+
+    &:hover {
+      background-color: $text-color-light;
+      color: $text-color-dark;
+    }
   }
 }
