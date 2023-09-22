@@ -6,51 +6,37 @@ import Checkbox from "../../../Elements/Checkbox/Checkbox";
 interface TrProps<T> {
   item: T;
   selectedRows: any;
-  setSelectedRows:any;
+  setSelectedRows: any;
+  selectAll: boolean;
 }
 
-const Tr = <T extends object>({ item, selectedRows, setSelectedRows }: TrProps<T>) => {
+const Tr = <T extends object>({ item, selectedRows, setSelectedRows, selectAll }: TrProps<T>) => {
   const [isChecked, setIsChecked] = useState(false);
 
-  const handleCheckboxChange = useCallback(
-    (checked: boolean) => {
-      setIsChecked(checked);
+  const handleChangeCheckbox = (checked: boolean) => {
+    setIsChecked(checked);
 
-      setSelectedRows((prev: T[]) => {
-        const newSet:Set<T> = new Set(prev);
+    setSelectedRows((prev: T[]) => {
+      const selectedRowsSet = new Set(prev);
+      if (checked) {
+        selectedRowsSet.add((item as any).name);
+      } else {
+        selectedRowsSet.delete((item as any).name);
+      }
+      return [...selectedRowsSet];
+    });
+  };
 
-        if (checked) {
-          newSet.add((item as any)._id);
-        } else {
-          newSet.delete((item as any)._id);
-        }
-        return [...newSet]
-      });
-
-
-
-
-    },
-    [item]
-  );
-
-  const filterTd = () => {
-    const cells = Object.entries({...item})
-    const mappedKeys = cells.map(([key, value]) => key)
-    const filterCells = mappedKeys.filter((key) => key !== `_id`)
-    // console.log(filterCells);
-    return filterCells
-  }
-
-useEffect(() => {
-filterTd()
-},[])
+  useEffect(() => {
+    console.log(selectedRows);
+    console.log(isChecked);
+  }, [selectedRows, isChecked]);
 
   return (
     <tr className={styles.Tr}>
-      <Td children={<Checkbox checked={isChecked} onChange={handleCheckboxChange} />} />
+      <Td children={<Checkbox checked={isChecked} onChange={handleChangeCheckbox} />} />
 
-      {Object.values(item).map((value, i) => {           
+      {Object.values(item).map((value, i) => {
         return <Td key={i} value={value} />;
       })}
     </tr>

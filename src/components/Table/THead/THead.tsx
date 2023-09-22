@@ -1,24 +1,21 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from "./THead.module.scss";
 import TrHeader from "./TrHeader/TrHeader";
-import { TableColumn } from "../TableModels";
 
 interface THeadProps {
-  columns:string[];
+  columns: string[] | [];
+  selectAll: boolean;
+  setSelectAll: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const THead: FC<THeadProps> = ({ columns }) => {
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleCheckboxChange = (checked: boolean) => {
-    setIsChecked(checked);    
+const THead: FC<THeadProps> = ({ columns, selectAll, setSelectAll }) => {
+  const handleSelectAll = (checked:boolean) => {
+    setSelectAll(checked);
   };
 
-
-  
   return (
     <thead className={styles.THead}>
-      <TrHeader columns={columns} selectAll={isChecked} handleSelectAll={handleCheckboxChange}/>
+      <TrHeader columns={columns} selectAll={selectAll} handleSelectAll={handleSelectAll} />
     </thead>
   );
 };

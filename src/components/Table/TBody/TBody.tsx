@@ -6,9 +6,10 @@ interface TBodyProps<T> {
   data: T[];
   selectedRows: any
   setSelectedRows:React.Dispatch<React.SetStateAction<T[]>>
+  selectAll: boolean
 }
 
-const TBody = <T extends object>({ data, selectedRows, setSelectedRows }: TBodyProps<T>) => {
+const TBody = <T extends object>({ data, selectedRows, setSelectedRows, selectAll }: TBodyProps<T>) => {
 
   return (
     <tbody className={styles.TBody}>
@@ -18,6 +19,7 @@ const TBody = <T extends object>({ data, selectedRows, setSelectedRows }: TBodyP
             key={i}
             item={item}
             selectedRows={selectedRows}
+            selectAll={selectAll}
             setSelectedRows={setSelectedRows}
           />
         );

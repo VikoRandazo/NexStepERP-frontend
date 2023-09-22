@@ -89,9 +89,11 @@ const Stock: FC<StockProps> = () => {
         <div className={styles.actions}>
           <BtnOutline
             icon={<HiTrash />}
-            text={`Delete ${selectedRows.length > 0 ? `(${selectedRows.length})` : ""}`}
+            text={`dvs`}
+            // text={`Delete ${selectedRows.length > 0 ? `(${selectedRows.length})` : ""}`}
             action={deleteFunction}
-            disabled={selectedRows.length > 0 ? false : true}
+            disabled={false}
+            // disabled={selectedRows.length > 0 ? false : true}
           />
         </div>
         <div className={styles.createProduct}>

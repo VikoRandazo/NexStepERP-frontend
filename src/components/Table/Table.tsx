@@ -12,38 +12,17 @@ interface TableProps<T> {
 }
 
 const Table = <T extends object>({ data, selectedRows, setSelectedRows }: TableProps<T>) => {
-const [hiddenColumns, setHiddenColumns] = useState<string[]>([`_id`, `imageUrl`, `category`])
+const {selectAll,setSelectAll, prepareTableData, prepareTableColumns} = useTableHook(data)
 
-  const prepareTableData = () => {
-    const items = data.map((item) => {
-      return Object.entries(item)
-        .filter(([key]) => !hiddenColumns.includes(key))
-        .reduce((acc: any, [key, value]) => {
-          acc[key] = value;
-          return acc;
-        }, {});
-    });
-    return items;
-  };
-
-  const prepareTableColumns = () => {
-    console.log(data[0]);
-    const item = data[0];
-    const itemKeys = Object.entries(item);
-    const mappedKeys = itemKeys.map(([key]) => key);
-    const filterKeys = mappedKeys.filter((key) => !hiddenColumns.includes(key))
-    console.log(mappedKeys);
-    return filterKeys;
-  };
 
   const tableData = prepareTableData();
-
   const tableColumns = prepareTableColumns();
+
 
   return (
     <table className={styles.Table}>
-      <THead columns={tableColumns} />
-      <TBody<T> data={tableData} selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
+      <THead columns={tableColumns || []} selectAll={selectAll} setSelectAll={setSelectAll}/>
+      <TBody<T> data={tableData || []} selectedRows={selectedRows} setSelectedRows={setSelectedRows} selectAll={selectAll}/>
     </table>
   );
 };

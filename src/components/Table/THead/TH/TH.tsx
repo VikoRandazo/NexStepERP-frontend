@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import styles from "./TH.module.scss";
 
 interface ThProps {
-  column: string | JSX.Element;
+  column: string | JSX.Element | null;
 }
 
 const Th: FC<ThProps> = ({column}) => (
