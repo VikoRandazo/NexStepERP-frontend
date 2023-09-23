@@ -11,6 +11,7 @@ interface TrHeaderProps {
 
 const TrHeader: FC<TrHeaderProps> = ({ columns, selectAll, handleSelectAll }) => {
 
+  
   return (
     <tr className={styles.TrHeader}>
       <TH column={<Checkbox checked={selectAll} onChange={handleSelectAll}/>} />

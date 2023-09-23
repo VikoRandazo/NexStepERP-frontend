@@ -11,10 +11,10 @@ interface TrProps<T> {
 }
 
 const Tr = <T extends object>({ item, selectedRows, setSelectedRows, selectAll }: TrProps<T>) => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(selectAll);
 
   const handleChangeCheckbox = (checked: boolean) => {
-    setIsChecked(checked);
+    setIsChecked(checked)
 
     setSelectedRows((prev: T[]) => {
       const selectedRowsSet = new Set(prev);
@@ -28,9 +28,8 @@ const Tr = <T extends object>({ item, selectedRows, setSelectedRows, selectAll }
   };
 
   useEffect(() => {
-    console.log(selectedRows);
-    console.log(isChecked);
-  }, [selectedRows, isChecked]);
+    setIsChecked(selectAll)
+  }, [selectAll]);
 
   return (
     <tr className={styles.Tr}>
