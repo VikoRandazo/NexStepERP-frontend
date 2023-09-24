@@ -6,7 +6,6 @@
   border-radius: 1em;
   border: 0.125em solid rgba($background-grey-light, 0.25);
   position: relative;
-
   &:nth-of-type(odd) {
     border: 0.125em solid rgba($background-grey-light, 0.25);
 
@@ -19,5 +18,14 @@
 
   &:hover {
     background-color: rgba($softBg, 0.25);
+  }
+
+  & > .actionsMenu {
+    background-color: aqua;
+    position: relative;
+
+    & > span {
+      position: relative;
+    }
   }
 }

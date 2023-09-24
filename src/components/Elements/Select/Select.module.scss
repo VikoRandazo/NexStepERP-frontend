@@ -4,8 +4,9 @@
 
 .Select {
   position: absolute;
-  top: 1em;
-  left: 0;
+  top: 60%;
+  right: 50%;
+  left: auto;
   width: 10em;
   height: 0;
   border-radius: 0.75em;
@@ -13,10 +14,11 @@
   overflow: hidden;
   box-shadow: 0 1em 2em rgba($secondary, 0.1);
   transition: all 0.3s ease-in-out;
+  padding: 0 0 0.5em 0;
   
   &.active {
-    animation: openMenu 0.3s ease-in-out;
     height: auto;
     flex-direction: column;
+    z-index: 999;
   }
 }

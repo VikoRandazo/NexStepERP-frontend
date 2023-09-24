@@ -2,7 +2,12 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styles from "./TR.module.scss";
 import Td from "../TD/TD";
 import Checkbox from "../../../Elements/Checkbox/Checkbox";
-import { HiEllipsisHorizontal } from "react-icons/hi2";
+import {
+  HiArrowsPointingOut,
+  HiEllipsisHorizontal,
+  HiTrash,
+  HiWrenchScrewdriver,
+} from "react-icons/hi2";
 import Select from "../../../Elements/Select/Select";
 
 interface TrProps<T> {
@@ -11,8 +16,8 @@ interface TrProps<T> {
   selectAll: boolean;
   setSelectedRows: any;
   hasActions: boolean;
-  setIsOpenSelectMenu: Dispatch<SetStateAction<boolean>>
-  isOpenSelectMenu: boolean
+  setIsOpenSelectMenu: Dispatch<SetStateAction<boolean>>;
+  isOpenSelectMenu: boolean;
 }
 
 const Tr = <T extends object>({
@@ -25,6 +30,8 @@ const Tr = <T extends object>({
   setIsOpenSelectMenu,
 }: TrProps<T>) => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isActiveSelectMenu, setIsActiveSelectMenu] = useState<boolean>(false);
+
   const itemId = (item as any)._id;
 
   const handleCheckbox = (checked: boolean) => {
@@ -43,8 +50,18 @@ const Tr = <T extends object>({
   };
 
   const handleOpenSelectMenu = (e: React.MouseEvent<HTMLSpanElement>) => {
-    setIsOpenSelectMenu(prev => !prev)
-  }
+    setIsOpenSelectMenu((prev) => !prev);
+    setIsActiveSelectMenu(true);
+  };
+
+  const actions = [
+    { name: `Open`, icon: <HiArrowsPointingOut />, action: () => {console.log("open");
+    } },
+    { name: `Edit`, icon: <HiWrenchScrewdriver />, action: () => {console.log("edit")} },
+    { name: `Delete`, icon: <HiTrash />, action: () => {console.log("delete")} },
+  ];
+  // each action should lift the state to the stock page and perform the action.
+
 
   useEffect(() => {
     setIsChecked(selectAll);
@@ -67,12 +84,13 @@ const Tr = <T extends object>({
       })}
       {hasActions ? (
         <Td
-          value={<div className={styles.container}>
-            <span onClick={handleOpenSelectMenu}>
-              <HiEllipsisHorizontal />
-            </span>
-            {isOpenSelectMenu ? <Select isActive={false} options={[]} /> : null}
-          </div>
+          value={
+            <div className={styles.actionsMenu}>
+              <span onClick={handleOpenSelectMenu}>
+                <HiEllipsisHorizontal />
+              </span>
+              {isOpenSelectMenu ? <Select isActive={isActiveSelectMenu} options={actions} /> : null}
+            </div>
           }
         />
       ) : null}
