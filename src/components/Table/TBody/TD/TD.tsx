@@ -10,7 +10,7 @@ const Td = <T extends ReactNode>({value, children}:TdProps<T>) => (
   <td className={styles.Td}>
     <div className={styles.container}>
      {children ? children : value} 
-    </div>
+    </div> 
   </td>
 );
 

@@ -3,15 +3,13 @@ import styles from "./Checkbox.module.scss";
 
 interface CheckboxProps {
   checked: boolean;
-  onChange?: any
+  onChange: any;
 }
 
-const Checkbox: FC<CheckboxProps> = ({ checked = false , onChange}) => {
-  
-
+const Checkbox: FC<CheckboxProps> = ({ checked = false, onChange }) => {
   const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
-      onChange(e.target.checked)
+      onChange(e.target.checked);
     }
   };
 

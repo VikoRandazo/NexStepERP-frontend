@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 
-export const useTableHook = (initData: any[]) => {
+export const useTableHook = (initData: any[], hasActionsColumn: boolean) => {
   // States
   // ------
   // Hide Columns
+  const [columns, setColumns] = useState<string[]>([]);
   const [hiddenColumns, setHiddenColumns] = useState<string[]>([`_id`, `imageUrl`]);
 
   // Sort
@@ -12,13 +13,14 @@ export const useTableHook = (initData: any[]) => {
   const [sortField, setSortField] = useState<string>(``);
 
   // Checkbox
-  const [isChecked, setIsChecked] = useState<boolean>(false);
   const [selectAll, setSelectAll] = useState<boolean>(false);
 
- 
+  // SelectMenu
+  const [isOpenSelectMenu, setIsOpenSelectMenu] = useState<boolean>(false);
 
-  const columns = initData[0] && Object.keys(initData[0]);
-
+  // Handlers
+  // ---------
+  // Handle Sort Data
   const handleSort = (e: React.MouseEvent<HTMLElement>) => {
     const innerText = e.currentTarget.innerText;
     const data = [...initData];
@@ -36,19 +38,41 @@ export const useTableHook = (initData: any[]) => {
     setSortedData(data);
   };
 
-  // Checkbox Functionality
-  const handleCheckbox = () => {
+  // Handle Checkboxes
 
-  }
+  const handleSelectAll = (checked: boolean) => {
+    setSelectAll(checked);
+  };
 
+  // Add "Acions" Column to a Row
   useEffect(() => {
-    setSortedData(initData)
+    if (!initData[0]) return;
+
+    const baseColumns = Object.keys(initData[0]);
+    if (hasActionsColumn) {
+      setColumns([...baseColumns, `Actions`]);
+    } else {
+      setColumns(baseColumns);
+    }
+  }, [initData, hasActionsColumn]);
+
+  // UseEffects
+  // ----------
+  // Sort Data
+  useEffect(() => {
+    setSortedData(initData);
   }, [initData]);
 
+  useEffect(() => {
+    console.log(isOpenSelectMenu);
+  }, [isOpenSelectMenu]);
+
+  // Returns
+  // -------
   return {
     init: { columns, data: initData },
-    states: { hiddenColumns, sortedData, sortDirection, sortField },
-    setStateActions: {},
-    handlers: { handleSort: handleSort },
+    states: { hiddenColumns, sortedData, sortDirection, sortField, selectAll, isOpenSelectMenu },
+    setters: { setIsOpenSelectMenu },
+    handlers: { handleSort, handleSelectAll },
   };
 };

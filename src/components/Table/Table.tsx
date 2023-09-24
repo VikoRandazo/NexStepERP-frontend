@@ -1,27 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styles from "./Table.module.scss";
 import THead from "./THead/THead";
 import TBody from "./TBody/TBody";
 import { useTableHook } from "./UseTableHook";
-import { HiBarsArrowDown, HiBarsArrowUp, HiChevronDown, HiChevronUp } from "react-icons/hi2";
+import { HiChevronDown, HiChevronUp } from "react-icons/hi2";
 
 interface TableProps<T> {
   data: T[];
   cellAction?: (item: T) => void;
   selectedRows: any[];
-  setSelectedRows: React.Dispatch<React.SetStateAction<T[]>>;
+  hasActionsColumn: boolean;
+  setSelectedRows: React.Dispatch<React.SetStateAction<{ _id: string }[]>>;
 }
 
 const Table = <T extends object>({
   data: initData,
   selectedRows,
   setSelectedRows,
+  hasActionsColumn,
 }: TableProps<T>) => {
-  const { init, states, setStateActions, handlers } = useTableHook(initData);
+  const { init, states, setters, handlers } = useTableHook(initData, hasActionsColumn);
 
   const { columns } = init;
-  const { hiddenColumns, sortedData, sortDirection, sortField } = states;
-  const { handleSort } = handlers;
+  const { hiddenColumns, sortedData, sortDirection, sortField, selectAll, isOpenSelectMenu } = states;
+  const { handleSort, handleSelectAll } = handlers;
+  const { setIsOpenSelectMenu } = setters;
+
+  useEffect(() => {
+    console.log(isOpenSelectMenu);
+  }, [isOpenSelectMenu]);
   return (
     <div className={styles.tableContainer}>
       <div className={styles.actionsBar}>
@@ -34,8 +41,18 @@ const Table = <T extends object>({
           handleSort={handleSort}
           sortIcon={sortDirection === `asc` ? <HiChevronUp /> : <HiChevronDown />}
           sortField={sortField}
+          selectAll={selectAll}
+          handleSelectAll={handleSelectAll}
         />
-        <TBody<T> hiddenColumns={hiddenColumns} data={sortedData} />
+        <TBody<T>
+          hiddenColumns={hiddenColumns}
+          data={sortedData}
+          selectAll={selectAll}
+          setSelectedRows={setSelectedRows}
+          hasActions={hasActionsColumn}
+          setIsOpenSelectMenu={setIsOpenSelectMenu}
+          isOpenSelectMenu={isOpenSelectMenu}
+        />
       </table>
     </div>
   );

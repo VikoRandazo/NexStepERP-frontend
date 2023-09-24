@@ -23,7 +23,7 @@ const Stock: FC<StockProps> = () => {
 
   const [modalContent, setmodalContent] = useState<JSX.Element | null>(null);
   const [clickedProduct, setClickedProduct] = useState(ProductInitState);
-  const [selectedRows, setselectedRows] = useState<ProductType[]>([]);
+  const [selectedRows, setselectedRows] = useState<{_id: string}[]>([]);
 
   const getProducts = async () => {
     try {
@@ -101,7 +101,7 @@ const Stock: FC<StockProps> = () => {
             text={"Create Product"}
             action={() => {
               setmodalContent(<ProductForm mode="create" product={clickedProduct} />);
-              setIsOpenModal(true);
+              setIsOpenModal(true)
             }}
           />
         </div>
@@ -109,6 +109,7 @@ const Stock: FC<StockProps> = () => {
       <div className={styles.products}>
         <Table<ProductType>
           data={products}
+          hasActionsColumn={true}
           cellAction={(clickedItem: any) => {
             setClickedProduct(clickedItem);
             setmodalContent(<ProductForm mode="edit" product={clickedItem} />);

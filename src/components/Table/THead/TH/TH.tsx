@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import styles from "./TH.module.scss";
-import { HiBarsArrowDown } from "react-icons/hi2";
 
 interface ThProps {
   column: string | JSX.Element | null;

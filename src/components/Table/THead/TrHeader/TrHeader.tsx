@@ -5,19 +5,43 @@ import Checkbox from "../../../Elements/Checkbox/Checkbox";
 
 interface TrHeaderProps {
   columns: string[] | [];
+
   hiddenColumns: string[];
-  handleSort: (e: React.MouseEvent<HTMLElement>) => void
-  sortIcon: JSX.Element
-  sortField:string
+
+  sortIcon: JSX.Element;
+  sortField: string;
+
+  selectAll: boolean;
+
+  handleSort: (e: React.MouseEvent<HTMLElement>) => void;
+  handleSelectAll: (checked: boolean) => void;
 }
 
-const TrHeader: FC<TrHeaderProps> = ({ columns, hiddenColumns, handleSort, sortIcon, sortField }) => {
+const TrHeader: FC<TrHeaderProps> = ({
+  columns,
+  hiddenColumns,
+  sortIcon,
+  sortField,
+
+  selectAll,
+
+  handleSort,
+  handleSelectAll,
+}) => {
   return (
     <tr className={styles.TrHeader}>
-      <TH column={<Checkbox checked={true} onChange={() => {}} />} />
+      <TH column={<Checkbox checked={selectAll} onChange={handleSelectAll} />} />
       {columns.map((column, i) => {
         if (!hiddenColumns.includes(column)) {
-          return <TH key={i} column={column} handleSort={handleSort} sortIcon={sortIcon} sortField={sortField} />;
+          return (
+            <TH
+              key={i}
+              column={column}
+              handleSort={handleSort}
+              sortIcon={sortIcon}
+              sortField={sortField}
+            />
+          );
         }
         return null;
       })}
