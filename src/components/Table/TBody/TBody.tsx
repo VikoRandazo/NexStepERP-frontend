@@ -1,16 +1,17 @@
-import React, { FC, useEffect, useState } from "react";
+import React from "react";
 import styles from "./TBody.module.scss";
 import TR from "./TR/TR";
 
 interface TBodyProps<T> {
   data: T[];
-  selectedRows: any
-  setSelectedRows:React.Dispatch<React.SetStateAction<T[]>>
-  selectAll: boolean
+  hiddenColumns: string[]
 }
 
-const TBody = <T extends object>({ data, selectedRows, setSelectedRows, selectAll }: TBodyProps<T>) => {
+const TBody = <T extends object>({
+  data,hiddenColumns
+}: TBodyProps<T>) => {
 
+  
   return (
     <tbody className={styles.TBody}>
       {data.map((item: T, i) => {
@@ -18,9 +19,7 @@ const TBody = <T extends object>({ data, selectedRows, setSelectedRows, selectAl
           <TR<T>
             key={i}
             item={item}
-            selectedRows={selectedRows}
-            selectAll={selectAll}
-            setSelectedRows={setSelectedRows}
+            hiddenColumns = {hiddenColumns}
           />
         );
       })}

@@ -1,3 +1,10 @@
 .Td {
     padding: 1em;
+    max-width: 25em;
+    
+    & > .container {
+        text-overflow: ellipsis;
+        overflow: hidden;
+
+    }
 }

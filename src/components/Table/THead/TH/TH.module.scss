@@ -1,11 +1,26 @@
 @import "../../../../styles/globalStyles/colorPallete.module.scss";
+@import "../../../../styles/globalStyles/Flex.module.scss";
 
 .Th {
   height: 100%;
   padding: 1em;
-  color: $text-color-light;
 
   & > .container {
     width: 100%;
+    white-space: nowrap;
+    cursor: pointer;
+
+    & > span {
+      display: table-cell;
+      gap: 1em;
+    }
+
+    & > span > svg {
+      pointer-events: none;
+      display: table-cell;
+      vertical-align: middle;
+      font-size: 0.875em;
+      margin-right: 0.5em;
+    }
   }
 }

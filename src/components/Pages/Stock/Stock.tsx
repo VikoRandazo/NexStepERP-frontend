@@ -63,7 +63,6 @@ const Stock: FC<StockProps> = () => {
     filterProducts();
   }, [products, currentCategory]);
 
-
   useEffect(() => {
     console.log(selectedRows);
   }, [selectedRows]);
@@ -114,9 +113,10 @@ const Stock: FC<StockProps> = () => {
             setClickedProduct(clickedItem);
             setmodalContent(<ProductForm mode="edit" product={clickedItem} />);
             setIsOpenModal(true);
-          } }
+          }}
           selectedRows={selectedRows}
-          setSelectedRows={setselectedRows}         />
+          setSelectedRows={setselectedRows}
+        />
       </div>
     </div>
   );

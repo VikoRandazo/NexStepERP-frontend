@@ -1,21 +1,19 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import styles from "./THead.module.scss";
 import TrHeader from "./TrHeader/TrHeader";
 
 interface THeadProps {
   columns: string[] | [];
-  selectAll: boolean;
-  setSelectAll: React.Dispatch<React.SetStateAction<boolean>>;
+  hiddenColumns: string[];
+  handleSort: (e: React.MouseEvent<HTMLElement>) => void
+  sortIcon:JSX.Element
+  sortField:string
 }
 
-const THead: FC<THeadProps> = ({ columns, selectAll, setSelectAll }) => {
-  const handleSelectAll = (checked:boolean) => {
-    setSelectAll(checked);
-  };
-
+const THead: FC<THeadProps> = ({ columns, hiddenColumns, handleSort, sortIcon,sortField }) => {
   return (
     <thead className={styles.THead}>
-      <TrHeader columns={columns} selectAll={selectAll} handleSelectAll={handleSelectAll} />
+      <TrHeader columns={columns}  hiddenColumns={hiddenColumns} handleSort={handleSort} sortIcon={sortIcon} sortField={sortField}  />
     </thead>
   );
 };

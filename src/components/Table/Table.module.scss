@@ -1,11 +1,13 @@
 @import "../../styles/globalStyles/colorPallete.module.scss";
 @import "../../styles/globalStyles/Flex.module.scss";
 .Table {
-  width: 100%;
+  position: relative;
+  max-width: 100%;
   height: 100%;
   border-collapse: collapse;
-  border-radius: 2em;
-  overflow: hidden;
+  border-radius: 1em;
   font-size: 0.875em;
-text-align: center;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
 }
