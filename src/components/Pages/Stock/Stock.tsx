@@ -9,12 +9,13 @@ import Modal from "../../Modal/Modal";
 import BtnPrimary from "../../Elements/Buttons/Btn-Primary/Btn-Primary";
 import Table from "../../Table/Table";
 import BtnOutline from "../../Elements/Buttons/Btn-Outline/Btn-Outline";
-import CreateProduct from "./CreateProduct/ProductForm";
-import ProductForm from "./CreateProduct/ProductForm";
+import ProductForm from "./ProductForm/ProductForm";
+import { InteractionsMode } from "../../../models/shared/InteractionsMode";
 
 interface StockProps {}
 
 const Stock: FC<StockProps> = () => {
+  const [iteractionsMode, setInteractionsMode]=useState<InteractionsMode>({mode: `create`})
   const [products, setProducts] = useState<ProductType[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
 
@@ -106,7 +107,7 @@ const Stock: FC<StockProps> = () => {
       </div>
       <div className={styles.products}>
         <Table<ProductType>
-          data={products}
+          data={filteredProducts}
           hasActionsColumn={true}
           cellAction={(clickedItem: any) => {
             setClickedProduct(clickedItem);

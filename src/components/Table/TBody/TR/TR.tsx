@@ -1,14 +1,15 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import styles from "./TR.module.scss";
 import Td from "../TD/TD";
 import Checkbox from "../../../Elements/Checkbox/Checkbox";
+import Select from "../../../Elements/Select/Select";
+import { useTr } from "./useTr";
 import {
   HiArrowsPointingOut,
   HiEllipsisHorizontal,
   HiTrash,
   HiWrenchScrewdriver,
 } from "react-icons/hi2";
-import Select from "../../../Elements/Select/Select";
 
 interface TrProps<T> {
   item: T;
@@ -29,48 +30,36 @@ const Tr = <T extends object>({
   isOpenSelectMenu,
   setIsOpenSelectMenu,
 }: TrProps<T>) => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
-  const [isActiveSelectMenu, setIsActiveSelectMenu] = useState<boolean>(false);
-
-  const itemId = (item as any)._id;
-
-  const handleCheckbox = (checked: boolean) => {
-    setIsChecked(checked);
-    handleSelectRows(checked);
-  };
-
-  const handleSelectRows = (checked: boolean) => {
-    setSelectedRows((prev: any) => {
-      if (checked) {
-        return [...prev, itemId];
-      } else {
-        return prev.filter((id: any) => id !== itemId);
-      }
-    });
-  };
-
-  const handleOpenSelectMenu = (e: React.MouseEvent<HTMLSpanElement>) => {
-    setIsOpenSelectMenu((prev) => !prev);
-    setIsActiveSelectMenu(true);
-  };
+  const { isChecked, handleCheckbox, handleOpenSelectMenu, isActiveSelectMenu } = useTr(
+    item,
+    setSelectedRows,
+    setIsOpenSelectMenu,
+    selectAll
+  );
 
   const actions = [
-    { name: `Open`, icon: <HiArrowsPointingOut />, action: () => {console.log("open");
-    } },
-    { name: `Edit`, icon: <HiWrenchScrewdriver />, action: () => {console.log("edit")} },
-    { name: `Delete`, icon: <HiTrash />, action: () => {console.log("delete")} },
+    {
+      name: `Open`,
+      icon: <HiArrowsPointingOut />,
+      action: () => {
+        console.log("open");
+      },
+    },
+    {
+      name: `Edit`,
+      icon: <HiWrenchScrewdriver />,
+      action: () => {
+        console.log("edit");
+      },
+    },
+    {
+      name: `Delete`,
+      icon: <HiTrash />,
+      action: () => {
+        console.log("delete");
+      },
+    },
   ];
-  // each action should lift the state to the stock page and perform the action.
-
-
-  useEffect(() => {
-    setIsChecked(selectAll);
-    if (selectAll) {
-      setSelectedRows((prev: any) => [...new Set([...prev, itemId])]);
-    } else {
-      setSelectedRows((prev: any) => prev.filter((id: any) => id !== itemId));
-    }
-  }, [selectAll]);
 
   return (
     <tr className={styles.Tr}>

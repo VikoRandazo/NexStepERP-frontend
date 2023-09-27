@@ -10,14 +10,14 @@ interface SelectProps {
 const Select: FC<SelectProps> = ({ options, isActive }) => {
   const ref = useRef<HTMLUListElement>(null);
 
-
   return (
     <ul ref={ref} className={isActive ? `${styles.Select} ${styles.active}` : `${styles.select}`}>
-      {options.map((option) => {
-        return <Option option={option} isActive={isActive} />;
+      {options.map((option, key) => {
+        return <Option key={key} option={option} isActive={isActive} />;
       })}
     </ul>
   );
 };
 
 export default Select;
+

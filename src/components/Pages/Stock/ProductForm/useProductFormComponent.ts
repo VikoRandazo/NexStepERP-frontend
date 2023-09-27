@@ -16,6 +16,20 @@ export const useProductFormComponent = (product: ProductType, mode: string) => {
   //   "manufacturer": "Test Manufacturer",
   //   "purchasesAmount": 0
   // }
+  const [btnText, setBtnText] = useState(`Save`)
+
+
+  const handleModeChanges = () => {
+    setBtnText(() => {
+      if (mode === `readOnly`) {
+        return `Edit Product`
+      } else if (mode === `edit`) {
+        return `Update Product`
+      } else {
+        return `Create Product`
+      }
+    })
+  }
 
   const fields: InputField[] = [
     { key: "name", type: "text", title: "Product Title", group: 1 },
@@ -36,7 +50,6 @@ export const useProductFormComponent = (product: ProductType, mode: string) => {
             const response = await instance.post(`http://localhost:5000/products/new`, values);
             console.log(response.data);
           } else if (mode === `edit`) {
-            // instead of all object required to pass the updated fields only
             const response = await instance.post(`http://localhost:5000/products/${product._id}`, values);
             console.log(response.data);
 
@@ -75,6 +88,12 @@ export const useProductFormComponent = (product: ProductType, mode: string) => {
     console.log(errors);
   }, [errors]);
 
+  useEffect(() => {
+    handleModeChanges()
+  }, [mode]);
+
+
+
   return {
     fields,
     handleChange,
@@ -86,5 +105,6 @@ export const useProductFormComponent = (product: ProductType, mode: string) => {
     groupFields,
     handleImageChange,
     removeImage,
+    btnText
   };
 };

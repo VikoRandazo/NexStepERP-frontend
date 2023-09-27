@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import styles from "./ProductForm.module.scss";
 import Input from "../../../Elements/Input/Input";
 import { useProductFormComponent } from "./useProductFormComponent";
@@ -9,10 +9,10 @@ import { ProductType } from "../../../../models/ProductType";
 
 interface ProductFormProps {
   product: ProductType;
-  mode: `edit` | `create`;
+  mode: `readOnly` | `edit` | `create`;
 }
 
-const ProductForm: FC<ProductFormProps> = ({product, mode}) => {
+const ProductForm: FC<ProductFormProps> = ({ product, mode }) => {
   const {
     fields,
     handleChange,
@@ -24,7 +24,9 @@ const ProductForm: FC<ProductFormProps> = ({product, mode}) => {
     groupFields,
     handleImageChange,
     removeImage,
-  } = useProductFormComponent( product, mode);
+    btnText
+  } = useProductFormComponent(product, mode);
+
 
   return (
     <form onSubmit={handleSubmit} className={styles.ProductForm}>
@@ -69,7 +71,7 @@ const ProductForm: FC<ProductFormProps> = ({product, mode}) => {
           </div>
         </div>
         <div className={styles.footer}>
-          <BtnPrimary icon={<HiSparkles />} text={"Create Product"} />
+          <BtnPrimary icon={<HiSparkles />} text={btnText} />
         </div>
       </div>
     </form>
