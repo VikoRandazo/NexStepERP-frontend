@@ -1,3 +1,8 @@
-export interface InteractionsMode{
-mode: `readOnly` | `edit` | `create`
+export type InteractionsMode = 'readOnly' | 'create' | 'edit';
+
+
+export enum InteractionsModeEnum {
+    ReadOnly = 'readOnly',
+    Edit = 'edit',
+    Create = 'create'
 }

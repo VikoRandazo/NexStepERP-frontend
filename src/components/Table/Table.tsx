@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./Table.module.scss";
 import THead from "./THead/THead";
 import TBody from "./TBody/TBody";
 import { useTableHook } from "./UseTableHook";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi2";
+import { InteractionsMode } from "../../models/shared/InteractionsMode";
 
 interface TableProps<T> {
   data: T[];
@@ -11,6 +12,8 @@ interface TableProps<T> {
   selectedRows: any[];
   hasActionsColumn: boolean;
   setSelectedRows: React.Dispatch<React.SetStateAction<{ _id: string }[]>>;
+  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setInteractionsMode: React.Dispatch<React.SetStateAction<InteractionsMode>>;
 }
 
 const Table = <T extends object>({
@@ -18,17 +21,17 @@ const Table = <T extends object>({
   selectedRows,
   setSelectedRows,
   hasActionsColumn,
+  setIsOpenModal,
+  setInteractionsMode,
 }: TableProps<T>) => {
   const { init, states, setters, handlers } = useTableHook(initData, hasActionsColumn);
 
   const { columns } = init;
-  const { hiddenColumns, sortedData, sortDirection, sortField, selectAll, isOpenSelectMenu } = states;
+  const { hiddenColumns, sortedData, sortDirection, sortField, selectAll, isOpenSelectMenu } =
+    states;
   const { handleSort, handleSelectAll } = handlers;
   const { setIsOpenSelectMenu } = setters;
 
-  useEffect(() => {
-    console.log(isOpenSelectMenu);
-  }, [isOpenSelectMenu]);
   return (
     <div className={styles.tableContainer}>
       <div className={styles.actionsBar}>
@@ -52,6 +55,8 @@ const Table = <T extends object>({
           hasActions={hasActionsColumn}
           setIsOpenSelectMenu={setIsOpenSelectMenu}
           isOpenSelectMenu={isOpenSelectMenu}
+          setIsOpenModal={setIsOpenModal}
+          setInteractionsMode={setInteractionsMode}
         />
       </table>
     </div>

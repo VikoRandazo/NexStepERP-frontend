@@ -4,8 +4,9 @@ import { validationProduct } from "./ProductValidation";
 import instance from "../../../../api/axiosInstance";
 import { ProductInitState, ProductType } from "../../../../models/ProductType";
 import { useEffect, useState } from "react";
+import { BtnActionsText, BtnActionsTextEnum } from "../../../Elements/Buttons/BtnActionsText";
 
-export const useProductFormComponent = (product: ProductType, mode: string) => {
+export const useProductFormHook = (product: ProductType, mode: string) => {
   // {
   //   "name": "Test Product",
   //   "description": "This is a test product description.",
@@ -16,7 +17,7 @@ export const useProductFormComponent = (product: ProductType, mode: string) => {
   //   "manufacturer": "Test Manufacturer",
   //   "purchasesAmount": 0
   // }
-  const [btnText, setBtnText] = useState(`Save`)
+  const [btnText, setBtnText] = useState<BtnActionsText>(BtnActionsTextEnum.CREATE)
 
 
   const handleModeChanges = () => {

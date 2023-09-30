@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import styles from "./TR.module.scss";
 import Td from "../TD/TD";
 import Checkbox from "../../../Elements/Checkbox/Checkbox";
@@ -10,6 +10,7 @@ import {
   HiTrash,
   HiWrenchScrewdriver,
 } from "react-icons/hi2";
+import { InteractionsMode, InteractionsModeEnum } from "../../../../models/shared/InteractionsMode";
 
 interface TrProps<T> {
   item: T;
@@ -19,6 +20,8 @@ interface TrProps<T> {
   hasActions: boolean;
   setIsOpenSelectMenu: Dispatch<SetStateAction<boolean>>;
   isOpenSelectMenu: boolean;
+  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setInteractionsMode: React.Dispatch<React.SetStateAction<InteractionsMode>>;
 }
 
 const Tr = <T extends object>({
@@ -29,6 +32,8 @@ const Tr = <T extends object>({
   hasActions,
   isOpenSelectMenu,
   setIsOpenSelectMenu,
+  setIsOpenModal,
+  setInteractionsMode,
 }: TrProps<T>) => {
   const { isChecked, handleCheckbox, handleOpenSelectMenu, isActiveSelectMenu } = useTr(
     item,
@@ -43,13 +48,17 @@ const Tr = <T extends object>({
       icon: <HiArrowsPointingOut />,
       action: () => {
         console.log("open");
+        setIsOpenModal(true);
+        setInteractionsMode(InteractionsModeEnum.Create);
       },
     },
     {
       name: `Edit`,
       icon: <HiWrenchScrewdriver />,
       action: () => {
+        setInteractionsMode(InteractionsModeEnum.Edit);
         console.log("edit");
+        setIsOpenModal(true);
       },
     },
     {
@@ -60,7 +69,6 @@ const Tr = <T extends object>({
       },
     },
   ];
-
   return (
     <tr className={styles.Tr}>
       <Td children={<Checkbox checked={isChecked} onChange={handleCheckbox} />} />

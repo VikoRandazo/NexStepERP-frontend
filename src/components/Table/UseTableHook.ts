@@ -63,9 +63,6 @@ export const useTableHook = (initData: any[], hasActionsColumn: boolean) => {
     setSortedData(initData);
   }, [initData]);
 
-  useEffect(() => {
-    console.log(isOpenSelectMenu);
-  }, [isOpenSelectMenu]);
 
   // Returns
   // -------

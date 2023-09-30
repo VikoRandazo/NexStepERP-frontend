@@ -8,10 +8,20 @@ interface OptionProps {
 }
 
 const Option: FC<OptionProps> = ({ option, isActive }) => {
-  const {name, icon, action} = option
+  const { name, icon, action } = option;
+
+  const handleOptionClick = (e: React.MouseEvent) => {
+    console.log(e);
+    
+    console.log("Option clicked:", name); // This will log which option was clicked
+    action();
+  };
 
   return (
-    <li onClick={action} className={isActive ? `${styles.Option} ${styles.active}` : `${styles.Option}`}>
+    <li
+      onClick={handleOptionClick}
+      className={isActive ? `${styles.Option} ${styles.active}` : `${styles.Option}`}
+    >
       {icon} {name}
     </li>
   );

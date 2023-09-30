@@ -1,8 +1,11 @@
-@import "../../../../styles/globalStyles/globalStyles.module.scss";
-@import "../../../../styles/globalStyles/Flex.module.scss";
-.ProductForm {
+@import "../../../../../styles/globalStyles/globalStyles.module.scss";
+@import "../../../../../styles/globalStyles/Flex.module.scss";
+
+.CreateProductForm {
   width: 100%;
   height: 100%;
+  text-overflow: ellipsis;
+
   & > .container {
     width: 100%;
     height: 100%;
@@ -46,26 +49,23 @@
           }
         }
 
-   
-
         & > .uploadImageContainer {
           position: relative;
           width: 100%;
           height: 100%;
-          
+
           & > input {
             width: 100%;
             height: 100%;
             opacity: 0;
             cursor: pointer;
-            
+
             &:hover ~ svg {
               height: 4em;
               width: 4em;
             }
           }
-          
-          
+
           & > svg {
             width: 3em;
             height: 3em;
@@ -76,13 +76,9 @@
             color: $background-dark;
             pointer-events: none;
             transition: all 0.3s ease;
-            
           }
-  
         }
       }
-
-
 
       & > .groups {
         width: 100%;
