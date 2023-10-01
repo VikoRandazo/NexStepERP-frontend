@@ -11,36 +11,42 @@ import {
   HiWrenchScrewdriver,
 } from "react-icons/hi2";
 import { InteractionsMode, InteractionsModeEnum } from "../../../../models/shared/InteractionsMode";
+import { useDispatchHook } from "../../../../hooks/useDispatch";
+import { UiActions, UiSlice } from "../../../../store/slices/ui";
+import { StoreRootTypes } from "../../../../store/store";
 
 interface TrProps<T> {
   item: T;
   hiddenColumns: string[];
   selectAll: boolean;
-  setSelectedRows: any;
+  // setSelectedRows: any;
   hasActions: boolean;
   setIsOpenSelectMenu: Dispatch<SetStateAction<boolean>>;
   isOpenSelectMenu: boolean;
-  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setInteractionsMode: React.Dispatch<React.SetStateAction<InteractionsMode>>;
+  // setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  // setInteractionsMode: React.Dispatch<React.SetStateAction<InteractionsMode>>;
 }
 
 const Tr = <T extends object>({
   item,
   hiddenColumns,
   selectAll,
-  setSelectedRows,
+  // setSelectedRows,
   hasActions,
   isOpenSelectMenu,
   setIsOpenSelectMenu,
-  setIsOpenModal,
-  setInteractionsMode,
+  // setIsOpenModal,
+  // setInteractionsMode,
 }: TrProps<T>) => {
+
   const { isChecked, handleCheckbox, handleOpenSelectMenu, isActiveSelectMenu } = useTr(
     item,
-    setSelectedRows,
+    // setSelectedRows,
     setIsOpenSelectMenu,
-    selectAll
-  );
+    // selectAll
+  )
+
+ const {dispatch} = useDispatchHook()
 
   const actions = [
     {
@@ -48,17 +54,21 @@ const Tr = <T extends object>({
       icon: <HiArrowsPointingOut />,
       action: () => {
         console.log("open");
-        setIsOpenModal(true);
-        setInteractionsMode(InteractionsModeEnum.Create);
+
+        dispatch(UiActions.setIsOpen(true))
+        dispatch(UiActions.setMode(InteractionsModeEnum.ReadOnly))
+        // setInteractionsMode(InteractionsModeEnum.Create);
       },
     },
     {
       name: `Edit`,
       icon: <HiWrenchScrewdriver />,
       action: () => {
-        setInteractionsMode(InteractionsModeEnum.Edit);
+        // setInteractionsMode(InteractionsModeEnum.Edit);
+        dispatch(UiActions.setMode(InteractionsModeEnum.Edit))
+
         console.log("edit");
-        setIsOpenModal(true);
+        dispatch(UiActions.setIsOpen(true))
       },
     },
     {

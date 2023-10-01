@@ -1,16 +1,22 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useCallback, useEffect } from "react";
 import styles from "./Modal.module.scss";
+import { useDispatchHook } from "../../hooks/useDispatch";
+import { UiActions } from "../../store/slices/ui";
+import { useSelector } from "react-redux";
+import { StoreRootTypes } from "../../store/store";
 
 interface ModalProps {
   children: JSX.Element | null;
-  isOpenModal: boolean;
-  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Modal: FC<ModalProps> = ({ children, isOpenModal, setIsOpenModal }) => {
+const Modal: FC<ModalProps> = ({ children }) => {
+  const { dispatch } = useDispatchHook();
+
+  const isOpenModal = useSelector((state: StoreRootTypes) => state.ui.modal.isOpen);
+
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
-      setIsOpenModal(false);
+      dispatch(UiActions.setIsOpen(false));
     }
   };
 

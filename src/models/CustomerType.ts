@@ -2,7 +2,7 @@ import { Address } from "./shared/Address";
 import { PurchaseHistory } from "./shared/PurchaseHistory";
 
 export interface CustomerType {
-  id: string;
+  id?: string;
   firstName: string;
   lastName: string;
   email: string;

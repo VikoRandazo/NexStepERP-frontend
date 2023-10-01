@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import styles from "./TrHeader.module.scss";
 import TH from "../TH/TH";
 import Checkbox from "../../../Elements/Checkbox/Checkbox";
+import { StoreRootTypes } from "../../../../store/store";
 
 interface TrHeaderProps {
   columns: string[] | [];
@@ -11,7 +12,7 @@ interface TrHeaderProps {
   sortIcon: JSX.Element;
   sortField: string;
 
-  selectAll: boolean;
+  selectAll:boolean;
 
   handleSort: (e: React.MouseEvent<HTMLElement>) => void;
   handleSelectAll: (checked: boolean) => void;

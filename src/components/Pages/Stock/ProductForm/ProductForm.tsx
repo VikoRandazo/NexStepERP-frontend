@@ -10,16 +10,17 @@ import { InteractionsMode, InteractionsModeEnum } from "../../../../models/share
 import ReadOnlyProductForm from "./ReadOnlyProductForm/ReadOnlyProductForm";
 import CreateProductForm from "./CreateProductForm/CreateProductForm";
 import EditProductForm from "./CreateProductForm/EditProductForm/EditProductForm";
+import { useSelector } from "react-redux";
+import { StoreRootTypes } from "../../../../store/store";
 
 interface ProductFormProps {
   product: ProductType;
-  mode: `readOnly` | `edit` | `create`;
   setInteractionsMode: React.Dispatch<React.SetStateAction<InteractionsMode>>;
-  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ProductForm: FC<ProductFormProps> = ({ product, mode, setInteractionsMode, setIsOpenModal }) => {
-//  Close the modal from the productFormCreate/edit/readonly component
+const ProductForm: FC<ProductFormProps> = ({ product}) => {
+  //  Close the modal from the productFormCreate/edit/readonly component
+  const mode = useSelector((state: StoreRootTypes) => state.ui.modal.mode);
   const {
     fields,
     handleChange,
@@ -47,6 +48,8 @@ const ProductForm: FC<ProductFormProps> = ({ product, mode, setInteractionsMode,
     groupFields,
     btnText,
   };
+
+  const isOpenModal = useSelector((state: StoreRootTypes) => state.ui.modal);
 
   const handleRenderCase = () => {
     if (mode === InteractionsModeEnum.ReadOnly) {

@@ -2,29 +2,45 @@ import { useState, useEffect } from "react";
 import instance from "../../../api/axiosInstance";
 import { ProductType, ProductInitState } from "../../../models/ProductType";
 import { InteractionsMode, InteractionsModeEnum } from "../../../models/shared/InteractionsMode";
+import { useDispatchHook } from "../../../hooks/useDispatch";
+import { entitiesAction } from "../../../store/slices/entities";
+import { useSelector } from "react-redux";
+import { StoreRootTypes } from "../../../store/store";
+import { TableActions } from "../../../store/slices/table";
+
 export const useStockHook = () => {
+  const { dispatch } = useDispatchHook();
+  const selectedRows = useSelector((state:StoreRootTypes) => state.table.selectedRows)
+
+  // Local States
+  const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
   const [interactionsMode, setInteractionsMode] = useState<InteractionsMode>(
     InteractionsModeEnum.Create
   );
-  const [products, setProducts] = useState<ProductType[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
 
   const [currentCategory, setCurrentCategory] = useState<string>(`All`);
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  // const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
   const [modalContent, setmodalContent] = useState<JSX.Element | null>(null);
   const [clickedProduct, setClickedProduct] = useState(ProductInitState);
-  const [selectedRows, setselectedRows] = useState<{ _id: string }[]>([]);
 
+  // Redux Selectors
+  const products = useSelector((state: StoreRootTypes) => state.entities.stock);
+  
   const getProducts = async () => {
     try {
       const response = await instance.get(`/products/all`);
       console.log(response);
-      setProducts(response.data);
+      // setProducts(response.data);
+      dispatch(entitiesAction.setStock(response.data));
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    console.log(products);
+  }, [products]);
   const filterProducts = () => {
     setFilteredProducts(() => {
       if (currentCategory === `All`) {
@@ -40,6 +56,7 @@ export const useStockHook = () => {
   const deleteProduct = async () => {
     try {
       const response = await instance.post(`/products/delete`, selectedRows);
+      dispatch(entitiesAction.removeFromStock(selectedRows))
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -60,26 +77,24 @@ export const useStockHook = () => {
       products,
       filteredProducts,
       currentCategory,
-      isOpenModal,
+      // isOpenModal,
       modalContent,
       clickedProduct,
       selectedRows,
     },
     setters: {
       setInteractionsMode,
-      setProducts,
       setFilteredProducts,
       setCurrentCategory,
-      setIsOpenModal,
+      // setIsOpenModal,
       setmodalContent,
       setClickedProduct,
-      setselectedRows,
     },
     functions: {
       deleteProduct,
     },
     enums: {
-      InteractionsModeEnum
-    }
+      InteractionsModeEnum,
+    },
   };
 };

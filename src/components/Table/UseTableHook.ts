@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
+import { StoreRootTypes } from "../../store/store";
+import { useDispatchHook } from "../../hooks/useDispatch";
+import { TableActions } from "../../store/slices/table";
+import { useSelector } from "react-redux";
 
 export const useTableHook = (initData: any[], hasActionsColumn: boolean) => {
+  const { dispatch } = useDispatchHook();
   // States
   // ------
   // Hide Columns
@@ -13,8 +18,9 @@ export const useTableHook = (initData: any[], hasActionsColumn: boolean) => {
   const [sortField, setSortField] = useState<string>(``);
 
   // Checkbox
-  const [selectAll, setSelectAll] = useState<boolean>(false);
+  // const [selectAll, setSelectAll] = useState<boolean>(false);
 
+  const selectAll = useSelector((state: StoreRootTypes) => state.table.selectAllRows);
   // SelectMenu
   const [isOpenSelectMenu, setIsOpenSelectMenu] = useState<boolean>(false);
 
@@ -41,7 +47,8 @@ export const useTableHook = (initData: any[], hasActionsColumn: boolean) => {
   // Handle Checkboxes
 
   const handleSelectAll = (checked: boolean) => {
-    setSelectAll(checked);
+    dispatch(TableActions.SelectAll(checked));
+    return checked;
   };
 
   // Add "Acions" Column to a Row
@@ -62,7 +69,6 @@ export const useTableHook = (initData: any[], hasActionsColumn: boolean) => {
   useEffect(() => {
     setSortedData(initData);
   }, [initData]);
-
 
   // Returns
   // -------

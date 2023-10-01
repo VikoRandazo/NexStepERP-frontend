@@ -11,7 +11,10 @@ import BtnOutline from "../../Elements/Buttons/Btn-Outline/Btn-Outline";
 import ProductForm from "./ProductForm/ProductForm";
 import { BtnActionsTextEnum } from "../../Elements/Buttons/BtnActionsText";
 import { useStockHook } from "./useStockHook";
-
+import { useDispatchHook } from "../../../hooks/useDispatch";
+import { UiActions } from "../../../store/slices/ui";
+import { useSelector } from "react-redux";
+import { StoreRootTypes } from "../../../store/store";
 interface StockProps {}
 
 const Stock: FC<StockProps> = () => {
@@ -19,33 +22,30 @@ const Stock: FC<StockProps> = () => {
 
   const {
     interactionsMode,
-    products,
     filteredProducts,
     currentCategory,
-    isOpenModal,
     modalContent,
     clickedProduct,
     selectedRows,
   } = states;
+
   const {
     setInteractionsMode,
-    setProducts,
     setFilteredProducts,
     setCurrentCategory,
-    setIsOpenModal,
     setmodalContent,
     setClickedProduct,
-    setselectedRows,
   } = setters;
+
   const { deleteProduct } = functions;
   const { InteractionsModeEnum } = enums;
+  const { dispatch } = useDispatchHook();
 
-  useEffect(() => {
-    console.log(interactionsMode);
-  }, [interactionsMode]);
+  const isOpenModal = useSelector((state: StoreRootTypes) => state.ui.modal.isOpen);
+
   return (
     <div className={styles.Stock}>
-      <Modal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} children={modalContent} />
+      <Modal children={modalContent} />
       <div className={styles.categories}>
         <ul className={styles.list}>
           {categories.map((category) => {
@@ -75,13 +75,11 @@ const Stock: FC<StockProps> = () => {
             text={BtnActionsTextEnum.CREATE}
             action={() => {
               setInteractionsMode(InteractionsModeEnum.Create);
-              setIsOpenModal(true);
+              dispatch(UiActions.setIsOpen(true));
               setmodalContent(
                 <ProductForm
-                  mode={InteractionsModeEnum.Create}
                   product={clickedProduct}
                   setInteractionsMode={setInteractionsMode}
-                  setIsOpenModal={setIsOpenModal}
                 />
               );
             }}
@@ -93,17 +91,17 @@ const Stock: FC<StockProps> = () => {
           data={filteredProducts}
           hasActionsColumn={true}
           selectedRows={selectedRows}
-          setSelectedRows={setselectedRows}
-          setIsOpenModal={setIsOpenModal}
-          setInteractionsMode={setInteractionsMode}
+          // setSelectedRows={setselectedRows}
+          // setIsOpenModal={setIsOpenModal}
+          // setInteractionsMode={setInteractionsMode}
           cellAction={(clickedItem: any) => {
             setClickedProduct(clickedItem);
             setmodalContent(
               <ProductForm
-                mode={interactionsMode}
+                // mode={interactionsMode}
                 product={clickedItem}
                 setInteractionsMode={setInteractionsMode}
-                setIsOpenModal={setIsOpenModal}
+                // setIsOpenModal={setIsOpenModal}
               />
             );
           }}

@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react";
 import styles from "./THead.module.scss";
 import TrHeader from "./TrHeader/TrHeader";
+import { StoreRootTypes } from "../../../store/store";
 
 interface THeadProps {
   columns: string[] | [];
@@ -8,7 +9,7 @@ interface THeadProps {
   sortIcon: JSX.Element;
   sortField: string;
 
-  selectAll: boolean;
+  selectAll:boolean;
 
   handleSort: (e: React.MouseEvent<HTMLElement>) => void;
   handleSelectAll: (checked:boolean) => void;

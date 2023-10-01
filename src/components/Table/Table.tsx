@@ -4,26 +4,23 @@ import THead from "./THead/THead";
 import TBody from "./TBody/TBody";
 import { useTableHook } from "./UseTableHook";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi2";
-import { InteractionsMode } from "../../models/shared/InteractionsMode";
 
 interface TableProps<T> {
   data: T[];
   cellAction?: (item: T) => void;
   selectedRows: any[];
   hasActionsColumn: boolean;
-  setSelectedRows: React.Dispatch<React.SetStateAction<{ _id: string }[]>>;
-  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setInteractionsMode: React.Dispatch<React.SetStateAction<InteractionsMode>>;
+  // setSelectedRows: React.Dispatch<React.SetStateAction<{ _id: string }[]>>;
 }
 
 const Table = <T extends object>({
   data: initData,
   selectedRows,
-  setSelectedRows,
+  // setSelectedRows,
   hasActionsColumn,
-  setIsOpenModal,
-  setInteractionsMode,
-}: TableProps<T>) => {
+}: // setIsOpenModal,
+// setInteractionsMode,
+TableProps<T>) => {
   const { init, states, setters, handlers } = useTableHook(initData, hasActionsColumn);
 
   const { columns } = init;
@@ -51,12 +48,12 @@ const Table = <T extends object>({
           hiddenColumns={hiddenColumns}
           data={sortedData}
           selectAll={selectAll}
-          setSelectedRows={setSelectedRows}
+          // setSelectedRows={setSelectedRows}
           hasActions={hasActionsColumn}
           setIsOpenSelectMenu={setIsOpenSelectMenu}
           isOpenSelectMenu={isOpenSelectMenu}
-          setIsOpenModal={setIsOpenModal}
-          setInteractionsMode={setInteractionsMode}
+          // setIsOpenModal={setIsOpenModal}
+          // setInteractionsMode={setInteractionsMode}
         />
       </table>
     </div>
