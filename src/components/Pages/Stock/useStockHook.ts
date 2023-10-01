@@ -10,7 +10,7 @@ import { TableActions } from "../../../store/slices/table";
 
 export const useStockHook = () => {
   const { dispatch } = useDispatchHook();
-  const selectedRows = useSelector((state:StoreRootTypes) => state.table.selectedRows)
+  const selectedRows = useSelector((state: StoreRootTypes) => state.table.selectedRows);
 
   // Local States
   const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
@@ -24,9 +24,10 @@ export const useStockHook = () => {
   const [modalContent, setmodalContent] = useState<JSX.Element | null>(null);
   const [clickedProduct, setClickedProduct] = useState(ProductInitState);
 
+  const [deletedResponse, setDeletedResponse] = useState<{message:string, product_deleted: number}>();
   // Redux Selectors
   const products = useSelector((state: StoreRootTypes) => state.entities.stock);
-  
+
   const getProducts = async () => {
     try {
       const response = await instance.get(`/products/all`);
@@ -38,9 +39,6 @@ export const useStockHook = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
   const filterProducts = () => {
     setFilteredProducts(() => {
       if (currentCategory === `All`) {
@@ -56,8 +54,9 @@ export const useStockHook = () => {
   const deleteProduct = async () => {
     try {
       const response = await instance.post(`/products/delete`, selectedRows);
-      dispatch(entitiesAction.removeFromStock(selectedRows))
+      dispatch(entitiesAction.removeFromStock(selectedRows));
       console.log(response.data);
+      setDeletedResponse(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -70,6 +69,13 @@ export const useStockHook = () => {
   useEffect(() => {
     filterProducts();
   }, [products, currentCategory]);
+
+  useEffect(() => {
+    if (deletedResponse && deletedResponse.product_deleted > 0) {
+      getProducts();
+      dispatch(TableActions.SelectAll(false))
+    }
+  }, [deletedResponse]);
 
   return {
     states: {
