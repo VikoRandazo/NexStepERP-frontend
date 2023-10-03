@@ -1,36 +1,16 @@
-import { useFormik } from "formik";
-import { InputField } from "../../../Elements/Input/InputField";
-import { validationProduct } from "./ProductValidation";
-import instance from "../../../../api/axiosInstance";
-import { ProductInitState, ProductType } from "../../../../models/ProductType";
-import { useEffect, useState } from "react";
-import { BtnActionsText, BtnActionsTextEnum } from "../../../Elements/Buttons/BtnActionsText";
+import { useEffect, useState } from 'react';
+import { useFormik } from 'formik';
+import instance from '../../../../api/axiosInstance';
+import { ProductInitState, ProductType } from '../../../../models/ProductType';
+import { validationProduct } from './ProductValidation';
+import { InteractionsMode, InteractionsModeEnum } from '../../../../models/shared/InteractionsMode';
+import { InputField } from '../../../Elements/Input/InputField';
 
-export const useProductFormHook = (product: ProductType, mode: string) => {
-  // {
-  //   "name": "Test Product",
-  //   "description": "This is a test product description.",
-  //   "price": 99.99,
-  //   "imageUrl": "http://example.com/test-product.jpg",
-  //   "category": "Test Category",
-  //   "stockQuantity": 100,
-  //   "manufacturer": "Test Manufacturer",
-  //   "purchasesAmount": 0
-  // }
-  const [btnText, setBtnText] = useState<BtnActionsText>(BtnActionsTextEnum.CREATE)
-
-
-  const handleModeChanges = () => {
-    setBtnText(() => {
-      if (mode === `readOnly`) {
-        return `Edit Product`
-      } else if (mode === `edit`) {
-        return `Update Product`
-      } else {
-        return `Create Product`
-      }
-    })
-  }
+export const useProductFormHook = (
+  mode: InteractionsMode,
+  product?: ProductType,
+) => {
+  const [btnText, setBtnText] = useState<string>('Action');
 
   const fields: InputField[] = [
     { key: "name", type: "text", title: "Product Title", group: 1 },
@@ -41,71 +21,71 @@ export const useProductFormHook = (product: ProductType, mode: string) => {
     { key: "price", type: "text", title: "Price", group: 3 },
   ];
 
-  const { handleChange, values, handleSubmit, errors, touched, handleBlur, setFieldValue } =
-    useFormik({
-      initialValues: ProductInitState,
-      validationSchema: validationProduct,
-      onSubmit: async () => {
-        try {
-          if (mode === `create`) {
-            const response = await instance.post(`http://localhost:5000/products/new`, values);
-            console.log(response.data);
-          } else if (mode === `edit`) {
-            const response = await instance.post(`http://localhost:5000/products/${product._id}`, values);
-            console.log(response.data);
-
-          } else {
-            const response = await instance.post(`http://localhost:5000/products/findProduct`, product._id);
-            console.log(response.data);
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      },
-    });
-
   const groupFields = fields.reduce((acc: any, field: any) => {
     acc[field.group] = acc[field.group] || [];
     acc[field.group].push(field);
     return acc;
   }, {});
 
+  useEffect(() => {
+    setBtnText(() => {
+      switch (mode) {
+        case InteractionsModeEnum.Create:
+          return 'Create Product';
+        case InteractionsModeEnum.Edit:
+          return 'Update Product';
+        case InteractionsModeEnum.ReadOnly:
+          return 'Edit Product';
+        default:
+          return 'Action';
+      }
+    });
+  }, [mode]);
+  
+  const { handleChange, values, handleSubmit, errors, touched, handleBlur, setFieldValue } = useFormik({
+    initialValues: ProductInitState,
+    validationSchema: validationProduct,
+    onSubmit: async () => {
+      try {
+        let response;
+        if (mode === InteractionsModeEnum.Create) {
+          response = await instance.post('http://localhost:5000/products/new', values);
+        } else if (mode === InteractionsModeEnum.Edit && product) {
+          response = await instance.post(`http://localhost:5000/products/${product._id}`, values);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.currentTarget.files;
-
     if (files) {
       const file = files[0];
       const url = URL.createObjectURL(file);
-
-      setFieldValue(`imageUrl`, url);
+      setFieldValue('imageUrl', url);
     }
   };
 
   const removeImage = () => {
-    setFieldValue(`imageUrl`, "");
+    setFieldValue('imageUrl', '');
   };
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
-
-  useEffect(() => {
-    handleModeChanges()
-  }, [mode]);
-
-
-
-  return {
-    fields,
-    handleChange,
-    handleSubmit,
+  
+  const formikBag = {
+    values,
     errors,
     touched,
-    handleBlur,
-    values,
-    groupFields,
-    handleImageChange,
-    removeImage,
-    btnText
+    handlers: { handleBlur, handleChange, handleSubmit },
   };
+
+  const formControls = {
+    removeImage,
+    handleImageChange,
+    btnText,
+    groupFields
+    
+  };
+
+  return { formikBag, formControls };
 };

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import instance from "../../../api/axiosInstance";
 import { ProductType, ProductInitState } from "../../../models/ProductType";
-import { InteractionsMode, InteractionsModeEnum } from "../../../models/shared/InteractionsMode";
+import { InteractionsModeEnum } from "../../../models/shared/InteractionsMode";
 import { useDispatchHook } from "../../../hooks/useDispatch";
 import { entitiesAction } from "../../../store/slices/entities";
 import { useSelector } from "react-redux";
@@ -14,19 +14,20 @@ export const useStockHook = () => {
 
   // Local States
   const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
-  const [interactionsMode, setInteractionsMode] = useState<InteractionsMode>(
-    InteractionsModeEnum.Create
-  );
 
+  
   const [currentCategory, setCurrentCategory] = useState<string>(`All`);
-  // const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-
-  const [modalContent, setmodalContent] = useState<JSX.Element | null>(null);
+  
   const [clickedProduct, setClickedProduct] = useState(ProductInitState);
-
-  const [deletedResponse, setDeletedResponse] = useState<{message:string, product_deleted: number}>();
+  
+  const [deletedResponse, setDeletedResponse] = useState<{
+    message: string;
+    product_deleted: number;
+  }>();
   // Redux Selectors
   const products = useSelector((state: StoreRootTypes) => state.entities.stock);
+  const modalType = useSelector((state:StoreRootTypes) => state.ui.modal.type)
+  const interactionsMode = useSelector((state: StoreRootTypes) => state.ui.modal.mode);
 
   const getProducts = async () => {
     try {
@@ -61,6 +62,7 @@ export const useStockHook = () => {
       console.log(error);
     }
   };
+  
 
   useEffect(() => {
     getProducts();
@@ -72,8 +74,7 @@ export const useStockHook = () => {
 
   useEffect(() => {
     if (deletedResponse && deletedResponse.product_deleted > 0) {
-      getProducts();
-      dispatch(TableActions.SelectAll(false))
+      dispatch(TableActions.SelectAll(false));
     }
   }, [deletedResponse]);
 
@@ -83,17 +84,13 @@ export const useStockHook = () => {
       products,
       filteredProducts,
       currentCategory,
-      // isOpenModal,
-      modalContent,
+      modalType,
       clickedProduct,
       selectedRows,
     },
     setters: {
-      setInteractionsMode,
       setFilteredProducts,
       setCurrentCategory,
-      // setIsOpenModal,
-      setmodalContent,
       setClickedProduct,
     },
     functions: {

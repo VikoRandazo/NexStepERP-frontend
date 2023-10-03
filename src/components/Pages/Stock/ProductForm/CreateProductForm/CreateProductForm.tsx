@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import styles from "./CreateProductForm.module.scss";
-import { ProductType } from "../../../../../models/ProductType";
 import { FormikBagType } from "../../../../../models/shared/FormikBagType";
 import { HiXMark, HiPlus, HiSparkles } from "react-icons/hi2";
 import BtnPrimary from "../../../../Elements/Buttons/Btn-Primary/Btn-Primary";
@@ -17,6 +16,10 @@ const CreateProductForm: FC<CreateProductFormProps> = ({ formikBag, formControls
   const { handleBlur, handleChange, handleSubmit } = handlers;
   const { removeImage, handleImageChange, groupFields, btnText } = formControls;
   
+  if (!formikBag || !formControls) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <form onSubmit={handleSubmit} className={styles.CreateProductForm}>
       <div className={styles.container}>

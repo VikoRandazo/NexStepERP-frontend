@@ -51,6 +51,8 @@ export const useTr = (
       e.stopPropagation();
       setIsOpenSelectMenu((prev) => !prev);
       setIsActiveSelectMenu(true);
+      console.log(e);
+      
     },
     []
   );
@@ -59,6 +61,7 @@ export const useTr = (
     if (selectRef && !selectRef.current?.contains(e.currentTarget as Node)) {
       setIsOpenSelectMenu(false);
       setIsActiveSelectMenu(false);
+      
     }
   }, []);
 

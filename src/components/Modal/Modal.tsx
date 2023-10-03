@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect } from "react";
+import React, { FC, ReactNode, useCallback, useEffect } from "react";
 import styles from "./Modal.module.scss";
 import { useDispatchHook } from "../../hooks/useDispatch";
 import { UiActions } from "../../store/slices/ui";
@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { StoreRootTypes } from "../../store/store";
 
 interface ModalProps {
-  children: JSX.Element | null;
+  children:JSX.Element | null;
 }
 
 const Modal: FC<ModalProps> = ({ children }) => {
@@ -19,7 +19,7 @@ const Modal: FC<ModalProps> = ({ children }) => {
       dispatch(UiActions.setIsOpen(false));
     }
   };
-
+  
   useEffect(() => {
     console.log(isOpenModal);
   }, []);
