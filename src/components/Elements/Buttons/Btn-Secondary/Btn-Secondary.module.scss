@@ -1,1 +1,13 @@
-.BtnSecondary {}
+@import "../../../../styles/globalStyles/BasicBtn.module.scss";
+@import "../../../../styles/globalStyles/colorPallete.module.scss";
+
+.BtnSecondary {
+  @extend %BasicButton;
+  flex: 0;
+  align-items: center;
+
+  &:hover {
+    background-color: $secondary;
+    color: #fff;
+  }
+}

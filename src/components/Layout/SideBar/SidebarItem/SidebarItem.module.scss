@@ -41,13 +41,13 @@
 
     & > span {
       color: rgba($primaryText, 1);
-      font-weight: 700;
+      font-weight: 500;
       justify-content: center;
     }
 
     &::before {
       width: 100%;
-      background-color: rgba($primary, 0.25);
+      background-color: rgba($primary,0.15);
     }
 
     &::after {

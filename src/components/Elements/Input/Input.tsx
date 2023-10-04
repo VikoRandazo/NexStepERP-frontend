@@ -19,7 +19,7 @@ const Input: FC<InputProps> = ({ field, value, onChange, error, touched, onBlur,
   const { key, type, title } = field;
 
   return (
-    <div className={styles.Input}>
+    <div className={`${styles.Input}`}>
       <Label for={key} label={title} />
       {textarea ? (
         <textarea maxLength={1500} name={field.key} value={value} onChange={onChange}></textarea>

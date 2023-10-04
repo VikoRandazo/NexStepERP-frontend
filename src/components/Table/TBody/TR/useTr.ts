@@ -51,7 +51,6 @@ export const useTr = (
       e.stopPropagation();
       setIsOpenSelectMenu((prev) => !prev);
       setIsActiveSelectMenu(true);
-      console.log(e);
       
     },
     []

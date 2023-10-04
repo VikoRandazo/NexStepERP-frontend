@@ -30,7 +30,7 @@
     }
 
     &::placeholder {
-      color: $outOfStock;
+      color: rgba($outOfStock, 0.675);
       pointer-events: none;
     }
 

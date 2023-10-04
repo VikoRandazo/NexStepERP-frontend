@@ -25,11 +25,11 @@
     justify-content: center;
 
     & > .content {
-      height: min(90%, 670px);
-      padding: 2em 1em;
+      height: min(80%, 670px);
+      padding: 0.5em 3em;
       background-color: #fff;
-      border-radius: 1em;
-      aspect-ratio: 3.5 / 4;
+      border-radius: 0.75em;
+      aspect-ratio: 4 / 3;
       filter: drop-shadow(0 1em 2em rgba($ShadowMedium, 0.25));
 
       & > .header {

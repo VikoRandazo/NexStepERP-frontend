@@ -1,118 +1,116 @@
-@import "../../../../styles/globalStyles/globalStyles.module.scss";
 @import "../../../../styles/globalStyles/Flex.module.scss";
+@import "../../../../styles/globalStyles/colorPallete.module.scss";
 .ProductForm {
   width: 100%;
   height: 100%;
-  & > .container {
+  @extend %flexCol;
+  gap: 1em;
+  & > .header {
+    height: 15%;
+    background-color: $background-dark;
+  }
+
+  & > .main {
     width: 100%;
-    height: 100%;
-    @extend %flexCol;
+    height: 50%;
+    max-height: 50%;
+    @extend %flexRow;
     gap: 1em;
-    & > .header {
-      width: 100%;
-      height: min-content;
-    }
+    align-items: flex-start;
+    justify-content: flex-start;
 
-    & > .main {
-      width: 100%;
-      height: 80%;
-      overflow: auto;
+    & > .imageContainer {
+      position: relative;
+      height: 85%;
+      max-height: 85%;
+      max-width: 50%;
+      aspect-ratio: 1 / 1;
       @extend %flexCol;
-      gap: 1em;
-      flex: 1;
+      align-items: center;
+      justify-content: center;
 
-      & > .image {
-        aspect-ratio: 1 / 1;
-        min-height: 30%;
-        padding: 1em;
-        background-color: $background-light;
-        border-radius: 1em;
-        overflow: hidden;
-        @extend %flexRow;
-        align-items: center;
-        justify-content: center;
+      & > .removeImage {
+        transition: transform 0.3s ease;
+        transform: translateY(120%);
+        z-index: -1;
+        background-color: #fff;
+        border-radius: 50%;
+        padding: 0.5em;
         position: relative;
-
-        & > .imageContainer {
-          & > img {
-            height: 100%;
-            width: 100%;
-          }
-
-          & > .removeImage {
-            position: absolute;
-            top: 10%;
-            left: 3%;
-          }
-        }
-
-   
-
-        & > .uploadImageContainer {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          
-          & > input {
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-            
-            &:hover ~ svg {
-              height: 4em;
-              width: 4em;
-            }
-          }
-          
-          
-          & > svg {
-            width: 3em;
-            height: 3em;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            color: $background-dark;
-            pointer-events: none;
-            transition: all 0.3s ease;
-            
-          }
-  
-        }
       }
 
+      &:hover > .removeImage {
+        transform: translateY(0%);
+        z-index: 999;
+      }
 
-
-      & > .groups {
+      & > img {
+        padding: 1em;
+        max-height: 100%;
+        max-width: 100%;
         width: 100%;
-        @extend %flexRow;
-        flex-wrap: wrap;
-        & > .group1 {
-          @extend %flexCol;
-          width: 100%;
-        }
-        & > .group2 {
-          gap: 1em;
-          width: 100%;
-          @extend %flexRow;
-        }
-        & > .group3 {
-          min-width: 50%;
-          margin: auto;
-        }
+        object-fit: contain;
+        inset: 0;
+        z-index: 1000;
+        overflow: hidden;
       }
     }
-    & > .footer {
-      width: 100%;
-      height: min-content;
+
+    & > .uploadImageContainer {
+      position: relative;
+      height: 85%;
+      max-height: 85%;
+      aspect-ratio: 1 / 1;
+      background-color: $background-light;
       @extend %flexRow;
       align-items: center;
       justify-content: center;
 
-      & > button {
-        flex: 1;
+      & > svg {
+        width: 3em;
+        height: 3em;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        color: $background-dark;
+        pointer-events: none;
+        transition: all 0.3s ease;
+      }
+
+      & > input {
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
       }
     }
+
+    & > .fields {
+      width: 100%;
+
+      & > .group1 {
+        width: 100%;
+      }
+
+      & > .group2 {
+        @extend %flexRow;
+        gap: 1em;
+      }
+      & > .group3 {
+        @extend %flexRow;
+        gap: 1em;
+      }
+    }
+  }
+
+  & > .footer {
+    margin-top: auto;
+    @extend %flexRow;
+    align-items: center;
+    justify-content: flex-end;
+    height: 10%;
+    width: 100%;
+    gap: 0.5em;
   }
 }

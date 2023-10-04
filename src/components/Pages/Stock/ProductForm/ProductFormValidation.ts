@@ -12,10 +12,7 @@ export const validationProduct = yup.object().shape({
     .min(10, "*Description is too short")
     .max(500, "*Description is too long"),
 
-  price: yup
-    .number()
-    .required("*Price is required")
-    .min(0.01, "*Price should be at least 0.01"),
+  price: yup.number().required("*Price is required").min(0.01, "*Price should be at least 0.01"),
 
   imageUrl: yup.string(),
 

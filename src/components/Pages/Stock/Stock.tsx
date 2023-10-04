@@ -8,7 +8,6 @@ import Modal from "../../Modal/Modal";
 import BtnPrimary from "../../Elements/Buttons/Btn-Primary/Btn-Primary";
 import Table from "../../Table/Table";
 import BtnOutline from "../../Elements/Buttons/Btn-Outline/Btn-Outline";
-import ProductForm from "./ProductForm/ProductForm";
 import { BtnActionsTextEnum } from "../../Elements/Buttons/BtnActionsText";
 
 import { useDispatchHook } from "../../../hooks/useDispatch";
@@ -16,6 +15,7 @@ import { UiActions } from "../../../store/slices/ui";
 import { useSelector } from "react-redux";
 import { StoreRootTypes } from "../../../store/store";
 import { useStockHook } from "./useStockHook";
+import ProductForm from "./ProductForm/ProductForm";
 
 interface StockProps {}
 
@@ -40,9 +40,7 @@ const Stock: FC<StockProps> = () => {
 
   return (
     <div className={styles.Stock}>
-      <Modal>
-        <ProductForm product={ProductInitState}/>
-      </Modal>
+      <Modal children={<ProductForm mode={InteractionsModeEnum.Create}/>}/>
       <div className={styles.categories}>
         <ul className={styles.list}>
           {categories.map((category) => {
@@ -79,11 +77,9 @@ const Stock: FC<StockProps> = () => {
           data={filteredProducts}
           hasActionsColumn={true}
           selectedRows={selectedRows}
-          // modalContent={<ProductForm product={clickedProduct} />}
           cellAction={(clickedProduct: ProductType) => {
             console.log(clickedProduct);
             setClickedProduct(clickedProduct);
-            // dispatch(UiActions.setModalContent(<ProductForm product={clickedProduct} />));
           }}
         />
       </div>
