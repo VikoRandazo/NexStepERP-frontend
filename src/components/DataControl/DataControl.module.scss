@@ -1,0 +1,36 @@
+@import "../../styles/globalStyles/Flex.module.scss";
+
+.DataControl {
+  width: 100%;
+  background-color: #fff;
+  height: 5em;
+  @extend %flexRow;
+  align-items: center;
+  gap: 1em;
+  padding: 1em;
+  justify-content: space-between;
+
+  & > .filter {
+    height: 100%;
+    width: 100%;
+    @extend %flexRow;
+    gap: 1em;
+    position: relative;
+
+    & > .selectClass {
+      width: 100%;
+      height: 100%;
+      background-color: aqua;
+      
+    }
+
+    & > .minMaxContainer {
+      @extend %flexRow;
+      gap: 1em;
+
+      input {
+        width: 80px;
+      }
+    }
+  }
+}

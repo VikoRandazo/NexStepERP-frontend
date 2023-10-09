@@ -2,6 +2,6 @@ import { ReactElement } from "react";
 
 export interface OptionType {
     name: string;
-    icon?: ReactElement;
-    action:() => void | Promise<void> 
+    icon?: ReactElement | null;
+    action:any
 }

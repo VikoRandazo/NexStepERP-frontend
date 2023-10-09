@@ -26,10 +26,10 @@
 
     & > .content {
       height: min(80%, 670px);
-      padding: 0.5em 3em;
+      padding: 2em;
       background-color: #fff;
       border-radius: 0.75em;
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 5 / 3;
       filter: drop-shadow(0 1em 2em rgba($ShadowMedium, 0.25));
 
       & > .header {

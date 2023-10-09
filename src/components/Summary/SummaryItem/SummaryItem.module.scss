@@ -1,0 +1,35 @@
+@import "../../../styles/globalStyles/Flex.module.scss";
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+
+.SummaryItem {
+  height: 100%;
+  aspect-ratio: 5 / 3;
+
+  & > .container {
+    height: 100%;
+    @extend %flexCol;
+    align-items: center;
+    justify-content: center;
+    padding: 2em;
+    
+    & > .title {
+      height: 25%;
+      width: 100%;
+
+      & > h5 {
+        font-weight: 400;
+      }
+    }
+
+    & > .value {
+      width: 100%;
+      @extend %flexRow;
+      justify-content: space-between;
+      & > h2 {
+        font-size: 2.5em;
+        font-weight: 400;
+        text-align: center;
+      }
+    }
+  }
+}

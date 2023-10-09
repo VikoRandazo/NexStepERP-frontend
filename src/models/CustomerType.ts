@@ -2,12 +2,11 @@ import { Address } from "./shared/Address";
 import { PurchaseHistory } from "./shared/PurchaseHistory";
 
 export interface CustomerType {
-  id?: string;
   firstName: string;
   lastName: string;
   email: string;
   phoneNumber: string;
-  dateRegistered: Date;
+  dateRegistered: string;
   address?: Address;
   purchaseHistory: PurchaseHistory[];
 }

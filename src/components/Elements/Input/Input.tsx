@@ -7,22 +7,25 @@ interface InputProps {
   field: InputField;
   value: string | number | undefined;
   onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-  onBlur: (
+  onBlur?: (
     e: React.FocusEvent<any, Element>
   ) => void | ((fieldOrEvent: any) => (e: any) => void | void);
-  touched: boolean | undefined;
+  touched?: boolean | undefined;
   error?: string;
   textarea?: boolean;
+  disabled? : boolean
 }
 
-const Input: FC<InputProps> = ({ field, value, onChange, error, touched, onBlur, textarea }) => {
+const Input: FC<InputProps> = ({ field, value, onChange, error, touched, onBlur, textarea, disabled }) => {
   const { key, type, title } = field;
+  useEffect(() => {
 
+  },[disabled])
   return (
     <div className={`${styles.Input}`}>
       <Label for={key} label={title} />
       {textarea ? (
-        <textarea maxLength={1500} name={field.key} value={value} onChange={onChange}></textarea>
+        <textarea maxLength={1500} name={field.key} value={value} onChange={onChange} disabled={disabled}></textarea>
       ) : (
         <input
           key={key}
@@ -32,6 +35,7 @@ const Input: FC<InputProps> = ({ field, value, onChange, error, touched, onBlur,
           onChange={onChange}
           onBlur={onBlur}
           placeholder={touched ? error : error}
+          disabled={disabled}
         />
       )}
     </div>

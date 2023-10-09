@@ -9,7 +9,7 @@ interface BtnOutlineProps {
 }
 
 const BtnOutline: FC<BtnOutlineProps> = ({ icon, text, disabled, action }) => (
-  <button className={disabled ? `${styles.BtnOutline} ${styles.disabled}` : styles.BtnOutline} disabled={disabled} onClick={action}>
+  <button type={"button"} className={disabled ? `${styles.BtnOutline} ${styles.disabled}` : styles.BtnOutline} disabled={disabled} onClick={action}>
     <span className={styles.icon}>{icon}</span>
     { disabled ? null :<span className={styles.text}>{text}</span>}
   </button>

@@ -10,7 +10,7 @@ export const useTableHook = (initData: any[], hasActionsColumn: boolean) => {
   // ------
   // Hide Columns
   const [columns, setColumns] = useState<string[]>([]);
-  const [hiddenColumns, setHiddenColumns] = useState<string[]>([`_id`, `imageUrl`]);
+  const [hiddenColumns, setHiddenColumns] = useState<string[]>([`_id`, `imageUrl`, `category`]);
 
   // Sort
   const [sortedData, setSortedData] = useState<any[]>([]);

@@ -1,1 +1,25 @@
-.Clients {}
+@import "../../../styles/globalStyles/Flex.module.scss";
+.Clients {
+    width: 100%;
+    height: 100%;
+    @extend %flexCol;
+    gap: 1em;
+
+    & > .tableControl {
+        @extend %flexCol;
+        width: 100%;
+        height: 30%;
+        padding: 1em;
+        background-color: #fff;
+        border-radius: 1em;
+        z-index: -1;
+
+        & > .searchField {
+            @extend %flexRow;
+            align-items: flex-end;
+            gap: 1em;
+            width: 40%;
+            
+        }
+    }
+}

@@ -6,3 +6,11 @@
     font-size: 0.875em;
 }
 
+.productName {
+    cursor: pointer;
+transition: color 0.3s ease;
+    &:hover {
+        color: $secondary;
+    }
+}
+

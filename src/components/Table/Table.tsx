@@ -12,12 +12,14 @@ interface TableProps<T> {
   cellAction?: (item: T) => void;
   selectedRows: any[];
   hasActionsColumn: boolean;
+  deleteItem: (product: any) => void
 }
 
 const Table = <T extends object>({
   data: initData,
   selectedRows,
   hasActionsColumn,
+  deleteItem
 }: 
 TableProps<T>) => {
   const { init, states, setters, handlers } = useTableHook(initData, hasActionsColumn);
@@ -51,6 +53,7 @@ TableProps<T>) => {
           hasActions={hasActionsColumn}
           setIsOpenSelectMenu={setIsOpenSelectMenu}
           isOpenSelectMenu={isOpenSelectMenu}
+          deleteItem={deleteItem}
         />
       </table>
     </div>

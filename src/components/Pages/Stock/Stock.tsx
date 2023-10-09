@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from "./Stock.module.scss";
 import categories from "./categories.json";
 import Category from "../../Elements/Category/Category";
@@ -21,26 +21,20 @@ interface StockProps {}
 
 const Stock: FC<StockProps> = () => {
   const { states, setters, functions, enums } = useStockHook();
-
-  const { filteredProducts, currentCategory, products, clickedProduct, selectedRows } = states;
-
+  const { filteredProducts, currentCategory, selectedRows } = states;
   const { setCurrentCategory, setClickedProduct } = setters;
-
-  const { deleteProduct } = functions;
+  const { deleteProducts, deleteSingleProduct } = functions;
   const { InteractionsModeEnum } = enums;
   const { dispatch } = useDispatchHook();
-
-  const isOpenModal = useSelector((state: StoreRootTypes) => state.ui.modal.isOpen);
 
   const handleClickCreateProductButton = () => {
     dispatch(UiActions.setMode(InteractionsModeEnum.Create));
     dispatch(UiActions.setIsOpen(true));
-    // dispatch(UiActions.setModalContent(<ProductForm product={clickedProduct} />));
   };
 
   return (
     <div className={styles.Stock}>
-      <Modal children={<ProductForm mode={InteractionsModeEnum.Create}/>}/>
+      <Modal children={<ProductForm />} />
       <div className={styles.categories}>
         <ul className={styles.list}>
           {categories.map((category) => {
@@ -60,7 +54,7 @@ const Stock: FC<StockProps> = () => {
           <BtnOutline
             icon={<HiTrash />}
             text={`Delete ${selectedRows.length > 0 ? `(${selectedRows.length})` : ""}`}
-            action={deleteProduct}
+            action={deleteProducts}
             disabled={selectedRows.length > 0 ? false : true}
           />
         </div>
@@ -75,6 +69,7 @@ const Stock: FC<StockProps> = () => {
       <div className={styles.products}>
         <Table<ProductType>
           data={filteredProducts}
+          deleteItem={deleteSingleProduct}
           hasActionsColumn={true}
           selectedRows={selectedRows}
           cellAction={(clickedProduct: ProductType) => {

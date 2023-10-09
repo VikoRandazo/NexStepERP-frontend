@@ -13,6 +13,8 @@ import {
 import { InteractionsModeEnum } from "../../../../models/shared/InteractionsMode";
 import { useDispatchHook } from "../../../../hooks/useDispatch";
 import { UiActions } from "../../../../store/slices/ui";
+import { entitiesAction } from "../../../../store/slices/entities";
+import { ComponentCaseEnum } from "../../../../models/ComponentCase";
 
 interface TrProps<T> {
   item: T;
@@ -21,6 +23,7 @@ interface TrProps<T> {
   hasActions: boolean;
   setIsOpenSelectMenu: Dispatch<SetStateAction<boolean>>;
   isOpenSelectMenu: boolean;
+  deleteItem: (product: any) => void;
 }
 
 const Tr = <T extends object>({
@@ -30,49 +33,53 @@ const Tr = <T extends object>({
   hasActions,
   isOpenSelectMenu,
   setIsOpenSelectMenu,
+  deleteItem,
 }: TrProps<T>) => {
-  const { isChecked, handleCheckbox, handleOpenSelectMenu, isActiveSelectMenu } = useTr(
-    item,
-    setIsOpenSelectMenu
-  );
+  const {
+    isChecked,
+    handleCheckbox,
+    handleOpenSelectMenu,
+    handleChooseAction,
+    isActiveSelectMenu,
+    handleClick
+  } = useTr(item, setIsOpenSelectMenu);
 
   const { dispatch } = useDispatchHook();
+
+
   const actions = [
-    {
-      name: `Open`,
-      icon: <HiArrowsPointingOut />,
-      action: () => {
-        dispatch(UiActions.setIsOpen(true));
-        dispatch(UiActions.setMode(InteractionsModeEnum.ReadOnly));
-        const modalContent = dispatch(
-          UiActions.setModalType({ modalType: `ProductForm`, productId: (item as any)._id })
-        );
-      },
-    },
     {
       name: `Edit`,
       icon: <HiWrenchScrewdriver />,
       action: () => {
-        dispatch(UiActions.setMode(InteractionsModeEnum.Edit));
-        dispatch(UiActions.setIsOpen(true));
-        const modalContent = dispatch(
-          UiActions.setModalType({ modalType: `ProductForm`, productId: (item as any)._id })
-        );
+        handleChooseAction();
       },
     },
     {
       name: `Delete`,
       icon: <HiTrash />,
-      action: () => {},
+      action: () => {
+        dispatch(entitiesAction.setProduct(item as any));
+        deleteItem(item as T);
+      },
     },
   ];
+
   return (
     <tr className={styles.Tr}>
       <Td children={<Checkbox checked={isChecked} onChange={handleCheckbox} />} />
 
       {Object.entries(item).map(([key, value], i) => {
         if (!hiddenColumns.includes(key)) {
-          return <Td key={i} value={value} />;
+          return (
+            <Td
+              key={i}
+              value={value}
+              customClassName={key === "name" ? styles.productName : ""}
+              isNameColumn={key === "name"}
+              handleClick={handleClick}
+            />
+          );
         }
         return null;
       })}

@@ -1,0 +1,22 @@
+@import "../../styles/globalStyles/colorPallete.module.scss";
+@import "../../styles/globalStyles/Flex.module.scss";
+
+.Summary {
+  width: 100%;
+  background-color: #fff;
+  height: 12em;
+  @extend %flexRow;
+  gap: 1em;
+  align-items: center;
+
+  & > .divider {
+    border: none;
+    width: 0.125em;
+    height: 70%;
+    background-color: $softDivider;
+
+    &:nth-of-type(1) {
+        display: none;
+    }
+  }
+}

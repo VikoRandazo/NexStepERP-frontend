@@ -8,7 +8,7 @@ interface BtnSecondaryProps {
 }
 
 const BtnSecondary: FC<BtnSecondaryProps> = ({ text, action }) => (
-  <button className={styles.BtnSecondary} onClick={action}>
+  <button type={"button"}className={styles.BtnSecondary} onClick={action}>
     {text}
   </button>
 );

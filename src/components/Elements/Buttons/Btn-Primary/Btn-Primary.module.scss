@@ -6,14 +6,21 @@
   align-items: center;
   justify-content: center;
   background-color: $primary;
-  color: #fff;
+  color: $secondary;
   width: fit-content;
   flex: 0;
-
+  outline: 0.125em solid $secondary;
+  
   & > *span {
     flex: 1;
   }
   & > .icon {
     font-size: 1em;
+  }
+
+  &:hover{
+    background-color: $secondary;
+    color: #fff;
+    outline-offset: 0.25em ;
   }
 }

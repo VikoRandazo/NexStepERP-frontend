@@ -5,19 +5,43 @@ svg {
 }
 
 *::-webkit-scrollbar {
-    height: 0;
-    width: 0;
+  height: 0;
+  width: 0;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color:$scrollerThumb; 
-    border-radius: 1em;
-  }
+  background-color: $scrollerThumb;
+  border-radius: 1em;
+}
 
-  ::-webkit-scrollbar-track {
-    background-color: $background-light; 
-  }
+::-webkit-scrollbar-track {
+  background-color: $background-light;
+}
 
-  ul { 
-    list-style: none;
-  }
+ul {
+  list-style: none;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 1.75em;
+}
+
+h3 {
+  font-size: 1.375em;
+}
+
+h4 {
+  font-size: 1.25em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.875em;
+}

@@ -9,6 +9,7 @@ interface TBodyProps<T> {
   hasActions: boolean;
   setIsOpenSelectMenu: Dispatch<SetStateAction<boolean>>;
   isOpenSelectMenu: boolean;
+  deleteItem: (product: any) => void
 }
 
 const TBody = <T extends object>({
@@ -18,8 +19,8 @@ const TBody = <T extends object>({
   hasActions,
   setIsOpenSelectMenu,
   isOpenSelectMenu,
+  deleteItem
 }: TBodyProps<T>) => {
-  const { dispatch } = useDispatchHook();
   return (
     <tbody className={styles.TBody}>
       {data.map((item: T, i) => {
@@ -31,8 +32,7 @@ const TBody = <T extends object>({
             selectAll={selectAll}
             hasActions={hasActions}
             setIsOpenSelectMenu={setIsOpenSelectMenu}
-            isOpenSelectMenu={isOpenSelectMenu}
-          />
+            isOpenSelectMenu={isOpenSelectMenu} deleteItem={deleteItem}          />
         );
       })}
     </tbody>
