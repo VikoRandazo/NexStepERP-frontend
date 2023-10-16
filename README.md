@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Getting Started with NexStepERP System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was initialized with Create React App, ensuring a solid and well-structured starting point for building the application.
 
 ## Available Scripts
 
