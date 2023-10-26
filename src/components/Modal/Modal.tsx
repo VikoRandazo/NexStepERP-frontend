@@ -19,10 +19,7 @@ const Modal: FC<ModalProps> = ({ children }) => {
       dispatch(UiActions.setIsOpen(false));
     }
   };
-  
-  useEffect(() => {
-    console.log(isOpenModal);
-  }, []);
+
 
   return (
     <div className={isOpenModal ? `${styles.Modal} ${styles.active}` : styles.Modal}>

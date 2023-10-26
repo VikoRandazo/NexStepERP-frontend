@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import styles from "./Clients.module.scss";
 import Input from "../../Elements/Input/Input";
 import { useClientHook } from "./useClientHook";
@@ -10,14 +10,17 @@ import Table from "../../Table/Table";
 import { CustomerType } from "../../../models/CustomerType";
 import { useSummaryHook } from "../../Summary/UseSummaryHook";
 import { FilterByEnum } from "../../DataControl/TypeGuards";
+import ClientItem from "../../ClientItem/ClientItem";
+import { HiOutlineBellAlert, HiOutlineCreditCard } from "react-icons/hi2";
 
 interface ClientsProps {}
 
 const Clients: FC<ClientsProps> = () => {
-  const { states, setters, functions, enums, formikBag } = useClientHook();
+  const { states, setters, functions, enums, formikBag, dataControl, data } = useClientHook();
   const { field } = states;
-
+  const { clients } = data;
   const { values, handleChange, handleBlur } = formikBag;
+  const { filterOptions } = dataControl;
 
   const summary = {
     keys: {
@@ -31,16 +34,22 @@ const Clients: FC<ClientsProps> = () => {
       unActiveClientsThisMonth: 1,
     },
   };
+
+
+
   return (
     <div className={styles.Clients}>
       <Summary summaryObject={summary} />
-      <DataControl data={[]} filterBy={FilterByEnum.DATE} periodMonths={4}/>
-      <Table<Partial<CustomerType>>
+      <DataControl
         data={[]}
-        selectedRows={[]}
-        hasActionsColumn={false}
-        deleteItem={() => {}}
+        filterBy={FilterByEnum.DATE}
+        periodMonths={4}
+        filterOptions={filterOptions}
       />
+      <div className={styles.displayClients}>
+        {clients.map((client:CustomerType) => <ClientItem client={client} />
+        )}
+      </div>
     </div>
   );
 };

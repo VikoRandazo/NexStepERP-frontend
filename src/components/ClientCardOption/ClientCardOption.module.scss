@@ -1,0 +1,30 @@
+@import "../../styles/globalStyles/colorPallete.module.scss";
+@import "../../styles/globalStyles/Flex.module.scss";
+
+.ClientCardOption {
+  font-size: 0.875em;
+  padding: 0.875em 1em;
+  width: 100%;
+  border-radius: 0.5em;
+  @extend %flexRow;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+
+  & > svg {
+    font-size: 0.875em;
+  }
+
+  & > span {
+    @extend %flexRow;
+    align-items: center;
+    gap: 0.75em;
+    font-weight: 300;
+    cursor: pointer;
+  }
+
+  &:hover {
+    background-color: $primary;
+    color: $secondary;
+  }
+}

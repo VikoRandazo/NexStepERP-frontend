@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from "./Input.module.scss";
 import { InputField } from "./InputField";
 import Label from "../Label/Label";
@@ -13,19 +13,35 @@ interface InputProps {
   touched?: boolean | undefined;
   error?: string;
   textarea?: boolean;
-  disabled? : boolean
+  disabled?: boolean;
+  placeholder?: string;
 }
 
-const Input: FC<InputProps> = ({ field, value, onChange, error, touched, onBlur, textarea, disabled }) => {
+const Input: FC<InputProps> = ({
+  field,
+  value,
+  onChange,
+  error,
+  touched,
+  onBlur,
+  textarea,
+  disabled,
+  placeholder,
+}) => {
   const { key, type, title } = field;
-  useEffect(() => {
+  const [focused, setFocused] = useState<boolean>(false);
 
-  },[disabled])
   return (
-    <div className={`${styles.Input}`}>
-      <Label for={key} label={title} />
+    <div className={styles.Input}>
+      <Label for={key} label={title} isFocused={focused} />
       {textarea ? (
-        <textarea maxLength={1500} name={field.key} value={value} onChange={onChange} disabled={disabled}></textarea>
+        <textarea
+          maxLength={1500}
+          name={field.key}
+          value={value}
+          onChange={onChange}
+          disabled={disabled}
+        ></textarea>
       ) : (
         <input
           key={key}
@@ -33,9 +49,13 @@ const Input: FC<InputProps> = ({ field, value, onChange, error, touched, onBlur,
           name={key}
           value={value}
           onChange={onChange}
-          onBlur={onBlur}
-          placeholder={touched ? error : error}
+          onBlur={(e) => {
+            if (onBlur) onBlur(e);
+            setFocused(false);
+          }}
+          placeholder={touched ? error : ""}
           disabled={disabled}
+          onFocus={() => setFocused(true)}
         />
       )}
     </div>

@@ -1,7 +1,5 @@
-import { ReactElement } from "react";
-
 export interface OptionType {
-    name: string;
-    icon?: ReactElement | null;
-    action:any
+  name: string;
+  Icon?: React.ElementType | null;
+  action: (() => void) | ((...props: any[]) => void);
 }

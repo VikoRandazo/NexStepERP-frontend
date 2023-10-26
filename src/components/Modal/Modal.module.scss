@@ -17,7 +17,7 @@
   }
 
   & > .layout {
-    background-color: #00000020;
+    background-color: #00000060;
     width: 100%;
     height: 100%;
     @extend %flexRow;
@@ -25,11 +25,11 @@
     justify-content: center;
 
     & > .content {
-      height: min(80%, 670px);
+      max-height: min-content;
+      max-width: min-content;
       padding: 2em;
       background-color: #fff;
       border-radius: 0.75em;
-      aspect-ratio: 5 / 3;
       filter: drop-shadow(0 1em 2em rgba($ShadowMedium, 0.25));
 
       & > .header {

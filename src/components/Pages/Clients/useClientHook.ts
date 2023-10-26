@@ -1,8 +1,40 @@
 import { useFormik } from "formik";
-import { CustomerType } from "../../../models/CustomerType";
+import { CustomerType, initClientState } from "../../../models/CustomerType";
 import { InputField } from "../../Elements/Input/InputField";
+import { FilterByEnum } from "../../DataControl/TypeGuards";
+import { HiArrowDown } from "react-icons/hi2";
+import instance from "../../../api/axiosInstance";
+import { useEffect, useState } from "react";
 
+
+const flatMapFunction = (data: any[], prefix = "") => {
+  return Object.keys(data).reduce((finalArray: any, objKey: any) => {
+    const pre = prefix.length ? prefix + "." : "";
+    const currentData = data[objKey];
+
+    if (typeof currentData === "object" && currentData !== null && !Array.isArray(currentData)) {
+      Object.assign(finalArray, flatMapFunction(currentData, pre + objKey));
+    } else {
+      finalArray[pre + objKey] = currentData;
+    }
+
+    return finalArray;
+  }, {});
+};
 export const useClientHook = () => {
+  const [clients, setClients] = useState<any>([]);
+
+  const getClients = async () => {
+    try {
+      const response = await instance.get(`clients/all`);
+      const data = response.data;
+      console.log(data);
+      setClients(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const field: InputField = {
     key: `Search`,
     type: "text",
@@ -10,36 +42,14 @@ export const useClientHook = () => {
     group: 1,
   };
 
-  // const field = { key: "name", type: "text", title: "Product Title", group: 1 }
+  const filterDate = () => {};
+  const filterSpentMoney = () => {};
 
-  const initClientState: CustomerType = {
-    firstName: "John",
-    lastName: "Doe",
-    email: "johndoe@example.com",
-    phoneNumber: "+1234567890",
-    dateRegistered: "2023-10-06",
-    address: {
-      street: "123 Main St",
-      city: "Anytown",
-      state: "CA",
-      postalCode: "12345",
-      country: "USA",
-    },
-    purchaseHistory: [
-      {
-        productId: "3252354326",
-        quantity: 1,
-        purchaseDate: "2023-09-05",
-        amountPaid: 1200,
-      },
-      {
-        productId: "4365437453",
-        quantity: 1,
-        purchaseDate: "2023-10-01",
-        amountPaid: 15,
-      },
-    ],
-  };
+  const filterOptions = [
+    { name: FilterByEnum.NONE, icon: HiArrowDown as React.ElementType, action: () => {} },
+    { name: FilterByEnum.DATE, icon: null, action: filterDate },
+    { name: FilterByEnum.MOENY_SPENT, icon: null, action: filterSpentMoney },
+  ];
 
   const { values, handleChange, handleBlur } = useFormik({
     initialValues: {
@@ -48,10 +58,16 @@ export const useClientHook = () => {
     onSubmit: () => {},
   });
 
+  useEffect(() => {
+    getClients();
+  }, []);
+
   let setters;
   let functions;
   let enums;
   return {
+    data: { clients },
+    dataControl: { filterOptions },
     states: { field },
     setters,
     functions,

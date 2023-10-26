@@ -7,10 +7,13 @@ export type BtnActionsText =
   | `Action`;
 
 export enum BtnActionsTextEnum {
-  EDIT = `Edit Product`,
-  CREATE = `Create Product`,
-  UPDATE = `Update Product`,
+  CREATE_DOCUMENT = `Create Document`,
+
+  CREATE = `Create`,
+  UPDATE = `Update`,
   CANCEL = `Cancel`,
   SEARCH = `Search`,
   Action = `Action`,
+  FORWARD = `Forward`,
+  Back = `Back`,
 }

@@ -3,7 +3,7 @@ import { DataControlProps } from "./DataControl";
 export enum FilterByEnum {
   NONE = `None`,
   DATE = `Date`,
-  MOENY_SPENT = `moneySpent`,
+  MOENY_SPENT = `Money Spent`,
 }
 export type FilterByProps = FilterByEnum.NONE | FilterByEnum.DATE | FilterByEnum.MOENY_SPENT;
 

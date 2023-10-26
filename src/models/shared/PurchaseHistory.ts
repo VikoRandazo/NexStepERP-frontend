@@ -4,3 +4,10 @@ export interface PurchaseHistory {
   purchaseDate: string;
   amountPaid: number;
 }
+
+export const PurchaseHistoryInit = {
+  productId: "",
+  quantity: 0,
+  purchaseDate: "",
+  amountPaid: 0,
+};

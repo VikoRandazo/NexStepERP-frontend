@@ -33,6 +33,7 @@ const ProductForm: FC<ProductFormProps> = () => {
         <p>{handleChooseDescriptionCase()}</p>
       </header>
       <div className={styles.main}>
+        
         {values.imageUrl ? (
           <div className={styles.imageContainer}>
             <span className={styles.removeImage} onClick={removeImage}>
@@ -46,6 +47,7 @@ const ProductForm: FC<ProductFormProps> = () => {
             <HiPlus />
           </div>
         )}
+
         <hr className={styles.divider} />
         <div className={styles.fields}>
           {Object.keys(groupFields).map((groupKey) => (

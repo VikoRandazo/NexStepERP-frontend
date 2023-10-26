@@ -41,11 +41,10 @@ const Tr = <T extends object>({
     handleOpenSelectMenu,
     handleChooseAction,
     isActiveSelectMenu,
-    handleClick
+    handleClick,
   } = useTr(item, setIsOpenSelectMenu);
 
   const { dispatch } = useDispatchHook();
-
 
   const actions = [
     {
@@ -65,16 +64,21 @@ const Tr = <T extends object>({
     },
   ];
 
+  const prepareForMap = (item as any)[0] === typeof String ? item : (item as any)[0];
+
+
   return (
     <tr className={styles.Tr}>
       <Td children={<Checkbox checked={isChecked} onChange={handleCheckbox} />} />
 
-      {Object.entries(item).map(([key, value], i) => {
+      {Object.entries(prepareForMap).flatMap(([key, value], i) => {
+        console.log(value);
+
         if (!hiddenColumns.includes(key)) {
           return (
             <Td
               key={i}
-              value={value}
+              value={value as any}
               customClassName={key === "name" ? styles.productName : ""}
               isNameColumn={key === "name"}
               handleClick={handleClick}

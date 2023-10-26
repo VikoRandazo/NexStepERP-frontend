@@ -1,5 +1,5 @@
-import { Address } from "./shared/Address";
-import { PurchaseHistory } from "./shared/PurchaseHistory";
+import { Address, AddressInit } from "./shared/Address";
+import { PurchaseHistory, PurchaseHistoryInit } from "./shared/PurchaseHistory";
 
 export interface CustomerType {
   firstName: string;
@@ -9,4 +9,15 @@ export interface CustomerType {
   dateRegistered: string;
   address?: Address;
   purchaseHistory: PurchaseHistory[];
+  [key: string]: any;
 }
+
+export const initClientState: CustomerType = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  phoneNumber: "",
+  dateRegistered: "",
+  address: AddressInit,
+  purchaseHistory: [PurchaseHistoryInit],
+};

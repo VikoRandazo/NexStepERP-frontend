@@ -11,12 +11,12 @@ const Summary: FC<SummaryProps> = ({ summaryObject }) => {
   const { keys, values } = summaryObject;
   return (
     <div className={styles.Summary}>
-      {Object.entries(values).map(([itemKey, value]) => {
+      {Object.entries(values).map(([itemKey, value], i) => {
         const keyLabel = keys[itemKey];
         return (
           <>
           <hr className={styles.divider} />
-            <SummaryItem keyLabel={keyLabel} value={value} />
+            <SummaryItem key={i} keyLabel={keyLabel} value={value} />
           </>
         );
       })}

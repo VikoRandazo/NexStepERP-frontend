@@ -1,2 +1,23 @@
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+
 .Label {
+  background-color: #fff;
+  position: relative;
+  top: 0.125em;
+  padding: 0.25em 15%;
+  width: max-content;
+  font-size: 0.75em;
+  border: 0.125em solid transparent;
+  border-radius: 0.5em 0.5em 0 0;
+  background-color: $secondary;
+  color: #fff;
+  pointer-events: none;
+  z-index: 5;
+
+  &.focused {
+    transition: all 0.3s ease;
+    border: 0.125em solid $primary;
+    color: $secondary;
+    background-color: $primary;
+  }
 }

@@ -1,35 +1,66 @@
 @import "../../styles/globalStyles/Flex.module.scss";
+@import "../../styles/globalStyles/colorPallete.module.scss";
 
 .DataControl {
   width: 100%;
   background-color: #fff;
   height: 5em;
-  @extend %flexRow;
-  align-items: center;
-  gap: 1em;
-  padding: 1em;
-  justify-content: space-between;
 
-  & > .filter {
-    height: 100%;
-    width: 100%;
+  & > .container {
     @extend %flexRow;
     gap: 1em;
-    position: relative;
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding: 0 1em;
 
-    & > .selectClass {
-      width: 100%;
-      height: 100%;
-      background-color: aqua;
-      
+    & > .search {
+      width: 20%;
     }
 
-    & > .minMaxContainer {
+    & > .filter {
+      position: relative;
+      height: 100%;
+      width: fit-content;
       @extend %flexRow;
-      gap: 1em;
+      transition: width 0.3s ease;
+      align-items: flex-end;
+      border-radius: 0.5em;
 
-      input {
-        width: 80px;
+      & > .renderedFields {
+        height: 100%;
+        @extend %flexRow;
+        align-items: center;
+        
+        & > .fieldsContainer {
+          gap: 1em;
+          align-items: center;
+          @extend %flexRow;
+          max-width: 12em;
+          margin-left: 1em;
+          
+          & > p {
+            margin: 0 0 -1em 0;
+          }
+
+          & > input {
+            min-width: 6em;
+          }
+        }
+      }
+
+      & > .selectContainer {
+        @extend %flexRow;
+        width: 2.25em;
+        border-radius: 0.5em;
+
+        &:hover {
+          background-color: $secondary;
+        }
+
+        &.active {
+          width: min-content;
+          max-width: 12em;
+        }
       }
     }
   }

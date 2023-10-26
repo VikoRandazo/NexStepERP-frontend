@@ -3,6 +3,7 @@ import { StoreRootTypes } from "../../store/store";
 import { useDispatchHook } from "../../hooks/useDispatch";
 import { TableActions } from "../../store/slices/table";
 import { useSelector } from "react-redux";
+import { PurchaseHistoryInit } from "../../models/shared/PurchaseHistory";
 
 export const useTableHook = (initData: any[], hasActionsColumn: boolean) => {
   const { dispatch } = useDispatchHook();
@@ -10,7 +11,7 @@ export const useTableHook = (initData: any[], hasActionsColumn: boolean) => {
   // ------
   // Hide Columns
   const [columns, setColumns] = useState<string[]>([]);
-  const [hiddenColumns, setHiddenColumns] = useState<string[]>([`_id`, `imageUrl`, `category`]);
+  const [hiddenColumns, setHiddenColumns] = useState<string[]>([`_id`, `imageUrl`, `category`, `purchaseHistory`, `dateRegistered`]);
 
   // Sort
   const [sortedData, setSortedData] = useState<any[]>([]);
@@ -55,7 +56,14 @@ export const useTableHook = (initData: any[], hasActionsColumn: boolean) => {
   useEffect(() => {
     if (!initData[0]) return;
 
-    const baseColumns = Object.keys(initData[0]);
+    const baseColumns = Object.keys(initData[0]).flatMap((column) => {
+      console.log(initData);
+      
+      console.log(column);
+      
+      return (column)
+    })
+    
     if (hasActionsColumn) {
       setColumns([...baseColumns, `Actions`]);
     } else {
@@ -69,6 +77,10 @@ export const useTableHook = (initData: any[], hasActionsColumn: boolean) => {
   useEffect(() => {
     setSortedData(initData);
   }, [initData]);
+
+  useEffect(() => {
+console.log(columns);
+  },[columns])
 
   // Returns
   // -------
