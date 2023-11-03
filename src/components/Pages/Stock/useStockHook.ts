@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { StoreRootTypes } from "../../../store/store";
 import { TableActions } from "../../../store/slices/table";
 import { UiActions } from "../../../store/slices/ui";
-import { ComponentCaseEnum } from "../../../models/ComponentCase";
+import { EntityEnum } from "../../../models/EntityEnum";
 
 export const useStockHook = () => {
   const { dispatch } = useDispatchHook();

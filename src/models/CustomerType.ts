@@ -2,6 +2,7 @@ import { Address, AddressInit } from "./shared/Address";
 import { PurchaseHistory, PurchaseHistoryInit } from "./shared/PurchaseHistory";
 
 export interface CustomerType {
+  _id?: string
   firstName: string;
   lastName: string;
   email: string;
@@ -9,7 +10,7 @@ export interface CustomerType {
   dateRegistered: string;
   address?: Address;
   purchaseHistory: PurchaseHistory[];
-  [key: string]: any;
+  // [key: string]: any;
 }
 
 export const initClientState: CustomerType = {

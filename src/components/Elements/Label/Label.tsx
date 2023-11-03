@@ -3,8 +3,8 @@ import styles from "./Label.module.scss";
 
 interface LabelProps {
   label: string;
-  for: string
-  isFocused: boolean
+  for: string | undefined
+  isFocused?: boolean
 }
 
 const Label: FC<LabelProps> = ({ label, isFocused }) => {

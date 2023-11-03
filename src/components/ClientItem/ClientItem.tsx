@@ -6,16 +6,27 @@ import { ClientOption } from "../../models/ClientOption";
 import { CustomerType } from "../../models/CustomerType";
 import { useDispatchHook } from "../../hooks/useDispatch";
 import { UiActions } from "../../store/slices/ui";
-import { ComponentCaseEnum } from "../../models/ComponentCase";
+import { EntityEnum } from "../../models/EntityEnum";
 import { InteractionsModeEnum } from "../../models/shared/InteractionsMode";
+import Form from "../Form/Form";
 import Modal from "../Modal/Modal";
-import ClientForm from "../Pages/Clients/ClientForm/ClientForm";
+import { InputField } from "../Elements/Input/InputField";
 
 interface ClientItemProps {
   client: CustomerType;
+  fields: InputField[];
+  formikBag: any;
+  mode: InteractionsModeEnum;
+  setSelectedClientId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ClientItem: FC<ClientItemProps> = ({ client }) => {
+const ClientItem: FC<ClientItemProps> = ({
+  client,
+  fields,
+  formikBag,
+  mode,
+  setSelectedClientId,
+}) => {
   const { _id, firstName, lastName, email } = client;
 
   const { dispatch } = useDispatchHook();
@@ -27,13 +38,22 @@ const ClientItem: FC<ClientItemProps> = ({ client }) => {
 
   const openEditClientModal = () => {
     dispatch(UiActions.setIsOpen(true));
-    dispatch(UiActions.setModalType(ComponentCaseEnum.Client));
+    dispatch(UiActions.setEntity(EntityEnum.Clients));
     dispatch(UiActions.setMode(InteractionsModeEnum.Edit));
+    setSelectedClientId(client._id ? client._id : "");
   };
 
   return (
     <div className={styles.ClientItem}>
-      <Modal children={<ClientForm mode={InteractionsModeEnum.Edit} client={client} />} />
+      <Modal
+        children={
+          <Form
+            mode={mode}
+            fields={fields}
+            formikBag={formikBag}
+          />
+        }
+      />
       <div className={styles.clientName}>
         <h4 className={styles.name}>
           {firstName} {lastName}

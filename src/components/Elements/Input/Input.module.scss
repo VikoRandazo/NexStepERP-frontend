@@ -4,33 +4,39 @@
 .Input {
   @extend %flexCol;
   flex: 1 1 0;
-  position: relative ;
-  
+  position: relative;
+  height: auto;
+
   & > input,
   textarea {
     transition: all 0.4s ease;
     outline: none;
     padding: 0 1em;
-    border-radius: 0 0.5em 0.5em;
     width: 100%;
     resize: none;
     background-color: $background-light;
-    border: 0.125em solid rgba($ShadowThin, 0.5);
+    background-color: #fff;
+    border: none;
+    border-bottom: 0.125em solid rgba($softDivider, 0.5);
     height: 2.5em;
     z-index: 1;
-    background-color: #fff;
-    // box-shadow: 0 0em 0.25em rgba($ShadowMedium, 0.5);
+    border-radius: 0 0.75em 0.75em;
 
-    
     &:focus {
       border: 0.125em solid $primary;
       box-shadow: 0 0em 0.25em rgba($ShadowThin, 0);
-
+      border-radius: 0 0.5em 0.5em;
+    }
+    &.placeholder {
+      &::placeholder {
+        pointer-events: none;
+      }
     }
 
-    &::placeholder {
-      color: rgba($outOfStock, 0.675);
-      pointer-events: none;
+    &.error {
+      &::placeholder {
+        color: rgba($outOfStock, 0.675);
+      }
     }
 
     &:hover::placeholder,

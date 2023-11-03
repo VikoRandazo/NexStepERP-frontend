@@ -3,59 +3,87 @@ import styles from "./Input.module.scss";
 import { InputField } from "./InputField";
 import Label from "../Label/Label";
 
-interface InputProps {
+interface InputProps<T> {
   field: InputField;
-  value: string | number | undefined;
+  value: T[keyof T];
   onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-  onBlur?: (
-    e: React.FocusEvent<any, Element>
-  ) => void | ((fieldOrEvent: any) => (e: any) => void | void);
-  touched?: boolean | undefined;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  touched?: boolean;
   error?: string;
-  textarea?: boolean;
   disabled?: boolean;
   placeholder?: string;
+  autoComplete?: string | undefined;
 }
 
-const Input: FC<InputProps> = ({
+const Input: FC<InputProps<any>> = ({
   field,
   value,
   onChange,
   error,
   touched,
   onBlur,
-  textarea,
   disabled,
   placeholder,
+  autoComplete
 }) => {
-  const { key, type, title } = field;
+  const { key, type, title, textarea } = field;
   const [focused, setFocused] = useState<boolean>(false);
+
+  const handleFocus = () => setFocused(true);
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (onBlur) onBlur(e);
+    setFocused(false);
+  };
+
+  const handleClassName = () => {
+    switch (error?.length !== 0) {
+      case true:
+        if (touched) {
+          console.log(styles.error);
+          return styles.error;
+        }
+        break;
+      case false:
+        console.log(styles.placeholder);
+        return styles.placeholder;
+
+      default:
+        return styles.placeholder;
+    }
+  };
+
+  useEffect(() => {
+console.log(touched);
+
+  },[touched])
 
   return (
     <div className={styles.Input}>
-      <Label for={key} label={title} isFocused={focused} />
+      <Label for={key as string} label={title} isFocused={focused} />
       {textarea ? (
         <textarea
+          id={key as string}
           maxLength={1500}
-          name={field.key}
+          name={key as string}
           value={value}
           onChange={onChange}
           disabled={disabled}
-        ></textarea>
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
       ) : (
         <input
-          key={key}
+          id={key as string}
           type={type}
-          name={key}
+          name={key as string}
           value={value}
           onChange={onChange}
-          onBlur={(e) => {
-            if (onBlur) onBlur(e);
-            setFocused(false);
-          }}
-          placeholder={touched ? error : ""}
+          onBlur={handleBlur}
+          placeholder={touched && error ? error : placeholder}
           disabled={disabled}
-          onFocus={() => setFocused(true)}
+          onFocus={handleFocus}
+          className={handleClassName()}
+          autoComplete={autoComplete}
         />
       )}
     </div>

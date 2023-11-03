@@ -1,13 +1,13 @@
 import React from "react";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { InteractionsMode, InteractionsModeEnum } from "../../models/shared/InteractionsMode";
-import { ComponentCase, ComponentCaseEnum } from "../../models/ComponentCase";
+import { EntityEnum } from "../../models/EntityEnum";
 
 export interface UiSliceType {
   modal: {
     isOpen: boolean;
     mode: InteractionsModeEnum;
-    type: ComponentCaseEnum | null;
+    type: EntityEnum | null;
     itemId: string | null;
   };
 
@@ -28,7 +28,7 @@ export const UiSlice = createSlice({
     setMode(state, { payload }) {
       state.modal.mode = payload;
     },
-    setModalType(state, { payload }: PayloadAction<ComponentCaseEnum | null>) {
+    setEntity(state, { payload }: PayloadAction<EntityEnum | null>) {
       state.modal.type = payload;
     },
   },

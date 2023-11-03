@@ -6,7 +6,6 @@ import { ProductInitState, ProductType } from "../../../models/ProductType";
 import { HiPlus, HiTrash } from "react-icons/hi2";
 import Modal from "../../Modal/Modal";
 import BtnPrimary from "../../Elements/Buttons/Btn-Primary/Btn-Primary";
-import Table from "../../Table/Table";
 import BtnOutline from "../../Elements/Buttons/Btn-Outline/Btn-Outline";
 import { BtnActionsTextEnum } from "../../Elements/Buttons/BtnActionsText";
 
@@ -15,7 +14,6 @@ import { UiActions } from "../../../store/slices/ui";
 import { useSelector } from "react-redux";
 import { StoreRootTypes } from "../../../store/store";
 import { useStockHook } from "./useStockHook";
-import ProductForm from "./ProductForm/ProductForm";
 
 interface StockProps {}
 
@@ -34,7 +32,7 @@ const Stock: FC<StockProps> = () => {
 
   return (
     <div className={styles.Stock}>
-      <Modal children={<ProductForm />} />
+      {/* <Modal children={<ProductForm />} /> */}
       <div className={styles.categories}>
         <ul className={styles.list}>
           {categories.map((category) => {
@@ -67,16 +65,7 @@ const Stock: FC<StockProps> = () => {
         </div>
       </div>
       <div className={styles.products}>
-        <Table<ProductType>
-          data={filteredProducts}
-          deleteItem={deleteSingleProduct}
-          hasActionsColumn={true}
-          selectedRows={selectedRows}
-          cellAction={(clickedProduct: ProductType) => {
-            console.log(clickedProduct);
-            setClickedProduct(clickedProduct);
-          }}
-        />
+        {/* savasv */}
       </div>
     </div>
   );

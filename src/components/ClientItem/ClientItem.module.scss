@@ -4,9 +4,7 @@
 .ClientItem {
   padding: 1.25em 1em;
   border-radius: 1.5em;
-  max-width: 20vw;
-  height: 30vh;
-  max-height: 40vh;
+  width: 18vw;
   box-shadow: (0 0.25em 0.5em rgba($ShadowThin, 0.5));
   @extend %flexCol;
   background-color: #fff;

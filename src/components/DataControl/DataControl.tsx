@@ -1,89 +1,103 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import styles from "./DataControl.module.scss";
-import { isMoneySpentFilter, isDateFilter, FilterByEnum, FilterByProps } from "./TypeGuards";
-import { date } from "yup";
+import { FilterByEnum } from "./TypeGuards";
 import Select from "../Elements/Select/Select";
 import { useSelect } from "../Elements/Select/SelectFunctionality";
 import { useDataControlHook } from "./useDataControlHook";
 import { OptionType } from "../../models/Elements/Option";
 import Input from "../Elements/Input/Input";
 import { InputField } from "../Elements/Input/InputField";
-import { useFormik } from "formik";
 import BtnPrimary from "../Elements/Buttons/Btn-Primary/Btn-Primary";
 import { useSelector } from "react-redux";
 import { StoreRootTypes } from "../../store/store";
 import Modal from "../Modal/Modal";
-import ClientForm from "../Pages/Clients/ClientForm/ClientForm";
 import { useDispatchHook } from "../../hooks/useDispatch";
 import { UiActions } from "../../store/slices/ui";
 import { BtnActionsTextEnum } from "../Elements/Buttons/BtnActionsText";
 import { HiSparkles } from "react-icons/hi2";
-import { ComponentCaseEnum } from "../../models/ComponentCase";
+import { EntityEnum } from "../../models/EntityEnum";
 import { InteractionsModeEnum } from "../../models/shared/InteractionsMode";
+import Form from "../Form/Form";
+import { CustomerType } from "../../models/CustomerType";
 
-export type DataControlProps =
-  | { data: []; filterBy: `Date`; periodMonths: number; filterOptions: OptionType[] }
-  | { data: []; filterBy: `moneySpent`; amount: number; filterOptions: OptionType[] };
+export interface DataControlProps<T> {
+  data: T[];
+  filterBy: `Date`;
+  periodMonths: number;
+  filterOptions: OptionType[];
+  handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
+  setFilteredData: React.Dispatch<React.SetStateAction<CustomerType[]>>
+}
 
-const DataControl: FC<DataControlProps> = (props: DataControlProps) => {
+const DataControl = <T,>({
+  data,
+  periodMonths,
+  filterOptions,
+  handleSubmit,
+  setFilteredData
+}: DataControlProps<T>) => {
+
   const { dispatch } = useDispatchHook();
 
   const [isOpenSelect, setIsOpenSelect] = useState(false);
   const [filterBy, setFilterBy] = useState<FilterByEnum>(FilterByEnum.NONE);
-  const { handleOpenSelectMenu } = useSelect(isOpenSelect, setIsOpenSelect);
-  const { states, formikBag } = useDataControlHook(props.data);
-  const { handleChange, values } = formikBag;
+  const [entity, setEntity] = useState<EntityEnum>(EntityEnum.Clients);
 
   const currentPage = useSelector((state: StoreRootTypes) => state.appSettings.pageName);
 
+  
+  const { handleOpenSelectMenu } = useSelect(isOpenSelect, setIsOpenSelect);
+  const { states, formikBag, data:filteredData } = useDataControlHook(data as any, setFilteredData);
+  const { handleSearch } = filteredData;
   const search: InputField = { key: "search", type: "text", title: "search", group: 1 };
-  const date: InputField = { key: "date", type: "date", title: "date", group: 1 };
-  const fieldMin: InputField = { key: "min", type: "number", title: "min", group: 1 };
-  const fieldMax: InputField = { key: "max", type: "number", title: "max", group: 1 };
-
-  const renderFilterInputs = () => {
-    switch (filterBy) {
-      case FilterByEnum.DATE:
-        return (
-          <div className={styles.fieldsContainer}>
-            <Input field={date} value={values.date} onChange={handleChange} />
-          </div>
-        );
-      case FilterByEnum.MOENY_SPENT:
-        return (
-          <div className={styles.fieldsContainer}>
-            <Input field={fieldMin} value={values.min} onChange={handleChange} />
-            <p>to</p>
-            <Input field={fieldMax} value={values.max} onChange={handleChange} />
-          </div>
-        );
-
-      default:
-        return null;
-    }
-  };
-
+  
   const getOptionEvent = (e: React.MouseEvent<HTMLLIElement>) => {
     const { innerText } = e.currentTarget;
     setFilterBy(innerText as FilterByEnum);
+    return innerText;
   };
+  
 
   const handleOpenModal = () => {
     dispatch(UiActions.setIsOpen(true));
-    dispatch(UiActions.setModalType(ComponentCaseEnum.Client));
+    dispatch(UiActions.setEntity(entity));
     dispatch(UiActions.setMode(InteractionsModeEnum.Create));
   };
+  
+  
+  const assignEntity = () => {
+    switch (currentPage) {
+      case EntityEnum.Clients:
+        setEntity(currentPage);
+        break;
+      case EntityEnum.Products:
+        setEntity(currentPage);
+        break;
+      case EntityEnum.Sales:
+        setEntity(currentPage);
+        break;
+
+      default:
+        break;
+    }
+  };
+  useEffect(() => {
+    assignEntity();
+  }, []);
 
   return (
     <div className={styles.DataControl}>
-      <Modal children={<ClientForm mode={InteractionsModeEnum.Create} />} />
+      <Modal
+        children={<Form mode={InteractionsModeEnum.Create} fields={[]} formikBag={formikBag} />}
+      />
       <div className={styles.container}>
         <div className={styles.search}>
           <Input
             field={search}
-            value={values.search}
-            onChange={handleChange}
+            value={formikBag.values.search}
+            onChange={handleSearch}
             placeholder={"Search Anything"}
+            autoComplete={"false"}
           />
         </div>
         <div className={styles.filter}>
@@ -98,7 +112,9 @@ const DataControl: FC<DataControlProps> = (props: DataControlProps) => {
             <Select
               optionEvent={getOptionEvent}
               isActive={isOpenSelect}
-              options={props.filterOptions}
+              name={"filterOptions"}
+              options={filterOptions}
+              placeholder="Filter by"
             />
 
             <div
@@ -107,12 +123,11 @@ const DataControl: FC<DataControlProps> = (props: DataControlProps) => {
               }
             ></div>
           </span>
-          <div className={styles.renderedFields}>{renderFilterInputs()}</div>
         </div>
         <div className={styles.createEntity}>
           <BtnPrimary
             icon={<HiSparkles />}
-            text={BtnActionsTextEnum.CREATE_DOCUMENT}
+            text={`${BtnActionsTextEnum.CREATE} ${entity}`}
             action={handleOpenModal}
           />
         </div>

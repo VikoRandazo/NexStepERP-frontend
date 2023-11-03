@@ -1,16 +1,15 @@
 @import "./colorPallete.module.scss";
 
 .sectionExplain {
-    color: $text-color-light;
+  color: $text-color-light;
 
-    font-size: 0.875em;
+  font-size: 0.875em;
 }
 
 .productName {
-    cursor: pointer;
-transition: color 0.3s ease;
-    &:hover {
-        color: $secondary;
-    }
+  cursor: pointer;
+  transition: color 0.3s ease;
+  &:hover {
+    color: $secondary;
+  }
 }
-

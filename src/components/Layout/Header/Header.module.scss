@@ -10,6 +10,13 @@
   border-radius: 1em;
   padding: 0.5em 1em;
 
+  & > .title {
+    & > h2 {
+      font-size: 1.25em;
+      font-weight: 700;
+    }
+  }
+
   & > .user {
     height: 100%;
     width: 25%;

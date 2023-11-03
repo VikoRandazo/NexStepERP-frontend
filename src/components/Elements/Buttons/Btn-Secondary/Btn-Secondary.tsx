@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import styles from "./Btn-Secondary.module.scss";
-import { BtnActionsText } from "../BtnActionsText";
+import { BtnActionsText, BtnActionsTextEnum } from "../BtnActionsText";
 
 interface BtnSecondaryProps {
-  text: BtnActionsText;
+  text: BtnActionsTextEnum;
   action?: () => void;
 }
 

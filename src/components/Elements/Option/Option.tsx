@@ -5,18 +5,36 @@ import { OptionType } from "../../../models/Elements/Option";
 interface OptionProps {
   option: OptionType;
   isActive: boolean;
+  name: string;
+  id?: string;
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
   setSelected: React.Dispatch<React.SetStateAction<string>>;
   optionEvent?: (e: React.MouseEvent<HTMLLIElement>) => void;
 }
 
-const Option: FC<OptionProps> = ({ option, isActive, setSelected, optionEvent }) => {
-  const { name, Icon, action } = option;
+const Option: FC<OptionProps> = ({
+  option,
+  isActive,
+  name,
+  id,
+  setSelected,
+  optionEvent,
+  setFieldValue,
+}) => {
+  const { name: displayName, Icon, action } = option;
 
   const handleOptionClick = (e: React.MouseEvent<HTMLLIElement>) => {
+    const { innerText } = e.currentTarget;
+setSelected(innerText)
+    setFieldValue(id ? id : name, innerText);
+
     if (optionEvent) {
       optionEvent(e);
     }
-    setSelected(e.currentTarget.innerText);
+    if (id) {
+      console.log(id);
+      
+    }
     action();
   };
 
@@ -24,8 +42,9 @@ const Option: FC<OptionProps> = ({ option, isActive, setSelected, optionEvent })
     <li
       onClick={handleOptionClick}
       className={isActive ? `${styles.Option} ${styles.active}` : `${styles.Option}`}
+      id={id}
     >
-      {Icon && <Icon />} {name}
+      {Icon && <Icon />} {displayName}
     </li>
   );
 };

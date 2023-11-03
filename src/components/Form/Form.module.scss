@@ -1,0 +1,157 @@
+@import "../../styles/globalStyles/Flex.module.scss";
+@import "../../styles/globalStyles/colorPallete.module.scss";
+
+.Form {
+  width: 40vw;
+  height: 70vh;
+
+  & > .header {
+    height: 10%;
+
+    & > h2 {
+      font-size: 1.25em;
+      font-weight: 500;
+    }
+  }
+  & > .main {
+    height: 80%;
+    width: 100%;
+    @extend %flexCol;
+    gap: 1em;
+    padding: 1em;
+
+    & > .group.client {
+      @extend %flexRow;
+      gap: 1em;
+      align-items: center;
+      margin-bottom: 1em;
+      flex-wrap: wrap;
+      &.group1 {
+        & > .firstName {
+          width: 35%;
+        }
+        & > .lastName {
+          width: 35%;
+        }
+      }
+      &.group2 {
+        & > .email {
+          width: 60%;
+        }
+
+        & > .phoneNumber {
+          width: 25%;
+        }
+      }
+      &.group3 {
+        height: fit-content;
+
+        & > .address\.country {
+          @extend %flexCol;
+          gap: 0.125em;
+          width: 100%;
+          margin-top: 1em;
+        }
+
+        & > span {
+          width: calc(100% / 3 - 2em)
+        }
+
+      }
+      &.group4 {
+        // placeholder
+      }
+      &.group5 {
+        // placeholder
+      }
+    }
+    & > .group.product {
+      @extend %flexRow;
+      gap: 1em;
+      align-items: center;
+      margin-bottom: 1em;
+      &.group1 {
+        & > .firstName {
+          width: 35%;
+        }
+        & > .lastName {
+          width: 35%;
+        }
+      }
+      &.group2 {
+        & > .email {
+          width: 60%;
+        }
+
+        & > .phoneNumber {
+          width: 25%;
+        }
+      }
+      &.group3 {
+        height: fit-content;
+        & > .country {
+          @extend %flexCol;
+          gap: 0.125em;
+        }
+
+        & > .city {
+          width: 30%;
+        }
+      }
+      &.group4 {
+        // placeholder
+      }
+      &.group5 {
+        // placeholder
+      }
+    }
+    & > .group.sale {
+      @extend %flexRow;
+      gap: 1em;
+      align-items: center;
+      margin-bottom: 1em;
+      &.group1 {
+        & > .firstName {
+          width: 35%;
+        }
+        & > .lastName {
+          width: 35%;
+        }
+      }
+      &.group2 {
+        & > .email {
+          width: 60%;
+        }
+
+        & > .phoneNumber {
+          width: 25%;
+        }
+      }
+      &.group3 {
+        height: fit-content;
+        & > .country {
+          @extend %flexCol;
+          gap: 0.125em;
+        }
+
+        & > .city {
+          width: 30%;
+        }
+      }
+      &.group4 {
+        // placeholder
+      }
+      &.group5 {
+        // placeholder
+      }
+    }
+  }
+  & > .footer {
+    height: 10%;
+    @extend %flexRow;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    gap: 1em;
+    margin-top: auto;
+  }
+}
