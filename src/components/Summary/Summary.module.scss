@@ -8,6 +8,7 @@
   @extend %flexRow;
   gap: 1em;
   align-items: center;
+  border-radius: 1em;
 
   & > .divider {
     border: none;

@@ -1,4 +1,5 @@
 @import "./colorPallete.module.scss";
+@import "./Flex.module.scss";
 
 svg {
   font-size: 1.25em;
@@ -48,15 +49,27 @@ h6 {
   font-size: 0.875em;
 }
 
-a {
+.link {
   cursor: pointer;
-  color: $link;
   padding: 0.75em 1em;
-
+  font-size: 0.75em;
+  border-radius: 0.5em;
+  @extend %flexRow;
+  align-items: center;
+  gap: 0.5em;
+  
+  & > svg {
+    transition: transform 0.5s ease;
+    transform: rotate(0deg);
+  }
 
   &:hover {
     background-color: rgba($link, 1);
     color: #fff;
+
+    & > svg {
+      transform: rotate(-360deg);
+    }
   }
 }
 

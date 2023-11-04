@@ -13,7 +13,7 @@ export const useForm = (
   fields: InputField[],
   styles: Styles,
   entity: EntityEnum | null,
-  selectElementEvent: (e: React.MouseEvent<HTMLLIElement>) => string
+  setIsActiveModal: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
   const { dispatch } = useDispatchHook();
   const mode = useSelector((state: StoreRootTypes) => state.ui.modal.mode);
@@ -37,11 +37,12 @@ export const useForm = (
       acc[field.group] = [];
     }
     acc[field.group].push(field);
+  
     return acc;
   }, {});
 
   const handleCloseModal = () => {
-    dispatch(UiActions.setIsOpen(false));
+    setIsActiveModal(false)
   };
 
   const handleClassName = (index: number) => {
@@ -59,11 +60,6 @@ export const useForm = (
         return `${styles.group} ${styles[`group${index + 1}`]}`;
     }
   };
-
-  // const optionEvent = (e: React.MouseEvent<HTMLLIElement>) => {
-  //   const { innerText } = e.currentTarget;
-  //   return innerText;
-  // };
 
   useEffect(() => {
     setBtnTextAccordingToMode();

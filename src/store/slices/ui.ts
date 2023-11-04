@@ -15,7 +15,6 @@ export interface UiSliceType {
 }
 export const initUiState: UiSliceType = {
   modal: { isOpen: false, mode: InteractionsModeEnum.Create, type: null, itemId: null },
-  // table: tableInitState,
 };
 
 export const UiSlice = createSlice({

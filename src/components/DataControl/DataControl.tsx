@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import styles from "./DataControl.module.scss";
 import { FilterByEnum } from "./TypeGuards";
 import Select from "../Elements/Select/Select";
@@ -25,18 +25,19 @@ export interface DataControlProps<T> {
   filterBy: `Date`;
   periodMonths: number;
   filterOptions: OptionType[];
+  fields: InputField[];
   handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
-  setFilteredData: React.Dispatch<React.SetStateAction<CustomerType[]>>
+  setFilteredData: React.Dispatch<React.SetStateAction<CustomerType[]>>;
 }
 
 const DataControl = <T,>({
   data,
   periodMonths,
   filterOptions,
+  fields,
   handleSubmit,
-  setFilteredData
+  setFilteredData,
 }: DataControlProps<T>) => {
-
   const { dispatch } = useDispatchHook();
 
   const [isOpenSelect, setIsOpenSelect] = useState(false);
@@ -45,26 +46,30 @@ const DataControl = <T,>({
 
   const currentPage = useSelector((state: StoreRootTypes) => state.appSettings.pageName);
 
-  
   const { handleOpenSelectMenu } = useSelect(isOpenSelect, setIsOpenSelect);
-  const { states, formikBag, data:filteredData } = useDataControlHook(data as any, setFilteredData);
+  const {
+    states,
+    setters,
+    formikBag,
+    data: filteredData,
+  } = useDataControlHook(data as any, setFilteredData);
   const { handleSearch } = filteredData;
+  const { isActiveModal } = states;
+  const { setIsActiveModal } = setters;
   const search: InputField = { key: "search", type: "text", title: "search", group: 1 };
-  
+
   const getOptionEvent = (e: React.MouseEvent<HTMLLIElement>) => {
     const { innerText } = e.currentTarget;
     setFilterBy(innerText as FilterByEnum);
     return innerText;
   };
-  
 
-  const handleOpenModal = () => {
-    dispatch(UiActions.setIsOpen(true));
+  const handleOpenModal = useCallback(() => {
+    setIsActiveModal(true);
     dispatch(UiActions.setEntity(entity));
     dispatch(UiActions.setMode(InteractionsModeEnum.Create));
-  };
-  
-  
+  }, [dispatch, entity]);
+
   const assignEntity = () => {
     switch (currentPage) {
       case EntityEnum.Clients:
@@ -88,7 +93,16 @@ const DataControl = <T,>({
   return (
     <div className={styles.DataControl}>
       <Modal
-        children={<Form mode={InteractionsModeEnum.Create} fields={[]} formikBag={formikBag} />}
+        setIsActiveModal={setIsActiveModal}
+        isActive={isActiveModal}
+        children={
+          <Form
+            mode={InteractionsModeEnum.Create}
+            fields={fields}
+            formikBag={formikBag}
+            setIsActiveModal={setIsActiveModal}
+          />
+        }
       />
       <div className={styles.container}>
         <div className={styles.search}>

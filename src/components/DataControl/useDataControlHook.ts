@@ -1,13 +1,13 @@
 import { FilterByEnum, FilterByProps } from "./TypeGuards";
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
-import { CustomerType } from "../../models/CustomerType";
 
 export const useDataControlHook = <T extends object>(
   data: T[],
   setFilteredClients: React.Dispatch<React.SetStateAction<T[]>>
 ) => {
   const [filterBy, setFilterBy] = useState<FilterByProps>(FilterByEnum.NONE);
+  const [isActiveModal, setIsActiveModal] = useState<boolean>(false);
 
   const { handleChange, values, setFieldValue } = useFormik({
     initialValues: { min: "", max: "", date: "", search: "" },
@@ -20,6 +20,8 @@ export const useDataControlHook = <T extends object>(
     const { name, value } = e.currentTarget;
 
     setFieldValue(name, value);
+
+
   };
 
   // Flatmap the object along with generics and filter the keys for the search filter
@@ -28,6 +30,7 @@ export const useDataControlHook = <T extends object>(
   return {
     data: { handleSearch },
     formikBag: { handleChange, values },
-    states: { filterBy },
+    states: { filterBy, isActiveModal },
+    setters: {setIsActiveModal}
   };
 };

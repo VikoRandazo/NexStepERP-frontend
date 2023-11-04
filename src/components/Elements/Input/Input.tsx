@@ -24,14 +24,16 @@ const Input: FC<InputProps<any>> = ({
   onBlur,
   disabled,
   placeholder,
-  autoComplete
+  autoComplete,
 }) => {
   const { key, type, title, textarea } = field;
   const [focused, setFocused] = useState<boolean>(false);
 
   const handleFocus = () => setFocused(true);
   const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    if (onBlur) onBlur(e);
+    if (onBlur) {
+      onBlur(e);
+    }
     setFocused(false);
   };
 
@@ -53,9 +55,8 @@ const Input: FC<InputProps<any>> = ({
   };
 
   useEffect(() => {
-console.log(touched);
-
-  },[touched])
+    console.log(touched);
+  }, [touched]);
 
   return (
     <div className={styles.Input}>

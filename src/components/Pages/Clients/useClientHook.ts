@@ -11,13 +11,17 @@ import { useDispatchHook } from "../../../hooks/useDispatch";
 import { InteractionsModeEnum } from "../../../models/shared/InteractionsMode";
 import { useSelector } from "react-redux";
 import { StoreRootTypes } from "../../../store/store";
+import { EntityEnum } from "../../../models/EntityEnum";
 
-export const useClientHook = (clientId: string) => {
+export const useClientHook = () => {
   const { dispatch } = useDispatchHook();
   const [clients, setClients] = useState<CustomerType[]>([]);
   const [filteredClients, setFilteredClients] = useState<CustomerType[]>(clients);
+  const [selectedClientId, setSelectedClientId] = useState<string>("");
+
 
   const mode = useSelector((state: StoreRootTypes) => state.ui.modal.mode);
+  const entity = useSelector((state: StoreRootTypes) => state.ui.modal.type);
 
   const getClients = async () => {
     try {
@@ -29,6 +33,7 @@ export const useClientHook = (clientId: string) => {
       console.log(error);
     }
   };
+
 
   const fields: InputField[] = [
     { key: `firstName`, type: `text`, title: `First Name`, group: 1, element: "input" },
@@ -69,7 +74,7 @@ export const useClientHook = (clientId: string) => {
 
           case InteractionsModeEnum.Edit:
             console.log("Edit");
-            response = await instance.patch(`/clients/${clientId}`, values);
+            response = await instance.patch(`/clients/${selectedClientId}`, values);
             console.log(response.data);
             break;
 
@@ -103,7 +108,10 @@ export const useClientHook = (clientId: string) => {
   ];
 
 
+
+
   useEffect(() => {
+    dispatch(UiActions.setEntity(EntityEnum.Clients))
     getClients();
   }, []);
 
@@ -114,20 +122,18 @@ export const useClientHook = (clientId: string) => {
   useEffect(() => {
     console.log(errors);
   }, [errors]);
+
   useEffect(() => {
     console.log(values);
   }, [values]);
 
-  let functions;
-  let enums;
+
+
   return {
     data: { clients, fields, filteredClients },
     dataControl: { filterOptions },
-    states: { searchField, mode },
-    setters: { setFilteredClients },
-    functions,
-    enums,
-
+    states: { searchField, mode, selectedClientId },
+    setters: { setFilteredClients, setSelectedClientId },
     formikBag: {
       handleChange,
       values,

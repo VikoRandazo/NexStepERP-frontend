@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import styles from "./Clients.module.scss";
 import { useClientHook } from "./useClientHook";
 import DataControl from "../../DataControl/DataControl";
@@ -6,38 +6,35 @@ import Summary from "../../Summary/Summary";
 import { CustomerType } from "../../../models/CustomerType";
 import { FilterByEnum } from "../../DataControl/TypeGuards";
 import ClientItem from "../../ClientItem/ClientItem";
+import { useClientsAnalysis } from "./useClientsAnalysis";
+import Modal from "../../Modal/Modal";
+import { useSelector } from "react-redux";
+import { StoreRootTypes } from "../../../store/store";
+import Form from "../../Form/Form";
+import { EntityEnum } from "../../../models/EntityEnum";
+import { InteractionsModeEnum } from "../../../models/shared/InteractionsMode";
+import { UiActions } from "../../../store/slices/ui";
+import { useDispatchHook } from "../../../hooks/useDispatch";
 
 interface ClientsProps {}
 
 const Clients: FC<ClientsProps> = () => {
-  const [selectedClientId, setSelectedClientId] = useState<string>("");
-  const { states, setters, functions, enums, formikBag, dataControl, data } =
-    useClientHook(selectedClientId);
+  const { states, setters, formikBag, dataControl, data } = useClientHook();
   const { mode } = states;
-  const {setFilteredClients} = setters
+  const { setFilteredClients, setSelectedClientId } = setters;
   const { clients, fields, filteredClients } = data;
   const { filterOptions } = dataControl;
 
-  const summary = {
-    keys: {
-      totalClients: `Total Clients`,
-      newClientsThisMonth: `New Clients This Month`,
-      unActiveClientsThisMonth: `Unactive Clients This Month`,
-    },
-    values: {
-      totalClients: clients.length,
-      newClientsThisMonth: 3,
-      unActiveClientsThisMonth: 1,
-    },
-  };
+  const { analysisData } = useClientsAnalysis(clients);
 
   return (
     <div className={styles.Clients}>
-      <Summary summaryObject={summary} />
+      <Summary analysisObject={analysisData} />
       <DataControl
         data={clients}
         filterBy={FilterByEnum.DATE}
         periodMonths={4}
+        fields={fields}
         filterOptions={filterOptions}
         handleSubmit={formikBag.handleSubmit}
         setFilteredData={setFilteredClients}

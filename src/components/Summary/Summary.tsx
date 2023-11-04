@@ -1,25 +1,20 @@
-import React, { FC } from "react";
+import React from "react";
 import styles from "./Summary.module.scss";
-import { useSummaryHook } from "./UseSummaryHook";
 import SummaryItem from "./SummaryItem/SummaryItem";
 
-interface SummaryProps {
-  summaryObject: { keys: { [key: string]: string }; values: { [key: string]: any } };
+interface SummaryProps<T> {
+  analysisObject: T[];
 }
 
-const Summary: FC<SummaryProps> = ({ summaryObject }) => {
-  const { keys, values } = summaryObject;
+const Summary = <T,>({ analysisObject }: SummaryProps<T>) => {
   return (
     <div className={styles.Summary}>
-      {Object.entries(values).map(([itemKey, value], i) => {
-        const keyLabel = keys[itemKey];
-        return (
-          <>
+      {analysisObject.map((analysis:any, i) => (
+        <>
           <hr className={styles.divider} />
-            <SummaryItem key={i} keyLabel={keyLabel} value={value} />
-          </>
-        );
-      })}
+          <SummaryItem key={i} keyLabel={analysis.title} value={analysis.value} />
+        </>
+      ))}
     </div>
   );
 };

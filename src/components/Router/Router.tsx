@@ -6,6 +6,8 @@ import ForgotPassword from "../Auth/ForgotPassword/ForgotPassword";
 import Overview from "../Pages/Overview/Overview";
 import Stock from "../Pages/Stock/Stock";
 import Clients from "../Pages/Clients/Clients";
+import Modal from "../Modal/Modal";
+import Form from "../Form/Form";
 interface RouterProps {}
 
 const Router: FC<RouterProps> = () => {
@@ -13,6 +15,7 @@ const Router: FC<RouterProps> = () => {
 
   return (
     <Routes>
+
       {/* Auth */}
       <Route path={"/login"} element={<Login />} />
       <Route path={"/register"} element={<Register />} />

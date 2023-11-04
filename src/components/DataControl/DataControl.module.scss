@@ -3,16 +3,15 @@
 
 .DataControl {
   width: 100%;
+  border-radius: 1em;
   background-color: #fff;
-  height: 5em;
 
   & > .container {
     @extend %flexRow;
     gap: 1em;
     justify-content: flex-start;
     align-items: flex-end;
-    padding: 0 1em;
-
+    padding: 1em;
     & > .search {
       width: 20%;
     }
@@ -30,14 +29,14 @@
         height: 100%;
         @extend %flexRow;
         align-items: center;
-        
+
         & > .fieldsContainer {
           gap: 1em;
           align-items: center;
           @extend %flexRow;
           max-width: 12em;
           margin-left: 1em;
-          
+
           & > p {
             margin: 0 0 -1em 0;
           }
@@ -61,6 +60,10 @@
           max-width: 12em;
         }
       }
+    }
+
+    & > .createEntity {
+      margin-left: auto;
     }
   }
 }

@@ -4,28 +4,57 @@
 
 .BtnOutline {
   @extend %BasicButton;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   background-color: transparent;
   color: #fff;
   width: fit-content;
-  border: 0.125em solid rgba($primary, 0.25);
-  color: rgba($primary, 1);
- box-shadow: (0 0.125em 0.25em rgba($ShadowMedium, 0.25));
- transition: all 0.4s ease;
-  & > .icon {
-    width: 100%;
-    height: 100%;
+  color: rgba($secondary, 1);
+  transition: all 0.4s ease;
+  border-radius: 0;
+  padding: 0.5em 0;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba($secondary, 1);
+    border-bottom: 0.125em solid rgba($secondary, 0.25);
+    transform: scaleX(0);
+    transform-origin:right ;
+    transition: transform 0.3s ease;
   }
 
-  &:hover {
-    background-color: $primary;
-    color: #fff;
+  & > .icon {
+    width: 100%;
+    height: fit-content;
+    font-size: 1em;
+    @extend %flexRow;
+    align-items: flex-end;
+    justify-content: center;
+
+    & > svg {
+      height: min-content;
+    }
+  }
+
+  &:hover::before {
+    transform: scaleX(1);
+    border-bottom: 0.125em solid rgba($secondary, 0.25);
+    transform-origin: left; 
+
   }
 
   &.disabled {
-    border: 0.125em solid rgba($text-color-light, 0.25);
+    border-bottom: 0.125em solid rgba($text-color-light, 0.25);
     color: $text-color-light;
+
+    &::before {
+      background-color: rgba($text-color-light, 0.25);
+    }
 
     &:hover {
       background-color: $text-color-light;

@@ -1,6 +1,6 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./ClientItem.module.scss";
-import { HiChevronRight, HiOutlineBellAlert, HiOutlineCreditCard } from "react-icons/hi2";
+import { HiChevronRight, HiOutlineBellAlert, HiOutlineCreditCard, HiPencil } from "react-icons/hi2";
 import ClientCardOption from "../ClientCardOption/ClientCardOption";
 import { ClientOption } from "../../models/ClientOption";
 import { CustomerType } from "../../models/CustomerType";
@@ -11,6 +11,8 @@ import { InteractionsModeEnum } from "../../models/shared/InteractionsMode";
 import Form from "../Form/Form";
 import Modal from "../Modal/Modal";
 import { InputField } from "../Elements/Input/InputField";
+import { useSelector } from "react-redux";
+import { StoreRootTypes } from "../../store/store";
 
 interface ClientItemProps {
   client: CustomerType;
@@ -29,28 +31,36 @@ const ClientItem: FC<ClientItemProps> = ({
 }) => {
   const { _id, firstName, lastName, email } = client;
 
-  const { dispatch } = useDispatchHook();
-  const [isActive, setIsActive] = useState<boolean>(false);
-  const clientOptions = [
-    { icon: <HiOutlineBellAlert />, text: `Notifications`, action: () => {} },
-    { icon: <HiOutlineCreditCard />, text: `Purchase History`, action: () => {} },
-  ];
+  const [isActiveModal, setIsActiveModal] = useState<boolean>(false);
 
-  const openEditClientModal = () => {
-    dispatch(UiActions.setIsOpen(true));
-    dispatch(UiActions.setEntity(EntityEnum.Clients));
-    dispatch(UiActions.setMode(InteractionsModeEnum.Edit));
+  const { dispatch } = useDispatchHook();
+
+  const clientOptions = useMemo(
+    () => [
+      { icon: <HiOutlineBellAlert />, text: `Notifications`, action: () => {} },
+      { icon: <HiOutlineCreditCard />, text: `Purchase History`, action: () => {} },
+    ],
+    []
+  );
+
+  const openEditClientModal = useCallback(() => {
     setSelectedClientId(client._id ? client._id : "");
-  };
+    dispatch(UiActions.setMode(InteractionsModeEnum.Edit));
+    dispatch(UiActions.setEntity(EntityEnum.Clients));
+    setIsActiveModal(true);
+  }, [dispatch, setSelectedClientId]);
 
   return (
     <div className={styles.ClientItem}>
       <Modal
+        isActive={isActiveModal}
+        setIsActiveModal={setIsActiveModal}
         children={
           <Form
             mode={mode}
             fields={fields}
             formikBag={formikBag}
+            setIsActiveModal={setIsActiveModal}
           />
         }
       />
@@ -59,9 +69,9 @@ const ClientItem: FC<ClientItemProps> = ({
           {firstName} {lastName}
         </h4>
         <span className={styles.email}>{email}</span>
-        <a href="#" onClick={openEditClientModal} className={styles.editClient}>
-          Edit Client
-        </a>
+        <span onClick={openEditClientModal} className={styles.link}>
+          <HiPencil /> Edit Client
+        </span>
       </div>
 
       <div className={styles.clientOptions}>
@@ -79,5 +89,4 @@ const ClientItem: FC<ClientItemProps> = ({
     </div>
   );
 };
-
 export default ClientItem;

@@ -8,10 +8,9 @@
   & > .container {
     height: 100%;
     @extend %flexCol;
-    align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     padding: 2em;
-    
+
     & > .title {
       height: 25%;
       width: 100%;
@@ -25,10 +24,15 @@
       width: 100%;
       @extend %flexRow;
       justify-content: space-between;
+      align-items: flex-end;
+
       & > h2 {
-        font-size: 2.5em;
+        font-size: 2em;
         font-weight: 400;
         text-align: center;
+      }
+
+      & > .list {
       }
     }
   }
