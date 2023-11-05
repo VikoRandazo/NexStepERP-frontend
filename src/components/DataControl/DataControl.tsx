@@ -23,19 +23,17 @@ import { CustomerType } from "../../models/CustomerType";
 export interface DataControlProps<T> {
   data: T[];
   filterBy: `Date`;
-  periodMonths: number;
   filterOptions: OptionType[];
   fields: InputField[];
-  handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
+  formikbagClient: any;
   setFilteredData: React.Dispatch<React.SetStateAction<CustomerType[]>>;
 }
 
 const DataControl = <T,>({
   data,
-  periodMonths,
   filterOptions,
   fields,
-  handleSubmit,
+  formikbagClient,
   setFilteredData,
 }: DataControlProps<T>) => {
   const { dispatch } = useDispatchHook();
@@ -99,7 +97,7 @@ const DataControl = <T,>({
           <Form
             mode={InteractionsModeEnum.Create}
             fields={fields}
-            formikBag={formikBag}
+            formikBag={formikbagClient}
             setIsActiveModal={setIsActiveModal}
           />
         }
@@ -129,6 +127,7 @@ const DataControl = <T,>({
               name={"filterOptions"}
               options={filterOptions}
               placeholder="Filter by"
+              setFieldValue={formikbagClient.setFieldValue}
             />
 
             <div

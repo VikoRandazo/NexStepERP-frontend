@@ -1,5 +1,5 @@
 import { Address, AddressInit } from "./shared/Address";
-import { PurchaseHistory, PurchaseHistoryInit } from "./shared/PurchaseHistory";
+import { PurchaseHistoryType, PurchaseHistoryInit } from "./shared/PurchaseHistory";
 
 export interface CustomerType {
   _id?: string
@@ -9,8 +9,7 @@ export interface CustomerType {
   phoneNumber: string;
   dateRegistered: string;
   address?: Address;
-  purchaseHistory: PurchaseHistory[];
-  // [key: string]: any;
+  purchaseHistory: PurchaseHistoryType[];
 }
 
 export const initClientState: CustomerType = {

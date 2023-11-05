@@ -1,0 +1,16 @@
+@import "../../../styles/globalStyles/Flex.module.scss";
+
+.ClientPurchases {
+  height: 70vh;
+  width: 30vw;
+  margin-top: auto;
+
+  & > .noPurchases {
+    text-align: center;
+    font-size: 0.875em;
+    height: 3em;
+    @extend %flexCol;
+    align-items: center;
+    justify-content: center;
+  }
+}

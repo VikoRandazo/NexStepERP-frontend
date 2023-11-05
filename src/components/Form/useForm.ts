@@ -6,7 +6,6 @@ import { InteractionsModeEnum } from "../../models/shared/InteractionsMode";
 import { useEffect, useState } from "react";
 import { BtnActionsTextEnum } from "../Elements/Buttons/BtnActionsText";
 import { useDispatchHook } from "../../hooks/useDispatch";
-import { UiActions } from "../../store/slices/ui";
 import { Styles } from "../../models/shared/Styles";
 
 export const useForm = (

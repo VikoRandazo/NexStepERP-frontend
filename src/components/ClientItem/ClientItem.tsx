@@ -11,8 +11,10 @@ import { InteractionsModeEnum } from "../../models/shared/InteractionsMode";
 import Form from "../Form/Form";
 import Modal from "../Modal/Modal";
 import { InputField } from "../Elements/Input/InputField";
-import { useSelector } from "react-redux";
-import { StoreRootTypes } from "../../store/store";
+import { ModalTitleEnum } from "../../models/ModalTitleEnum";
+import { ModalDescriptionEnum } from "../../models/ModalDescriptionEnum";
+import ClientPurchases from "./ClientPurchases/ClientPurchases";
+import { ProductSoldInit } from "../../models/ProductSoldType";
 
 interface ClientItemProps {
   client: CustomerType;
@@ -29,41 +31,65 @@ const ClientItem: FC<ClientItemProps> = ({
   mode,
   setSelectedClientId,
 }) => {
-  const { _id, firstName, lastName, email } = client;
+  const { _id = null, firstName, lastName, email, purchaseHistory } = client;
 
-  const [isActiveModal, setIsActiveModal] = useState<boolean>(false);
+  const [isActiveModal_PurchaseHistory, setIsActiveModal_PurchaseHistory] =
+    useState<boolean>(false);
+  const [isActiveModal_EditClient, setIsActiveModal_EditClient] = useState<boolean>(false);
 
   const { dispatch } = useDispatchHook();
+
+  const openPurchaseHistory = () => {
+    setIsActiveModal_PurchaseHistory(true);
+  };
 
   const clientOptions = useMemo(
     () => [
       { icon: <HiOutlineBellAlert />, text: `Notifications`, action: () => {} },
-      { icon: <HiOutlineCreditCard />, text: `Purchase History`, action: () => {} },
+      { icon: <HiOutlineCreditCard />, text: `Purchase History`, action: openPurchaseHistory },
     ],
     []
   );
+  console.log(purchaseHistory);
 
   const openEditClientModal = useCallback(() => {
     setSelectedClientId(client._id ? client._id : "");
     dispatch(UiActions.setMode(InteractionsModeEnum.Edit));
     dispatch(UiActions.setEntity(EntityEnum.Clients));
-    setIsActiveModal(true);
+    setIsActiveModal_EditClient(true);
   }, [dispatch, setSelectedClientId]);
 
   return (
     <div className={styles.ClientItem}>
       <Modal
-        isActive={isActiveModal}
-        setIsActiveModal={setIsActiveModal}
+        isActive={isActiveModal_EditClient}
+        setIsActiveModal={setIsActiveModal_EditClient}
         children={
           <Form
             mode={mode}
             fields={fields}
             formikBag={formikBag}
-            setIsActiveModal={setIsActiveModal}
+            setIsActiveModal={setIsActiveModal_EditClient}
           />
         }
+        title={ModalTitleEnum.EDIT_CLIENT}
+        description={ModalDescriptionEnum.EDIT_CLIENT}
       />
+
+      <Modal
+        children={
+          <ClientPurchases
+            productsSold={[ProductSoldInit]}
+            purchaseHistory={purchaseHistory}
+            clientId={_id}
+          />
+        }
+        isActive={isActiveModal_PurchaseHistory}
+        setIsActiveModal={setIsActiveModal_PurchaseHistory}
+        title={ModalTitleEnum.VIEW_PURCHASE_HISTORY}
+        description={ModalDescriptionEnum.VIEW_PURCHASE_HISTORY}
+      />
+
       <div className={styles.clientName}>
         <h4 className={styles.name}>
           {firstName} {lastName}

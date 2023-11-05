@@ -40,14 +40,9 @@ const Form: FC<FormProps> = ({ mode, fields, formikBag, selectElementEvent, setI
       action: () => {},
     }));
   }, []);
-  console.log(fields);
 
   return (
     <form className={styles.Form} onSubmit={handleSubmit}>
-      <div className={styles.header}>
-        <h2>{`${mode} ${entity}`}</h2>
-      </div>
-
       <div className={styles.main}>
         {Object.values(groupedFields).map((group: InputField[], index) => (
           <div key={index} className={handleClassName(index)}>

@@ -14,7 +14,6 @@
     overflow-y: auto;
     opacity: 1;
     @extend %flexRow;
-    
   }
 
   & > .layout {
@@ -25,12 +24,11 @@
     align-items: center;
     justify-content: center;
 
-    & > .content {
-      max-height: min-content;
-      max-width: min-content;
+    & > .container {
+      max-height: 100%;
+      max-width: 100%;
       padding: 2em;
       background-color: $background-light;
-
       border-radius: 0.75em;
       filter: drop-shadow(0 0.5em 1em rgba($ShadowMedium, 0.25));
 
@@ -38,6 +36,10 @@
         @extend %flexCol;
         gap: 0.25em;
         margin-bottom: 1em;
+      }
+
+      & > .content {
+        overflow: auto;
       }
     }
   }

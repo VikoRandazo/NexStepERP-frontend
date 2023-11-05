@@ -19,9 +19,7 @@ export const useClientHook = () => {
   const [filteredClients, setFilteredClients] = useState<CustomerType[]>(clients);
   const [selectedClientId, setSelectedClientId] = useState<string>("");
 
-
   const mode = useSelector((state: StoreRootTypes) => state.ui.modal.mode);
-  const entity = useSelector((state: StoreRootTypes) => state.ui.modal.type);
 
   const getClients = async () => {
     try {
@@ -34,13 +32,18 @@ export const useClientHook = () => {
     }
   };
 
-
   const fields: InputField[] = [
     { key: `firstName`, type: `text`, title: `First Name`, group: 1, element: "input" },
     { key: `lastName`, type: `text`, title: `Last Name`, group: 1, element: "input" },
     { key: `email`, type: `text`, title: `Email Address`, group: 2, element: "input" },
     { key: `phoneNumber`, type: `text`, title: `Phone Number`, group: 2, element: "input" },
-    { key: `address.country`, title: `Country`, group: 3, element: "select", id:"address.country" },
+    {
+      key: `address.country`,
+      title: `Country`,
+      group: 3,
+      element: "select",
+      id: "address.country",
+    },
     { key: `address.city`, type: `text`, title: `City`, group: 3, element: "input" },
     { key: `address.street`, type: `text`, title: `Street`, group: 3, element: "input" },
     { key: `address.postalCode`, type: `text`, title: `Postal Code`, group: 3, element: "input" },
@@ -60,11 +63,9 @@ export const useClientHook = () => {
     resetForm,
   } = useFormik({
     initialValues: rest,
-    validationSchema: clientValidationSchema,
+    validationSchema: "",
     onSubmit: async () => {
-      console.log(errors);
-      
-      try {
+      try {        
         let response;
         switch (mode) {
           case InteractionsModeEnum.Create:
@@ -85,7 +86,7 @@ export const useClientHook = () => {
         console.log(errors);
       } finally {
         console.log(errors);
-        
+
         dispatch(UiActions.setIsOpen(false));
       }
     },
@@ -107,11 +108,8 @@ export const useClientHook = () => {
     { name: FilterByEnum.MOENY_SPENT, icon: null, action: filterSpentMoney },
   ];
 
-
-
-
   useEffect(() => {
-    dispatch(UiActions.setEntity(EntityEnum.Clients))
+    dispatch(UiActions.setEntity(EntityEnum.Clients));
     getClients();
   }, []);
 
@@ -126,8 +124,6 @@ export const useClientHook = () => {
   useEffect(() => {
     console.log(values);
   }, [values]);
-
-
 
   return {
     data: { clients, fields, filteredClients },

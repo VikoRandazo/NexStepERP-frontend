@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { CustomerType } from "../../../models/CustomerType";
 import { StoreRootTypes } from "../../../store/store";
 import { AnalysisObject } from "../../../models/shared/AnalysisObject";
-import { PurchaseHistory } from "../../../models/shared/PurchaseHistory";
+import { PurchaseHistoryType } from "../../../models/shared/PurchaseHistory";
 
 export const useClientsAnalysis = (clients: CustomerType[]) => {
   const [newClients, setNewClients] = useState<any[]>([]);
@@ -36,7 +36,7 @@ export const useClientsAnalysis = (clients: CustomerType[]) => {
     const currentYear = new Date().getFullYear();
 
     const didntOrder = clients.filter((client: CustomerType) => {
-      const hasOrderThisMonth = client.purchaseHistory.some((purchase: PurchaseHistory) => {
+      const hasOrderThisMonth = client.purchaseHistory.some((purchase: PurchaseHistoryType) => {
         const purchaseDate = new Date(purchase.purchaseDate);
         return (
           purchaseDate.getMonth() === currentMonth && purchaseDate.getFullYear() === currentYear

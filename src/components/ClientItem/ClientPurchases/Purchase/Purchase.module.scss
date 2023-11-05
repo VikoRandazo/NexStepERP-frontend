@@ -1,0 +1,49 @@
+@import "../../../../styles/globalStyles/colorPallete.module.scss";
+@import "../../../../styles/globalStyles/Flex.module.scss";
+
+.Purchase {
+  width: 100%;
+  padding: 0.25em 0.5em;
+  border-radius: 0.5em;
+  border: 0.125em solid transparent;
+  margin: 0.5em 0 0.25em;
+
+  & > .record {
+    @extend %flexCol;
+    padding: 0.25em;
+    & > .title {
+      @extend %flexRow;
+      gap: 0.875em;
+      & > .date {
+        color: $text-color-light;
+        font-size: 0.875em;
+      }
+    }
+
+    & > .main {
+      @extend %flexRow;
+      gap: 1em;
+      align-items: center;
+      font-size: 0.925em;
+
+      & > .purchaseId {
+        color: #000;
+      }
+
+      & > .quantity {
+        color: $text-color-dark;
+      }
+
+      & > .totalPrice {
+        color: $text-color-dark;
+        margin-left: auto;
+      }
+
+      & > .actions {
+        & > button {
+          color: $tertiary;
+        }
+      }
+    }
+  }
+}

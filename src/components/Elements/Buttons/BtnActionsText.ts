@@ -8,6 +8,7 @@ export type BtnActionsText =
 
 export enum BtnActionsTextEnum {
   CREATE_DOCUMENT = `Create Document`,
+  VIEW_DOCUMENT = `View Document`,
 
   CREATE = `Create`,
   UPDATE = `Update`,

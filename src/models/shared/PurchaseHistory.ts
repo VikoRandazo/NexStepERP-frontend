@@ -1,4 +1,4 @@
-export interface PurchaseHistory {
+export interface PurchaseHistoryType {
   productId: string;
   quantity: number;
   purchaseDate: string;

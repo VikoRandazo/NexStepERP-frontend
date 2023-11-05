@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./Summary.module.scss";
 import SummaryItem from "./SummaryItem/SummaryItem";
+import { PurchaseHistoryInit, PurchaseHistoryType } from "../../models/shared/PurchaseHistory";
 
 interface SummaryProps<T> {
   analysisObject: T[];

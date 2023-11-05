@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from "./Clients.module.scss";
 import { useClientHook } from "./useClientHook";
 import DataControl from "../../DataControl/DataControl";
@@ -7,14 +7,6 @@ import { CustomerType } from "../../../models/CustomerType";
 import { FilterByEnum } from "../../DataControl/TypeGuards";
 import ClientItem from "../../ClientItem/ClientItem";
 import { useClientsAnalysis } from "./useClientsAnalysis";
-import Modal from "../../Modal/Modal";
-import { useSelector } from "react-redux";
-import { StoreRootTypes } from "../../../store/store";
-import Form from "../../Form/Form";
-import { EntityEnum } from "../../../models/EntityEnum";
-import { InteractionsModeEnum } from "../../../models/shared/InteractionsMode";
-import { UiActions } from "../../../store/slices/ui";
-import { useDispatchHook } from "../../../hooks/useDispatch";
 
 interface ClientsProps {}
 
@@ -24,19 +16,17 @@ const Clients: FC<ClientsProps> = () => {
   const { setFilteredClients, setSelectedClientId } = setters;
   const { clients, fields, filteredClients } = data;
   const { filterOptions } = dataControl;
-
   const { analysisData } = useClientsAnalysis(clients);
 
   return (
     <div className={styles.Clients}>
-      <Summary analysisObject={analysisData} />
+      <Summary analysisObject={analysisData}/>
       <DataControl
         data={clients}
         filterBy={FilterByEnum.DATE}
-        periodMonths={4}
         fields={fields}
+        formikbagClient={formikBag}
         filterOptions={filterOptions}
-        handleSubmit={formikBag.handleSubmit}
         setFilteredData={setFilteredClients}
       />
 

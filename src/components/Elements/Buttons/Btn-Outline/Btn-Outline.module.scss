@@ -8,8 +8,8 @@
   justify-content: center;
   background-color: transparent;
   color: #fff;
-  width: fit-content;
-  color: rgba($secondary, 1);
+  width: min-content;
+  color: rgba($tertiary, 1);
   transition: all 0.4s ease;
   border-radius: 0;
   padding: 0.5em 0;
@@ -21,10 +21,10 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba($secondary, 1);
-    border-bottom: 0.125em solid rgba($secondary, 0.25);
+    background-color: rgba($tertiary, 0.75);
+    border-bottom: 0.125em solid rgba($tertiary, 0.25);
     transform: scaleX(0);
-    transform-origin:right ;
+    transform-origin: right;
     transition: transform 0.3s ease;
   }
 
@@ -43,9 +43,8 @@
 
   &:hover::before {
     transform: scaleX(1);
-    border-bottom: 0.125em solid rgba($secondary, 0.25);
-    transform-origin: left; 
-
+    border-bottom: 0.125em solid rgba($tertiary, 0.25);
+    transform-origin: left;
   }
 
   &.disabled {

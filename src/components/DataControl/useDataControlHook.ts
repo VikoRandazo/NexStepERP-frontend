@@ -20,13 +20,13 @@ export const useDataControlHook = <T extends object>(
     const { name, value } = e.currentTarget;
 
     setFieldValue(name, value);
-
-
   };
 
-  // Flatmap the object along with generics and filter the keys for the search filter
-  // also, create a function to filter information along with the generics mapped keys
 
+  useEffect(() => {
+console.log(values);
+
+  },[values])
   return {
     data: { handleSearch },
     formikBag: { handleChange, values },
