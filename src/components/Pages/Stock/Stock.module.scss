@@ -8,7 +8,7 @@
   width: 100%;
   @extend %flexCol;
   justify-content: flex-start;
-  gap: .5em;
+  gap:1em;
 
   & > .categories {
     width: 100%;
@@ -22,13 +22,18 @@
       align-items: center;
     }
   }
-  & > .search {
+
+  & > .actions {
     @extend %flexRow;
     align-items: center;
     gap: 1em;
     width: 100%;
     min-height: 3em;
-
+    padding: 0.5em 1em;
+    
+    & > .topBar {
+      width: 100%;
+    }
 
     & > span {
       background-color: #fff;
@@ -66,5 +71,10 @@
   & > .products {
     width: 100%;
     overflow: scroll;
+  }
+
+  & > .displayClients {
+    @extend %flexCol;
+    gap: 1em;
   }
 }

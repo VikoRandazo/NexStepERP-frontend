@@ -10,7 +10,7 @@ interface PurchaseProps {
 }
 
 const PurchaseHistory: FC<PurchaseProps> = ({ purchase }) => {
-  const { purchaseDate, quantity, amountPaid } = purchase;
+  const { productId, purchaseDate, quantity, amountPaid } = purchase;
 
   const date = useFormatDate(purchaseDate, `/`, true);
 
@@ -23,7 +23,7 @@ const PurchaseHistory: FC<PurchaseProps> = ({ purchase }) => {
         </div>
 
         <div className={styles.main}>
-          <span className={styles.purchaseId}>id: 124600</span>
+          <span className={styles.purchaseId}>id: {productId}</span>
           <span className={styles.quantity}>quantity: {quantity}</span>
           <span className={styles.totalPrice}>{amountPaid}$</span>
           <span className={styles.actions}>

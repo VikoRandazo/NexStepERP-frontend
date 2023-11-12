@@ -1,20 +1,4 @@
-export type InputFieldKeys =
-  | {
-      pageName: "Clients";
-      key: string;
-      type: string;
-      title: string;
-      group: number;
-      textarea?: boolean;
-    }
-  | {
-      pageName: "Stock";
-      key: string;
-      type: string;
-      title: string;
-      group: number;
-      textarea?: boolean;
-    };
+import { SelectPlaceHolderEnum } from "../../../models/SelectPlaceHolderEnum.";
 
 export interface InputField {
   key: string;
@@ -22,6 +6,8 @@ export interface InputField {
   title: string;
   textarea?: boolean;
   group: number;
-  element?: string;
-  id?: string
+  element?: "input" | "select" | "img";
+  placeholder?: SelectPlaceHolderEnum;
+  id?: string;
+  hidden?: boolean;
 }

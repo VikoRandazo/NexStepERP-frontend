@@ -1,0 +1,34 @@
+@import "../../../styles/globalStyles/Flex.module.scss";
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+@import "../../../styles/globalStyles/BasicBtn.module.scss";
+
+.NumberIncrementor {
+  @extend %flexRow;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $background-light;
+  border-radius: 0.25em;
+  overflow: hidden;
+
+  & > button {
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1;
+    border: 0.125em solid transparent;
+    cursor: pointer;
+    height: 100%;
+    padding: 0;
+
+    &:hover {
+      background-color: $background-dark;
+    }
+  }
+
+  & > .value {
+    text-align: center;
+    width: 3em;
+    font-size: 0.875em;
+  }
+}

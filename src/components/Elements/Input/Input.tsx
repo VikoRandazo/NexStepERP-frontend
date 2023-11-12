@@ -54,10 +54,6 @@ const Input: FC<InputProps<any>> = ({
     }
   };
 
-  useEffect(() => {
-    console.log(touched);
-  }, [touched]);
-
   return (
     <div className={styles.Input}>
       <Label for={key as string} label={title} isFocused={focused} />

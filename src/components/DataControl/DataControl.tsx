@@ -8,25 +8,25 @@ import { OptionType } from "../../models/Elements/Option";
 import Input from "../Elements/Input/Input";
 import { InputField } from "../Elements/Input/InputField";
 import BtnPrimary from "../Elements/Buttons/Btn-Primary/Btn-Primary";
-import { useSelector } from "react-redux";
-import { StoreRootTypes } from "../../store/store";
 import Modal from "../Modal/Modal";
 import { useDispatchHook } from "../../hooks/useDispatch";
-import { UiActions } from "../../store/slices/ui";
 import { BtnActionsTextEnum } from "../Elements/Buttons/BtnActionsText";
-import { HiSparkles } from "react-icons/hi2";
+import { HiShoppingBag, HiSparkles } from "react-icons/hi2";
 import { EntityEnum } from "../../models/EntityEnum";
-import { InteractionsModeEnum } from "../../models/shared/InteractionsMode";
 import Form from "../Form/Form";
-import { CustomerType } from "../../models/CustomerType";
-
+import { ModalTitleEnum } from "../../models/ModalTitleEnum";
+import { ModalDescriptionEnum } from "../../models/ModalDescriptionEnum";
+import BtnSecondary from "../Elements/Buttons/Btn-Secondary/Btn-Secondary";
+import NewOrder from "../NewOrder/NewOrder";
+import { StoreRootTypes } from "../../store/store";
+import { useSelector } from "react-redux";
 export interface DataControlProps<T> {
   data: T[];
-  filterBy: `Date`;
+  filterBy?: `Date`;
   filterOptions: OptionType[];
   fields: InputField[];
   formikbagClient: any;
-  setFilteredData: React.Dispatch<React.SetStateAction<CustomerType[]>>;
+  setFilteredData: React.Dispatch<React.SetStateAction<T[]>>;
 }
 
 const DataControl = <T,>({
@@ -40,68 +40,79 @@ const DataControl = <T,>({
 
   const [isOpenSelect, setIsOpenSelect] = useState(false);
   const [filterBy, setFilterBy] = useState<FilterByEnum>(FilterByEnum.NONE);
-  const [entity, setEntity] = useState<EntityEnum>(EntityEnum.Clients);
-
-  const currentPage = useSelector((state: StoreRootTypes) => state.appSettings.pageName);
+  const [modalHeader, setModalHeader] = useState<{
+    title: ModalTitleEnum;
+    description: ModalDescriptionEnum;
+  } | null>();
 
   const { handleOpenSelectMenu } = useSelect(isOpenSelect, setIsOpenSelect);
   const {
     states,
     setters,
     formikBag,
+    handlers,
     data: filteredData,
   } = useDataControlHook(data as any, setFilteredData);
   const { handleSearch } = filteredData;
-  const { isActiveModal } = states;
-  const { setIsActiveModal } = setters;
+  const { isActiveCreateModal, entity, isActiveNewOrderModal, newOrderFields } = states;
+  const { setIsActiveCreateModal, setIsActiveNewOrderModal } = setters;
+  const { handleOpenCreateModal, handleOpenNewOrderModal } = handlers;
   const search: InputField = { key: "search", type: "text", title: "search", group: 1 };
 
-  const getOptionEvent = (e: React.MouseEvent<HTMLLIElement>) => {
-    const { innerText } = e.currentTarget;
-    setFilterBy(innerText as FilterByEnum);
-    return innerText;
-  };
+  
+  const [isActiveSelectClient, setIsActiveSelectClient] = useState<boolean>(false)
+  const clients = useSelector((state:StoreRootTypes) => state.entities.clients)
 
-  const handleOpenModal = useCallback(() => {
-    setIsActiveModal(true);
-    dispatch(UiActions.setEntity(entity));
-    dispatch(UiActions.setMode(InteractionsModeEnum.Create));
-  }, [dispatch, entity]);
-
-  const assignEntity = () => {
-    switch (currentPage) {
+  const changeModalHeaderByEntity = () => {
+    switch (entity) {
       case EntityEnum.Clients:
-        setEntity(currentPage);
+        setModalHeader({
+          title: ModalTitleEnum.CREATE_CLIENT,
+          description: ModalDescriptionEnum.CREATE_CLIENT,
+        });
         break;
-      case EntityEnum.Products:
-        setEntity(currentPage);
-        break;
-      case EntityEnum.Sales:
-        setEntity(currentPage);
+
+      case EntityEnum.STOCK:
+        setModalHeader({
+          title: ModalTitleEnum.CREATE_PRODUCT,
+          description: ModalDescriptionEnum.CREATE_PRODUCT,
+        });
         break;
 
       default:
         break;
     }
   };
+
   useEffect(() => {
-    assignEntity();
-  }, []);
+    changeModalHeaderByEntity();
+  }, [entity]);
 
   return (
     <div className={styles.DataControl}>
       <Modal
-        setIsActiveModal={setIsActiveModal}
-        isActive={isActiveModal}
+        setIsActiveModal={setIsActiveCreateModal}
+        isActive={isActiveCreateModal}
+        title={modalHeader?.title}
+        description={modalHeader?.description}
         children={
           <Form
-            mode={InteractionsModeEnum.Create}
             fields={fields}
             formikBag={formikbagClient}
-            setIsActiveModal={setIsActiveModal}
+            setIsActiveModal={setIsActiveCreateModal}
           />
         }
       />
+      <Modal
+        setIsActiveModal={setIsActiveNewOrderModal}
+        isActive={isActiveNewOrderModal}
+        title={`Choose Client`}
+        description={`Who is the client?`}
+        children={
+          <Select isActive={isActiveSelectClient} options={[]} name={"selectClient"} value={undefined} />
+        }
+      />
+
       <div className={styles.container}>
         <div className={styles.search}>
           <Input
@@ -121,15 +132,6 @@ const DataControl = <T,>({
             }
             onClick={handleOpenSelectMenu}
           >
-            <Select
-              optionEvent={getOptionEvent}
-              isActive={isOpenSelect}
-              name={"filterOptions"}
-              options={filterOptions}
-              placeholder="Filter by"
-              setFieldValue={formikbagClient.setFieldValue}
-            />
-
             <div
               className={
                 filterBy !== FilterByEnum.NONE ? `${styles.fields} ${styles.active}` : styles.fields
@@ -138,10 +140,17 @@ const DataControl = <T,>({
           </span>
         </div>
         <div className={styles.createEntity}>
-          <BtnPrimary
+          {entity === EntityEnum.STOCK ? (
+            <BtnPrimary
+              icon={<HiShoppingBag />}
+              text={`New Order`}
+              action={handleOpenNewOrderModal}
+            />
+          ) : null}
+          <BtnSecondary
             icon={<HiSparkles />}
             text={`${BtnActionsTextEnum.CREATE} ${entity}`}
-            action={handleOpenModal}
+            action={handleOpenCreateModal}
           />
         </div>
       </div>

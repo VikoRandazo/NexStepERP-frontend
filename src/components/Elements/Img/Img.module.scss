@@ -1,0 +1,47 @@
+@import "../../../styles/globalStyles/Flex.module.scss";
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+.Img {
+  width: 100%;
+  height: 100%;
+  border-radius: 0 1em 1em;
+  overflow: hidden;
+  position: relative;
+  
+  &:hover {
+    filter: brightness(0.9);
+  }
+  
+  & > .noImage {
+    width: 100%;
+    height: 100%;
+    @extend %flexRow;
+    align-items: center;
+    justify-content: center;
+    background-color: $background-medium;
+    position: relative;
+    & > svg {
+      font-size: 2em;
+    }
+    & > input {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+  }
+  
+  & > .image {
+    height: 100%;
+    border-radius: 0 1em 1em;
+    overflow: hidden;
+    margin-top: 0.375em;
+    
+    & > img {
+      object-fit: cover;
+      aspect-ratio: 1 / 1;
+      height: 100%;
+    }
+  }
+
+}

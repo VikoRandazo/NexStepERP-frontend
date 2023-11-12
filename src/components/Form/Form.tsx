@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React, { FC, useState, useMemo, useEffect } from "react";
 import styles from "./Form.module.scss";
 import { InteractionsModeEnum } from "../../models/shared/InteractionsMode";
 import Input from "../Elements/Input/Input";
@@ -7,85 +7,106 @@ import { StoreRootTypes } from "../../store/store";
 import { useSelector } from "react-redux";
 import { useForm } from "./useForm";
 import BtnPrimary from "../Elements/Buttons/Btn-Primary/Btn-Primary";
-import { HiSparkles } from "react-icons/hi2";
+import { HiSparkles } from "react-icons/hi"; // Corrected import path for the icon
 import { BtnActionsTextEnum } from "../Elements/Buttons/BtnActionsText";
 import BtnSecondary from "../Elements/Buttons/Btn-Secondary/Btn-Secondary";
 import Select from "../Elements/Select/Select";
 import { OptionType } from "../../models/Elements/Option";
 import { useSelect } from "../Elements/Select/SelectFunctionality";
-import countries from "./../Pages/Clients/countries.json";
+import categories from "../Pages/Stock/categories.json";
+import countries from "../Pages/Clients/countries.json";
 import Label from "../Elements/Label/Label";
+import Img from "../Elements/Img/Img";
+import { EntityEnum } from "../../models/EntityEnum";
+
 interface FormProps {
-  mode: InteractionsModeEnum;
   fields: InputField[];
   formikBag: any;
+  selectedItem?: any;
   setIsActiveModal: React.Dispatch<React.SetStateAction<boolean>>;
-  selectElementEvent?: (e: React.MouseEvent<HTMLLIElement>) => string;
 }
 
-const Form: FC<FormProps> = ({ mode, fields, formikBag, selectElementEvent, setIsActiveModal }) => {
+const Form: FC<FormProps> = ({ fields, formikBag, setIsActiveModal, selectedItem }) => {
   const entity = useSelector((state: StoreRootTypes) => state.ui.modal.type);
 
-  const { data, handlers } = useForm(fields, styles, entity, setIsActiveModal);
+  const { data, handlers, setters, states } = useForm(fields, styles, entity, setIsActiveModal);
   const { handleSubmit } = formikBag;
   const { groupedFields, buttonText } = data;
+  const { isOpenSelect } = states;
+  const { setIsOpenSelect } = setters;
   const { handleCloseModal, handleClassName } = handlers;
-
-  const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
   const { handleOpenSelectMenu } = useSelect(isOpenSelect, setIsOpenSelect);
 
   const options: OptionType[] = useMemo(() => {
-    return countries.countries.map((country: string) => ({
-      name: country,
+    const list = entity === EntityEnum.STOCK ? categories : countries;
+    return list.map((item: string) => ({
+      name: item,
       action: () => {},
     }));
-  }, []);
+  }, [entity]);
 
   return (
     <form className={styles.Form} onSubmit={handleSubmit}>
       <div className={styles.main}>
-        {Object.values(groupedFields).map((group: InputField[], index) => (
-          <div key={index} className={handleClassName(index)}>
-            {group.map((field: InputField, i) => {
+        <div className={styles.wrapper}>
+          {Object.values(groupedFields).map((group: InputField[], index) => (
+            <div key={index} className={handleClassName(index)}>
+              {group.map((field: InputField, i) => {
+                if (!field.hidden) {
+                  switch (field.element) {
+                    case "input":
+                      return (
+                        <span key={field.key} className={styles[field.key]}>
+                          <Input
+                            field={field}
+                            value={
+                              selectedItem ? selectedItem[field.key] : formikBag.values[field.key]
+                            }
+                            onChange={formikBag.handleChange}
+                          />
+                        </span>
+                      );
 
-              switch (field.element) {
+                    case "select":
+                      return (
+                        <span
+                          key={field.key}
+                          className={styles[field.key]}
+                          onClick={handleOpenSelectMenu}
+                        >
+                          <Label label={field.title} for={field.key} />
+                          <Select
+                            name={field.key}
+                            isActive={isOpenSelect}
+                            options={options}
+                            placeholder={field.placeholder}
+                            value={selectedItem && selectedItem[field.key]}
+                          />
+                        </span>
+                      );
 
-                case "input":
-                  return (
-                    <span className={styles[field.key]}>
-                      <Input
-                        key={field.key}
-                        field={field}
-                        value={formikBag.values[field.key]}
-                        onChange={formikBag.handleChange}
-                      />
-                    </span>
-                  );
+                    case "img":
+                      return (
+                        <span key={field.key} className={styles[field.key]}>
+                          <Label label={field.title} for={field.key} />
+                          <Img
+                            url={formikBag.values[field.key] || ""}
+                            alt={field.title}
+                            formikChange={formikBag.handleChange}
+                            setFieldValue={formikBag.setFieldValue}
+                          />
+                        </span>
+                      );
 
-                case "select":
-                  return (
-                    <span className={styles[field.key]} onClick={handleOpenSelectMenu}>
-                      <Label label={field.title} for={field.key} />
-                      <Select
-                        key={field.key}
-                        name={field.key}
-                        isActive={isOpenSelect}
-                        options={options}
-                        placeholder={"Choose Country"}
-                        optionEvent={selectElementEvent}
-                        setFieldValue={formikBag.setFieldValue}
-                      />
-                    </span>
-                  );
-
-                default:
-                  break;
-              }
-            })}
-          </div>
-        ))}
+                    default:
+                      return null;
+                  }
+                }
+              })}
+            </div>
+          ))}
+        </div>
       </div>
-
       <div className={styles.footer}>
         <BtnSecondary text={BtnActionsTextEnum.CANCEL} action={handleCloseModal} />
         <BtnPrimary icon={<HiSparkles />} text={buttonText} action={handleSubmit} />
@@ -93,4 +114,5 @@ const Form: FC<FormProps> = ({ mode, fields, formikBag, selectElementEvent, setI
     </form>
   );
 };
+
 export default Form;

@@ -24,6 +24,7 @@ const Modal: FC<ModalProps> = ({ children, isActive, setIsActiveModal, title, de
     }
   };
 
+
   return (
     <div className={isActive ? `${styles.Modal} ${styles.active}` : styles.Modal}>
       <div onClick={closeModal} className={styles.layout}>

@@ -12,6 +12,8 @@ import { InteractionsModeEnum } from "../../../models/shared/InteractionsMode";
 import { useSelector } from "react-redux";
 import { StoreRootTypes } from "../../../store/store";
 import { EntityEnum } from "../../../models/EntityEnum";
+import { SelectPlaceHolderEnum } from "../../../models/SelectPlaceHolderEnum.";
+import { entitiesAction } from "../../../store/slices/entities";
 
 export const useClientHook = () => {
   const { dispatch } = useDispatchHook();
@@ -37,17 +39,13 @@ export const useClientHook = () => {
     { key: `lastName`, type: `text`, title: `Last Name`, group: 1, element: "input" },
     { key: `email`, type: `text`, title: `Email Address`, group: 2, element: "input" },
     { key: `phoneNumber`, type: `text`, title: `Phone Number`, group: 2, element: "input" },
-    {
-      key: `address.country`,
-      title: `Country`,
-      group: 3,
-      element: "select",
-      id: "address.country",
-    },
+    { key: `address.country`,title: `Country`, group: 3, element: "select", placeholder: SelectPlaceHolderEnum.COUNTRY},
     { key: `address.city`, type: `text`, title: `City`, group: 3, element: "input" },
     { key: `address.street`, type: `text`, title: `Street`, group: 3, element: "input" },
     { key: `address.postalCode`, type: `text`, title: `Postal Code`, group: 3, element: "input" },
   ];
+
+
 
   const preparedInitState = { ...initClientState };
   const { dateRegistered, purchaseHistory, ...rest } = preparedInitState;
@@ -65,7 +63,7 @@ export const useClientHook = () => {
     initialValues: rest,
     validationSchema: "",
     onSubmit: async () => {
-      try {        
+      try {
         let response;
         switch (mode) {
           case InteractionsModeEnum.Create:
@@ -109,12 +107,12 @@ export const useClientHook = () => {
   ];
 
   useEffect(() => {
-    dispatch(UiActions.setEntity(EntityEnum.Clients));
     getClients();
   }, []);
 
   useEffect(() => {
     setFilteredClients(clients);
+    dispatch(entitiesAction.setClients(clients))
   }, [clients]);
 
   useEffect(() => {

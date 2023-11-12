@@ -3,19 +3,16 @@
 .Label {
   background-color: #fff;
   position: relative;
-  top: 0.125em;
   padding: 0.375em 15%;
   width: max-content;
   font-size: 0.75em;
-  border-bottom: 0.125em solid transparent;
+  border: 0.125em solid transparent;
   color: $secondary;
   pointer-events: none;
-  z-index: 5;
   font-weight: 700;
   transition: all 0.3s ease;
   background-color: $background-medium;
   border-radius: 0.75em 0.75em 0 0;
-
   &.focused {
     border: 0.125em solid $primary;
     color: $secondary;

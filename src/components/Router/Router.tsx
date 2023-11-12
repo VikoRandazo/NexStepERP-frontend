@@ -6,12 +6,9 @@ import ForgotPassword from "../Auth/ForgotPassword/ForgotPassword";
 import Overview from "../Pages/Overview/Overview";
 import Stock from "../Pages/Stock/Stock";
 import Clients from "../Pages/Clients/Clients";
-import Modal from "../Modal/Modal";
-import Form from "../Form/Form";
 interface RouterProps {}
 
 const Router: FC<RouterProps> = () => {
-  const location = useLocation().pathname;
 
   return (
     <Routes>
@@ -23,11 +20,11 @@ const Router: FC<RouterProps> = () => {
 
       {/* Pages */}
       <Route path={"/overview"} element={<Overview />} />
-      <Route path={"/stock"} element={<Stock />} />
+      <Route path={"/products"} element={<Stock />} />
       <Route path={"/clients"} element={<Clients />} />
 
       {/* Default */}
-      <Route path={location} element={<Overview />} />
+      <Route path={"/"} element={<Overview />} />
     </Routes>
   );
 };

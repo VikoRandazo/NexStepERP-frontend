@@ -7,3 +7,15 @@ export interface SaleType {
   totalAmount: number;
   customerId: string;
 }
+
+export const saleInit = {
+  id: "",
+  date: new Date().toISOString(),
+  productsSold: {
+    pid: "",
+    price: 0,
+    quantity: 0,
+  },
+  totalAmount: 0,
+  customerId: "",
+};

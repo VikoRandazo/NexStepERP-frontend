@@ -1,5 +1,5 @@
 export enum EntityEnum {
-    Products = `Product`,
-    Clients = `Client`,
-    Sales = `Sale`
+    STOCK = `Products`,
+    Clients = `Clients`,
+    Sales = `Sales`
 }

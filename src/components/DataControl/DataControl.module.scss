@@ -12,8 +12,9 @@
     justify-content: flex-start;
     align-items: flex-end;
     padding: 1em;
+
     & > .search {
-      width: 20%;
+      width: 24em;
     }
 
     & > .filter {
@@ -63,6 +64,8 @@
     }
 
     & > .createEntity {
+      @extend %flexRow;
+      gap: 1em;
       margin-left: auto;
     }
   }

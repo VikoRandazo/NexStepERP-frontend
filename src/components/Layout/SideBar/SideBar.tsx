@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import styles from "./SideBar.module.scss";
 import { ReactComponent as Horizontal } from "../../../styles/Logo/horizontal.svg";
 import { ReactComponent as Svg } from "../../../styles/Logo/favicon.svg";
@@ -19,12 +19,13 @@ import { NavItem } from "../../../models/Nav";
 import { useLocation, useNavigate } from "react-router-dom";
 import SidebarItem from "./SidebarItem/SidebarItem";
 import { appSettingsActions } from "../../../store/slices/appSettings";
+import { UiActions } from "../../../store/slices/ui";
+import { EntityEnum } from "../../../models/EntityEnum";
 
 interface SideBarProps {}
 
 const SideBar: FC<SideBarProps> = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const location = useLocation().pathname;
 
   const [isExpended, setIsExpended] = useState<boolean>(true);
@@ -35,15 +36,32 @@ const SideBar: FC<SideBarProps> = () => {
     dispatch(sideBarActions.toggleSideBar());
   };
 
+  const handleChangeEntity = useCallback(() => {
+    switch (location.toLowerCase()) {
+      case "/products":
+        dispatch(UiActions.setEntity(EntityEnum.STOCK));
+        break;
+      case "/clients":
+        dispatch(UiActions.setEntity(EntityEnum.Clients));
+        break;
+      default:
+        break;
+    }
+  }, [dispatch, location]);
+
   const navigation: NavItem[] = [
     { name: `Overview`, icon: <HiSquaresPlus /> },
-    { name: `Stock`, icon: <HiSquare3Stack3D /> },
-    { name: `Clients`, icon: <HiUser /> },
+    { name: `Products`, icon: <HiSquare3Stack3D /> },
+    { name: `Clients`, icon: <HiUser />},
     { name: `Sales`, icon: <HiSquaresPlus /> },
     { name: `Messages`, icon: <HiChatBubbleLeftEllipsis /> },
     { name: `Settings`, icon: <HiCog6Tooth /> },
     { name: `Logout`, icon: <HiPower /> },
   ];
+
+  useEffect(() => {
+    handleChangeEntity();
+  }, [location]);
 
   return (
     <div className={isExpended ? styles.SideBar : `${styles.SideBar} ${styles.collapsed}`}>

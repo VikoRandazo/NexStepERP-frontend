@@ -1,5 +1,5 @@
 export enum PagesNames {
-    Stock = "Stock",
+    Stock = "Products",
     Clients = "Clients",
     Sales = "Sales",
 }

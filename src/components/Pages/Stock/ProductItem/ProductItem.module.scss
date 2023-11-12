@@ -1,0 +1,116 @@
+@import "../../../../styles/globalStyles/colorPallete.module.scss";
+@import "../../../../styles/globalStyles/Flex.module.scss";
+
+.ProductItem {
+  width: 100%;
+  @extend %flexRow;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 1em;
+  overflow: hidden;
+  padding: 1em;
+
+  & > .container {
+    width: 100%;
+    height: 100%;
+    @extend %flexRow;
+    gap: 1em;
+
+    & > .image {
+      height: 20vh;
+      min-width: 10%;
+      background-color: $background-dark;
+      @extend %flexRow;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 1em;
+      aspect-ratio: 1 / 1;
+
+      & > img {
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    & > .details {
+      @extend %flexCol;
+      gap: 0.25em;
+      width: 75%;
+
+      & > .title {
+        @extend %flexRow;
+        align-items: flex-start;
+        gap: 0.5em;
+
+        & > span > svg {
+          font-size: 1.25em;
+        }
+        & > .inStock {
+          & > svg {
+            color: $success;
+          }
+        }
+
+        & > .outOfStock {
+          & > svg {
+            color: $outOfStock;
+          }
+        }
+      }
+
+      & > .productId {
+        color: $text-color-light;
+        margin-top: auto;
+      }
+
+      & > .stockQuantity {
+        @extend %flexRow;
+        align-items: center;
+        gap: 0.5em;
+        font-size: 0.875em;
+      }
+
+      & > .category {
+        font-size: 0.875em;
+      }
+    }
+
+    & > .quantityAndPrice {
+      @extend %flexCol;
+      width: 10em;
+      gap: 1em;
+      align-items: center;
+      justify-content: center;
+
+      & > .quantity {
+        height: fit-content;
+        width: 6em;
+        height: 2em;
+      }
+
+      & > .price {
+        transition: all 0.3s ease;
+        text-align: center;
+        border-radius: 0.5em;
+        padding: 0.5em 2em;
+        background-color: $background-light;
+        width: 100%;
+        color: $text-color-light;
+
+        &.selected {
+          color: #000;
+          background-color: transparent;
+          box-shadow: (inset 0 0 2em $primary);
+        }
+      }
+    }
+    & > .actions {
+      height: 100%;
+      width: 20%;
+      margin-left: auto;
+      @extend %flexCol;
+      justify-content: flex-start;
+    }
+  }
+}

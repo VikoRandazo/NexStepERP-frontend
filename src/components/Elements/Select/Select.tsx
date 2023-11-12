@@ -3,14 +3,15 @@ import styles from "./Select.module.scss";
 import Option from "../Option/Option";
 import { OptionType } from "../../../models/Elements/Option";
 import { HiAdjustmentsHorizontal, HiChevronDown } from "react-icons/hi2";
+import { SelectPlaceHolderEnum } from "../../../models/SelectPlaceHolderEnum.";
 interface SelectProps {
   isActive: boolean;
   options: OptionType[];
-  placeholder: string;
+  placeholder?: SelectPlaceHolderEnum;
   name: string;
   onChangeAction?: (...props: any) => void;
   optionEvent?: (e: React.MouseEvent<HTMLLIElement>) => string | null;
-  setFieldValue?: (field: string, value: any, shouldValidate?: boolean) => void;
+  value: any;
 }
 
 const Select: FC<SelectProps> = ({
@@ -18,9 +19,8 @@ const Select: FC<SelectProps> = ({
   isActive,
   placeholder,
   name,
-  onChangeAction,
   optionEvent,
-  setFieldValue
+  value,
 }) => {
   const [selected, setSelected] = useState<string>(`None`);
 
@@ -39,7 +39,6 @@ const Select: FC<SelectProps> = ({
 
       <ul className={isActive ? `${styles.Select} ${styles.active}` : `${styles.select}`}>
         {options.map((option, key) => {
-
           return (
             <Option
               key={key}
@@ -48,7 +47,7 @@ const Select: FC<SelectProps> = ({
               isActive={isActive}
               setSelected={setSelected}
               optionEvent={optionEvent}
-              setFieldValue={setFieldValue!}
+              setFieldValue={value}
             />
           );
         })}

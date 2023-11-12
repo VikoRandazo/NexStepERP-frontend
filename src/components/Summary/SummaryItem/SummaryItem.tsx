@@ -17,9 +17,6 @@ const openPurchaseHistory = () => {
   setIsActiveModal(true)
 }
 
-useEffect(() => {
-  console.log(isActiveModal);
-}, [isActiveModal])
 
   return (
     <div className={styles.SummaryItem}>
@@ -29,7 +26,7 @@ useEffect(() => {
           <h5>{keyLabel}</h5>
         </div>
         <div className={styles.value}>
-          <h2>{value}</h2>
+          <span>{value}</span>
         <div className={styles.list}>
           <BtnOutline icon={<HiMiniClipboardDocumentCheck />} text={"View List"} action={openPurchaseHistory} />
         </div>

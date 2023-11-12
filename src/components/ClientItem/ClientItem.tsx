@@ -1,8 +1,12 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./ClientItem.module.scss";
-import { HiChevronRight, HiOutlineBellAlert, HiOutlineCreditCard, HiPencil } from "react-icons/hi2";
-import ClientCardOption from "../ClientCardOption/ClientCardOption";
-import { ClientOption } from "../../models/ClientOption";
+import {
+  HiChevronRight,
+  HiOutlineBellAlert,
+  HiOutlineCreditCard,
+  HiPencil,
+  HiPlus,
+} from "react-icons/hi2";
 import { CustomerType } from "../../models/CustomerType";
 import { useDispatchHook } from "../../hooks/useDispatch";
 import { UiActions } from "../../store/slices/ui";
@@ -15,6 +19,8 @@ import { ModalTitleEnum } from "../../models/ModalTitleEnum";
 import { ModalDescriptionEnum } from "../../models/ModalDescriptionEnum";
 import ClientPurchases from "./ClientPurchases/ClientPurchases";
 import { ProductSoldInit } from "../../models/ProductSoldType";
+import ItemOption from "../ClientCardOption/ItemOption";
+import { ItemOptionType } from "../../models/ClientOption";
 
 interface ClientItemProps {
   client: CustomerType;
@@ -36,6 +42,7 @@ const ClientItem: FC<ClientItemProps> = ({
   const [isActiveModal_PurchaseHistory, setIsActiveModal_PurchaseHistory] =
     useState<boolean>(false);
   const [isActiveModal_EditClient, setIsActiveModal_EditClient] = useState<boolean>(false);
+  const [displayInputUrl, setDisplayInputUrl] = useState<boolean>(false);
 
   const { dispatch } = useDispatchHook();
 
@@ -59,6 +66,9 @@ const ClientItem: FC<ClientItemProps> = ({
     setIsActiveModal_EditClient(true);
   }, [dispatch, setSelectedClientId]);
 
+  const getCheckboxEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDisplayInputUrl(e.currentTarget.checked);
+  };
   return (
     <div className={styles.ClientItem}>
       <Modal
@@ -66,7 +76,6 @@ const ClientItem: FC<ClientItemProps> = ({
         setIsActiveModal={setIsActiveModal_EditClient}
         children={
           <Form
-            mode={mode}
             fields={fields}
             formikBag={formikBag}
             setIsActiveModal={setIsActiveModal_EditClient}
@@ -101,9 +110,9 @@ const ClientItem: FC<ClientItemProps> = ({
       </div>
 
       <div className={styles.clientOptions}>
-        {clientOptions.map((option: ClientOption) => {
+        {clientOptions.map((option: ItemOptionType) => {
           return (
-            <ClientCardOption
+            <ItemOption
               key={option.text}
               icon={option.icon}
               text={option.text}

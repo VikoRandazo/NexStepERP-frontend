@@ -1,14 +1,14 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-import styles from "./ClientCardOption.module.scss";
+import styles from "./ItemOption.module.scss";
 import { HiChevronRight } from "react-icons/hi2";
 
-interface ClientCardOptionProps {
+interface ItemOptionProps {
   icon: JSX.Element;
   text: string;
   action: () => void;
 }
 
-const ClientCardOption: FC<ClientCardOptionProps> = ({ icon, text, action }) => {
+const ItemOption: FC<ItemOptionProps> = ({ icon, text, action }) => {
   const optionRef = useRef<HTMLSpanElement>(null);
   
   const handleClick = (e:React.MouseEvent<HTMLSpanElement>) => {
@@ -25,8 +25,7 @@ const ClientCardOption: FC<ClientCardOptionProps> = ({ icon, text, action }) => 
     <span
       ref={optionRef}
       onClick={handleClick}
-      className={styles.ClientCardOption}
-    >
+      className={styles.ItemOption} >
       <span>
         {icon} {text}
       </span>
@@ -35,4 +34,4 @@ const ClientCardOption: FC<ClientCardOptionProps> = ({ icon, text, action }) => 
   );
 };
 
-export default ClientCardOption;
+export default ItemOption;

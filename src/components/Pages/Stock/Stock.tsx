@@ -1,71 +1,108 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./Stock.module.scss";
-import categories from "./categories.json";
-import Category from "../../Elements/Category/Category";
-import { ProductInitState, ProductType } from "../../../models/ProductType";
-import { HiPlus, HiTrash } from "react-icons/hi2";
+import { ProductType } from "../../../models/ProductType";
 import Modal from "../../Modal/Modal";
-import BtnPrimary from "../../Elements/Buttons/Btn-Primary/Btn-Primary";
-import BtnOutline from "../../Elements/Buttons/Btn-Outline/Btn-Outline";
-import { BtnActionsTextEnum } from "../../Elements/Buttons/BtnActionsText";
-
 import { useDispatchHook } from "../../../hooks/useDispatch";
-import { UiActions } from "../../../store/slices/ui";
-import { useSelector } from "react-redux";
-import { StoreRootTypes } from "../../../store/store";
 import { useStockHook } from "./useStockHook";
+import ProductItem from "./ProductItem/ProductItem";
+import Summary from "../../Summary/Summary";
+import { AnalysisObject } from "../../../models/shared/AnalysisObject";
+import DataControl from "../../DataControl/DataControl";
+import Form from "../../Form/Form";
+import { ModalTitleEnum } from "../../../models/ModalTitleEnum";
+import { ModalDescriptionEnum } from "../../../models/ModalDescriptionEnum";
 
 interface StockProps {}
 
 const Stock: FC<StockProps> = () => {
-  const { states, setters, functions, enums } = useStockHook();
-  const { filteredProducts, currentCategory, selectedRows } = states;
-  const { setCurrentCategory, setClickedProduct } = setters;
-  const { deleteProducts, deleteSingleProduct } = functions;
-  const { InteractionsModeEnum } = enums;
+  const { data, utiles, states, setters, functions, enums, formikBag } = useStockHook();
+  const { products, filteredProducts } = data;
+  const { fields, filterOptions } = utiles;
+  const { currentCategory, selectedRows, mode, isActiveModal, displayInputUrl } = states;
+  const {
+    setCurrentCategory,
+    setSelectedProductId,
+    setFilteredProducts,
+    setIsActiveModal,
+    setDisplayInputUrl,
+  } = setters;
+  const { deleteProducts, deleteSingleProduct, getCheckboxEvent } = functions;
   const { dispatch } = useDispatchHook();
 
-  const handleClickCreateProductButton = () => {
-    dispatch(UiActions.setMode(InteractionsModeEnum.Create));
-    dispatch(UiActions.setIsOpen(true));
+  // Analitycs
+  const [mostPurchasedProduct, setMostPurchasedProduct] = useState<string>("none");
+  const [salesPortion, setSalesPortion] = useState<number>(0);
+
+  const findMostPurchasedProduct = () => {
+    let mostPurchasedProduct = { name: "none", amount: 0, totalSalesValue: 0 };
+    let totalSales = 0;
+
+    // Calculate total sales and find the most purchased product simultaneously
+    data.products.reduce((acc, product) => {
+      if (product.purchasesAmount) {
+        const productTotalSalesValue = product.purchasesAmount * product.price;
+        totalSales += productTotalSalesValue;
+
+        if (product.purchasesAmount > acc.amount) {
+          acc.amount = +product.purchasesAmount;
+          acc.name = product.name;
+          acc.totalSalesValue = productTotalSalesValue;
+        }
+      }
+
+      return acc;
+    }, mostPurchasedProduct);
+
+    // Calculate the portion of total sales for the most purchased product
+    const salesPortion =
+      totalSales > 0 ? (mostPurchasedProduct.totalSalesValue / totalSales) * 100 : 0; // in percentage
+
+    setMostPurchasedProduct(mostPurchasedProduct.name);
+    setSalesPortion(+salesPortion.toFixed(2));
   };
+
+  const analysisData: AnalysisObject[] = [
+    { title: "Total Products", value: data.products.length },
+    { title: "Top Selling Product", value: mostPurchasedProduct },
+    { title: "Portion Of Total Income", value: salesPortion + `%` },
+  ];
+
+  useEffect(() => {
+    findMostPurchasedProduct();
+  }, [data.products]);
 
   return (
     <div className={styles.Stock}>
-      {/* <Modal children={<ProductForm />} /> */}
-      <div className={styles.categories}>
-        <ul className={styles.list}>
-          {categories.map((category) => {
-            return (
-              <Category
-                key={category.id}
-                category={category}
-                active={currentCategory === category.name}
-                setCurrentCategory={setCurrentCategory}
-              />
-            );
-          })}
-        </ul>
-      </div>
-      <div className={styles.search}>
-        <div className={styles.actions}>
-          <BtnOutline
-            icon={<HiTrash />}
-            text={`Delete ${selectedRows.length > 0 ? `(${selectedRows.length})` : ""}`}
-            action={deleteProducts}
-            disabled={selectedRows.length > 0 ? false : true}
+      <Modal
+        children={
+          <Form fields={fields} formikBag={formikBag} setIsActiveModal={setIsActiveModal} />
+        }
+        title={ModalTitleEnum.EDIT_PRODUCT}
+        description={ModalDescriptionEnum.EDIT_PRODUCT}
+        isActive={isActiveModal}
+        setIsActiveModal={setIsActiveModal}
+      />
+
+      <Summary analysisObject={analysisData} />
+      <DataControl
+        data={products}
+        fields={fields}
+        formikbagClient={formikBag}
+        filterOptions={filterOptions}
+        setFilteredData={setFilteredProducts}
+      />
+
+      <div className={styles.displayClients}>
+        {filteredProducts.map((product: ProductType) => (
+          <ProductItem
+            key={product._id}
+            product={product}
+            fields={fields}
+            formikBag={formikBag}
+            mode={mode}
+            setSelectedProductId={setSelectedProductId}
           />
-        </div>
-        <div className={styles.createProduct}>
-          <BtnPrimary
-            icon={<HiPlus />}
-            text={BtnActionsTextEnum.CREATE}
-            action={handleClickCreateProductButton}
-          />
-        </div>
-      </div>
-      <div className={styles.products}>
-        {/* savasv */}
+        ))}
       </div>
     </div>
   );

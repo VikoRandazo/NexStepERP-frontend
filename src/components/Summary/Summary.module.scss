@@ -4,11 +4,11 @@
 .Summary {
   width: 100%;
   background-color: #fff;
-  height: 12em;
   @extend %flexRow;
   gap: 1em;
   align-items: center;
   border-radius: 1em;
+  min-height: 11em;
 
   & > .divider {
     border: none;

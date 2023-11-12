@@ -4,6 +4,7 @@
 .Form {
   width: 40vw;
   height: 70vh;
+  @extend %flexCol;
 
   & > .header {
     height: 10%;
@@ -14,143 +15,184 @@
     }
   }
   & > .main {
-    height: 80%;
+    height: 90%;
     width: 100%;
     @extend %flexCol;
     gap: 1em;
     padding: 1em;
+    overflow: auto;
 
-    & > .group.client {
+    & > .wrapper {
+      width: 100%;
+      // height: 100%;
       @extend %flexRow;
       gap: 1em;
-      align-items: center;
-      margin-bottom: 1em;
       flex-wrap: wrap;
-      &.group1 {
-        & > .firstName {
-          width: 35%;
+
+      & > .group.client {
+        @extend %flexRow;
+        gap: 1em;
+        align-items: flex-start;
+        margin-bottom: 1em;
+        flex-wrap: wrap;
+
+        &.group1 {
+          & > .firstName {
+            width: 35%;
+          }
+          & > .lastName {
+            width: 35%;
+          }
         }
-        & > .lastName {
-          width: 35%;
+        &.group2 {
+          & > .email {
+            width: 60%;
+          }
+
+          & > .phoneNumber {
+            width: 25%;
+          }
+        }
+        &.group3 {
+          height: fit-content;
+
+          & > .address\.country {
+            @extend %flexCol;
+            gap: 0.125em;
+            width: 100%;
+            margin-top: 1em;
+          }
+
+          & > span {
+            width: calc(100% / 3 - 2em);
+          }
+        }
+        &.group4 {
+          // placeholder
+        }
+        &.group5 {
+          // placeholder
         }
       }
-      &.group2 {
-        & > .email {
-          width: 60%;
+
+      & > .group.product {
+        @extend %flexRow;
+        gap: 1em;
+        align-items: center;
+        margin-bottom: 1em;
+        flex-wrap: wrap;
+
+        &.group1 {
+          @extend %flexRow;
+          width: calc(30% - 0.5em);
+          align-items: flex-start;
+        
+
+          & > .imageUrl {
+            height: 10em;
+            aspect-ratio: 1 / 1;
+            border-radius: 1em;
+            font-size: 1em;
+            margin-bottom: 1em;
+          }
         }
 
-        & > .phoneNumber {
-          width: 25%;
-        }
-      }
-      &.group3 {
-        height: fit-content;
-
-        & > .address\.country {
+        &.group2 {
+          width: calc(70% - 0.5em);
           @extend %flexCol;
-          gap: 0.125em;
+          align-items: flex-start;
+          justify-content: flex-start;
+          gap: 1em;
+
+          & > .name {
+            width: 50%;
+          }
+          & > .manufacturer {
+            width: 50%;
+          }
+        }
+
+        &.group3 {
+          width: 40%;
+          height: fit-content;
+          & > .category {
+            width: 100%;
+            @extend %flexCol;
+            gap: 0.125em;
+          }
+        }
+
+        &.group4 {
+          width: calc(60% - 2em);
+          @extend %flexRow;
+          gap: 1em;
+          & > .stockQuantity {
+            width: calc(50% - 0.5em);
+          }
+          & > .price {
+            width: calc(50% - 0.5em);
+          }
+        }
+        &.group5 {
           width: 100%;
-          margin-top: 1em;
-        }
+          & > .description {
+            width: 100%;
 
-        & > span {
-          width: calc(100% / 3 - 2em)
+            & > textarea {
+              font-size: 1.5em
+            }
+          }
         }
+      }
+      & > .group.sale {
+        @extend %flexRow;
+        gap: 1em;
+        align-items: center;
+        margin-bottom: 1em;
+        width: 100%;
+        &.group1 {
+          & > .firstName {
+            width: 50%;
+          }
+          & > .lastName {
+            width: 35%;
+          }
+        }
+        &.group2 {
+          & > .email {
+            width: 60%;
+          }
 
-      }
-      &.group4 {
-        // placeholder
-      }
-      &.group5 {
-        // placeholder
-      }
-    }
-    & > .group.product {
-      @extend %flexRow;
-      gap: 1em;
-      align-items: center;
-      margin-bottom: 1em;
-      &.group1 {
-        & > .firstName {
-          width: 35%;
+          & > .phoneNumber {
+            width: 25%;
+          }
         }
-        & > .lastName {
-          width: 35%;
-        }
-      }
-      &.group2 {
-        & > .email {
-          width: 60%;
-        }
+        &.group3 {
+          height: fit-content;
+          & > .country {
+            @extend %flexCol;
+            gap: 0.125em;
+          }
 
-        & > .phoneNumber {
-          width: 25%;
+          & > .city {
+            width: 30%;
+          }
         }
-      }
-      &.group3 {
-        height: fit-content;
-        & > .country {
-          @extend %flexCol;
-          gap: 0.125em;
+        &.group4 {
+          // placeholder
         }
-
-        & > .city {
-          width: 30%;
+        &.group5 {
+          // placeholder
         }
-      }
-      &.group4 {
-        // placeholder
-      }
-      &.group5 {
-        // placeholder
-      }
-    }
-    & > .group.sale {
-      @extend %flexRow;
-      gap: 1em;
-      align-items: center;
-      margin-bottom: 1em;
-      &.group1 {
-        & > .firstName {
-          width: 35%;
-        }
-        & > .lastName {
-          width: 35%;
-        }
-      }
-      &.group2 {
-        & > .email {
-          width: 60%;
-        }
-
-        & > .phoneNumber {
-          width: 25%;
-        }
-      }
-      &.group3 {
-        height: fit-content;
-        & > .country {
-          @extend %flexCol;
-          gap: 0.125em;
-        }
-
-        & > .city {
-          width: 30%;
-        }
-      }
-      &.group4 {
-        // placeholder
-      }
-      &.group5 {
-        // placeholder
       }
     }
   }
   & > .footer {
     height: 10%;
+    width: 100%;
     @extend %flexRow;
     flex-direction: row-reverse;
-    align-items: flex-end;
+    align-items: center;
     gap: 1em;
     margin-top: auto;
   }
