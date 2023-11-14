@@ -66,9 +66,7 @@ const ClientItem: FC<ClientItemProps> = ({
     setIsActiveModal_EditClient(true);
   }, [dispatch, setSelectedClientId]);
 
-  const getCheckboxEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDisplayInputUrl(e.currentTarget.checked);
-  };
+
   return (
     <div className={styles.ClientItem}>
       <Modal

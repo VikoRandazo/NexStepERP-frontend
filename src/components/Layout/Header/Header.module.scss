@@ -55,9 +55,23 @@
       gap: 1em;
 
       & > *svg {
-        width: 1.5em;
-        height: 1.5em;
+        font-size: 1.5em;
         color: $secondary;
+      }
+
+      & > .shoppingCart {
+        position: relative;
+        background-color: aqua;
+      }
+
+      & > .notifications {
+        position: relative;
+        background-color: aquamarine;
+      }
+
+      & > .messages {
+        position: relative;
+        background-color: wheat;
       }
     }
   }

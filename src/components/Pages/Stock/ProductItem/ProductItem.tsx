@@ -1,6 +1,6 @@
-import React, { FC, useState } from "react";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./ProductItem.module.scss";
-import { ProductType } from "../../../../models/ProductType";
+import { ProductInitState, ProductType } from "../../../../models/ProductType";
 import { InputField } from "../../../Elements/Input/InputField";
 import { InteractionsModeEnum } from "../../../../models/shared/InteractionsMode";
 import { HiCheckCircle, HiPencil, HiTrash, HiXCircle } from "react-icons/hi2";
@@ -12,6 +12,11 @@ import { ModalTitleEnum } from "../../../../models/ModalTitleEnum";
 import { ModalDescriptionEnum } from "../../../../models/ModalDescriptionEnum";
 import Form from "../../../Form/Form";
 import NumberIncrementor from "../../../Elements/NumberIncrementor/NumberIncrementor";
+import { useDispatchHook } from "../../../../hooks/useDispatch";
+import { shoppingCartActions } from "../../../../store/slices/shoppingCart";
+import { useSelector } from "react-redux";
+import { StoreRootTypes } from "../../../../store/store";
+import { ProductSold } from "../../../../models/ProductSoldType";
 
 interface ProductItemProps {
   product: ProductType;
@@ -22,15 +27,13 @@ interface ProductItemProps {
 }
 
 const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag }) => {
-  const { _id, name, description, imageUrl, stockQuantity, category, price, purchasesAmount } =
+  const { dispatch } = useDispatchHook();
+  const { _id, name, description, imageUrl, stockQuantity, manufacturer, category, price } =
     product;
 
   const [isActiveModal, setIsActiveModal] = useState<boolean>(false);
   const [numberIncrementor, setNumberIncrementor] = useState<number>(0);
-
-  const getCheckboxEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked } = e.currentTarget;
-  };
+  const [shoppingCartItem, setShoppingCartItem] = useState<Partial<ProductType>>(ProductInitState);
 
   const handleDeleteProduct = async () => {
     try {
@@ -45,10 +48,44 @@ const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag }) => {
     setIsActiveModal(true);
   };
 
+  const productSold: ProductSold = useMemo(() => {
+    return {
+      pid: _id as string,
+      price: price,
+      quantity: numberIncrementor,
+    };
+  }, [_id, price, numberIncrementor]);
+
+  const handleAddToCartQunatity = () => {
+    if (productSold.pid) {
+      setNumberIncrementor((prev) => prev + 1);
+      dispatch(shoppingCartActions.setProduct(productSold));
+    }
+  };
+  const handleRemoveFromCartQunatity = () => {
+    if (_id) {
+      if (numberIncrementor > 0) {
+        setNumberIncrementor((prev) => prev - 1);
+        dispatch(shoppingCartActions.removeProduct(_id));
+      }
+    }
+  };
+
   const productOptions: ItemOptionType[] = [
     { icon: <HiPencil />, text: "Edit Product", action: handleEditProduct },
     { icon: <HiTrash />, text: "Delete Item", action: handleDeleteProduct },
   ];
+
+  useEffect(() => {
+    setShoppingCartItem({
+      _id,
+      name,
+      price,
+      imageUrl,
+      category,
+      manufacturer,
+    });
+  }, []);
 
   return (
     <div className={styles.ProductItem}>
@@ -94,14 +131,18 @@ const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag }) => {
         <div className={styles.quantityAndPrice}>
           <span className={styles.quantity}>
             <NumberIncrementor
+              redux={true}
               min={0}
-              value={numberIncrementor}
-              setValue={setNumberIncrementor}
               max={stockQuantity}
+              value={numberIncrementor}
+              actionPlus={handleAddToCartQunatity}
+              actionMinus={handleRemoveFromCartQunatity}
             />
           </span>
           <hr />
-          <span className={numberIncrementor > 0 ? `${styles.selected} ${styles.price}` : styles.price}>
+          <span
+            className={numberIncrementor > 0 ? `${styles.selected} ${styles.price}` : styles.price}
+          >
             <h4>{numberIncrementor > 0 ? price * numberIncrementor : price}$</h4>
           </span>
         </div>

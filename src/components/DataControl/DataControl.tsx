@@ -17,7 +17,6 @@ import Form from "../Form/Form";
 import { ModalTitleEnum } from "../../models/ModalTitleEnum";
 import { ModalDescriptionEnum } from "../../models/ModalDescriptionEnum";
 import BtnSecondary from "../Elements/Buttons/Btn-Secondary/Btn-Secondary";
-import NewOrder from "../NewOrder/NewOrder";
 import { StoreRootTypes } from "../../store/store";
 import { useSelector } from "react-redux";
 export interface DataControlProps<T> {
@@ -103,16 +102,7 @@ const DataControl = <T,>({
           />
         }
       />
-      <Modal
-        setIsActiveModal={setIsActiveNewOrderModal}
-        isActive={isActiveNewOrderModal}
-        title={`Choose Client`}
-        description={`Who is the client?`}
-        children={
-          <Select isActive={isActiveSelectClient} options={[]} name={"selectClient"} value={undefined} />
-        }
-      />
-
+      
       <div className={styles.container}>
         <div className={styles.search}>
           <Input
@@ -140,14 +130,7 @@ const DataControl = <T,>({
           </span>
         </div>
         <div className={styles.createEntity}>
-          {entity === EntityEnum.STOCK ? (
-            <BtnPrimary
-              icon={<HiShoppingBag />}
-              text={`New Order`}
-              action={handleOpenNewOrderModal}
-            />
-          ) : null}
-          <BtnSecondary
+          <BtnPrimary
             icon={<HiSparkles />}
             text={`${BtnActionsTextEnum.CREATE} ${entity}`}
             action={handleOpenCreateModal}

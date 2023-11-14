@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import styles from "./Header.module.scss";
-import { HiChatBubbleOvalLeftEllipsis, HiMiniBell } from "react-icons/hi2";
+import { HiChatBubbleOvalLeftEllipsis, HiMiniBell, HiShoppingCart } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { StoreRootTypes } from "../../../store/store";
-import jwtDecode from "jwt-decode";
-import { useDispatch } from "react-redux";
-import { CustomerType } from "../../../models/CustomerType";
+import Popover from "../../Popover/Popover";
+import ShoppingCart from "../../ShoppingCart/ShoppingCart";
+import { PopoverTitleEnum } from "../../Popover/PopoverTitleEnum";
 
 interface HeaderProps {}
 
@@ -21,6 +21,10 @@ const Header: FC<HeaderProps> = () => {
       </div>
       <div className={styles.user}>
         <div className={styles.system}>
+          <div className={styles.shoppingCart}>
+            <HiShoppingCart />
+            <Popover children={<ShoppingCart products={[]}/>} title={PopoverTitleEnum.SHOPPING_CART} />
+          </div>
           <div className={styles.notifications}>
             <HiMiniBell />
           </div>

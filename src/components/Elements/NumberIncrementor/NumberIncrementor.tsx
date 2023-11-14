@@ -1,30 +1,49 @@
 import React, { FC } from "react";
 import styles from "./NumberIncrementor.module.scss";
 
-interface NumberIncrementorProps {
-  min: number;
-  value: number;
-  setValue: React.Dispatch<React.SetStateAction<number>>;
-  max: number;
-}
+type NumberIncrementorProps =
+  | {
+      redux?: false;
+      min: number;
+      max: number;
+      value: number;
+      setValue: React.Dispatch<React.SetStateAction<number>>;
+    }
+  | {
+      redux: true;
+      min: number;
+      max: number;
+      value: number;
+      actionPlus: () => void;
+      actionMinus: () => void;
+    };
 
-const NumberIncrementor: FC<NumberIncrementorProps> = ({ min, value, setValue, max }) => {
+const NumberIncrementor: FC<NumberIncrementorProps> = (props) => {
+  const isRedux = props.redux === true;
+
   const handlePlus = () => {
-    if (value !== max) {
-      setValue((prev) => prev + 1);
+    if (props.value !== props.max) {
+      if (isRedux) {
+        props.actionPlus();
+      } else {
+        props.setValue((prev) => prev + 1);
+      }
     }
   };
+
   const handleMinus = () => {
-    if (value !== min) {
-      setValue((prev) => prev - 1);
-    } else return;
+    if (isRedux) {
+      props.actionMinus();
+    } else {
+      props.setValue((prev) => prev - 1);
+    }
   };
   return (
     <div className={styles.NumberIncrementor}>
       <button className={styles.minus} onClick={handleMinus}>
         -
       </button>
-      <div className={styles.value}>{value}</div>
+      <div className={styles.value}>{props.value}</div>
       <button className={styles.plus} onClick={handlePlus}>
         +
       </button>
