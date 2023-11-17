@@ -1,17 +1,20 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { CustomerType, initClientState } from "../../models/CustomerType";
 import { ProductSold, ProductSoldInit } from "../../models/ProductSoldType";
+import { ProductType } from "../../models/ProductType";
 
-export type ShoppingCart = {
+type ProductTypesNarrowed = Omit<ProductType, `description` | `stockQuantity`>;
+
+export type ShoppingCartSliceType = {
   date: string;
   client: CustomerType | null;
-  products: { product: ProductSold; quantity: number }[];
+  products: { product: ProductType; quantity: number }[];
   totalItems: number;
   totalPrice: number;
   lastUpdated: string;
 };
 
-const initShoppingCart: ShoppingCart = {
+const initShoppingCart: ShoppingCartSliceType = {
   date: "",
   client: null,
   products: [],
@@ -28,19 +31,17 @@ export const ShoppingCartSlice = createSlice({
       state.client = payload;
     },
 
-    setProduct(state, { payload }: PayloadAction<ProductSold>) {
+    setProduct(state, { payload }: PayloadAction<ProductType>) {
+      const { description, stockQuantity, ...rest } = payload;
+
       const foundProduct = state.products.find(
-        (productInCart) => productInCart.product.pid === payload.pid
+        (productInCart) => productInCart.product._id === payload._id
       );
 
-      if (!foundProduct) {
-        state.products = [
-          ...state.products,
-          { product: { pid: payload.pid, price: payload.price, quantity: 1 }, quantity: 1 },
-        ];
-      } else {
+      if (foundProduct) {
         foundProduct.quantity += 1;
-        foundProduct.product.quantity += 1;
+      } else {
+        state.products = [...state.products, { product: payload, quantity: 1 }];
       }
 
       state.totalItems = state.products.reduce((total, product) => {
@@ -56,13 +57,12 @@ export const ShoppingCartSlice = createSlice({
 
     removeProduct(state, { payload }: PayloadAction<string>) {
       const foundProductIndex = state.products.findIndex(
-        (product) => product.product.pid === payload
+        (product) => product.product._id === payload
       );
 
       if (foundProductIndex !== -1) {
         if (state.products[foundProductIndex].quantity > 1) {
           state.products[foundProductIndex].quantity -= 1;
-          state.products[foundProductIndex].product.quantity -= 1;
         } else {
           state.products.splice(foundProductIndex, 1);
         }
@@ -73,7 +73,7 @@ export const ShoppingCartSlice = createSlice({
       }, 0);
 
       state.totalPrice = state.products.reduce((total, product) => {
-        return total + product.product.price * product.product.quantity;
+        return total + product.product.price * product.quantity;
       }, 0);
     },
 

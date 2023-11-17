@@ -1,1 +1,38 @@
-.CartItem {}
+@import "../../../styles/globalStyles/Flex.module.scss";
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+.CartItem {
+  width: 100%;
+  @extend %flexRow;
+  align-items: center;
+  justify-content: space-between;
+
+  & > .details {
+    @extend %flexCol;
+    gap: 0.25em;
+
+    & > .title {
+      font-size: 1em;
+      font-weight: 700;
+    }
+    & > .manufacturer {
+        font-size: 0.75em;
+    }
+  }
+  & > .quantityAndPrice {
+    height: 100%;
+    width: 50%;
+    @extend %flexRow;
+    align-items: center;
+    gap: 1em;
+
+    & > .quantity {
+      height: 1.5em;
+      font-size: 1em;
+    }
+
+    & > .price {
+      font-weight: 700;
+      font-size: 1.25em;
+    }
+  }
+}

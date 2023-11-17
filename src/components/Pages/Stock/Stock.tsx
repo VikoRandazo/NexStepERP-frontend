@@ -11,6 +11,8 @@ import DataControl from "../../DataControl/DataControl";
 import Form from "../../Form/Form";
 import { ModalTitleEnum } from "../../../models/ModalTitleEnum";
 import { ModalDescriptionEnum } from "../../../models/ModalDescriptionEnum";
+import { StoreRootTypes } from "../../../store/store";
+import { useSelector } from "react-redux";
 
 interface StockProps {}
 
@@ -28,7 +30,7 @@ const Stock: FC<StockProps> = () => {
   } = setters;
   const { deleteProducts, deleteSingleProduct, getCheckboxEvent } = functions;
   const { dispatch } = useDispatchHook();
-
+  const shoppingCartProducts = useSelector((state:StoreRootTypes) => state.shoppingCart.products)
   // Analitycs
   const [mostPurchasedProduct, setMostPurchasedProduct] = useState<string>("none");
   const [salesPortion, setSalesPortion] = useState<number>(0);
@@ -93,7 +95,7 @@ const Stock: FC<StockProps> = () => {
       />
 
       <div className={styles.displayClients}>
-        {filteredProducts.map((product: ProductType) => (
+        {filteredProducts.map((product) => (
           <ProductItem
             key={product._id}
             product={product}

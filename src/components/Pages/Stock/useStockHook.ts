@@ -13,7 +13,6 @@ import { useFormik } from "formik";
 import { FilterByEnum } from "../../DataControl/TypeGuards";
 import { HiArrowDown } from "react-icons/hi2";
 import { OptionType } from "../../../models/Elements/Option";
-import { EntityEnum } from "../../../models/EntityEnum";
 import { SelectPlaceHolderEnum } from "../../../models/SelectPlaceHolderEnum.";
 
 export const useStockHook = () => {

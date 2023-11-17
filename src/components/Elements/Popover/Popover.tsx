@@ -18,7 +18,6 @@ const Popover: FC<PopoverProps> = ({children, title}) => {
       </div>
       <hr />
       <div className={styles.content}>
-
         {children}
       </div>
     </div>

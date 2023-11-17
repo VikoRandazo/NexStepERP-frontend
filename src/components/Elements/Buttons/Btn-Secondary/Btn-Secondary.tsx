@@ -9,7 +9,7 @@ interface BtnSecondaryProps {
 }
 
 const BtnSecondary: FC<BtnSecondaryProps> = ({ text, action, icon }) => (
-  <button type={"button"}className={styles.BtnSecondary} onClick={action}>
+  <button type={"button"} className={styles.BtnSecondary} onClick={action}>
    {icon} {text}
   </button>
 );

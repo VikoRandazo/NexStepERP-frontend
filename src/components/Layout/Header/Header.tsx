@@ -1,18 +1,17 @@
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable react/jsx-no-comment-textnodes */
 import React, { FC } from "react";
 import styles from "./Header.module.scss";
 import { HiChatBubbleOvalLeftEllipsis, HiMiniBell, HiShoppingCart } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { StoreRootTypes } from "../../../store/store";
-import Popover from "../../Popover/Popover";
+import Popover from "../../Elements/Popover/Popover";
 import ShoppingCart from "../../ShoppingCart/ShoppingCart";
-import { PopoverTitleEnum } from "../../Popover/PopoverTitleEnum";
+import { PopoverTitleEnum } from "../../Elements/Popover/PopoverTitleEnum";
 
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
   const currentPage = useSelector((state: StoreRootTypes) => state.appSettings.pageName);
+  const shoppingCart = useSelector((state:StoreRootTypes) => state.shoppingCart)
 
   return (
     <div className={styles.Header}>
@@ -23,7 +22,7 @@ const Header: FC<HeaderProps> = () => {
         <div className={styles.system}>
           <div className={styles.shoppingCart}>
             <HiShoppingCart />
-            <Popover children={<ShoppingCart products={[]}/>} title={PopoverTitleEnum.SHOPPING_CART} />
+            <Popover children={<ShoppingCart shoppingCart={shoppingCart}/>} title={PopoverTitleEnum.SHOPPING_CART} />
           </div>
           <div className={styles.notifications}>
             <HiMiniBell />
@@ -32,9 +31,9 @@ const Header: FC<HeaderProps> = () => {
             <HiChatBubbleOvalLeftEllipsis />
           </div>
         </div>
-        <div className={styles.userImg}>
+        {/* <div className={styles.userImg}>
           <img src="https://did.li/akHCN" />
-        </div>
+        </div> */}
         <div className={styles.userDetails}>
           <h5>user name</h5>
           <span>demo@example.com</span>

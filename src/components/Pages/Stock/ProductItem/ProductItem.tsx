@@ -33,8 +33,7 @@ const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag }) => {
 
   const [isActiveModal, setIsActiveModal] = useState<boolean>(false);
   const [numberIncrementor, setNumberIncrementor] = useState<number>(0);
-  const [shoppingCartItem, setShoppingCartItem] = useState<Partial<ProductType>>(ProductInitState);
-
+  const [shoppingCartItem, setShoppingCartItem] = useState<ProductType>(ProductInitState);
   const handleDeleteProduct = async () => {
     try {
       const response = await instance.delete(`/products/${_id}`);
@@ -48,18 +47,10 @@ const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag }) => {
     setIsActiveModal(true);
   };
 
-  const productSold: ProductSold = useMemo(() => {
-    return {
-      pid: _id as string,
-      price: price,
-      quantity: numberIncrementor,
-    };
-  }, [_id, price, numberIncrementor]);
-
   const handleAddToCartQunatity = () => {
-    if (productSold.pid) {
+    if (shoppingCartItem._id) {
       setNumberIncrementor((prev) => prev + 1);
-      dispatch(shoppingCartActions.setProduct(productSold));
+      dispatch(shoppingCartActions.setProduct(shoppingCartItem));
     }
   };
   const handleRemoveFromCartQunatity = () => {
@@ -80,9 +71,11 @@ const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag }) => {
     setShoppingCartItem({
       _id,
       name,
+      description,
       price,
       imageUrl,
       category,
+      stockQuantity,
       manufacturer,
     });
   }, []);

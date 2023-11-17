@@ -54,24 +54,34 @@
       justify-content: center;
       gap: 1em;
 
-      & > *svg {
-        font-size: 1.5em;
-        color: $secondary;
-      }
-
       & > .shoppingCart {
         position: relative;
         background-color: aqua;
+        
+        & > svg {
+          font-size: 1.5em;
+          color: $secondary;
+        }
       }
 
       & > .notifications {
         position: relative;
         background-color: aquamarine;
+
+        & > svg {
+          font-size: 1.5em;
+          color: $secondary;
+        }
       }
 
       & > .messages {
         position: relative;
         background-color: wheat;
+        
+        & > svg {
+          font-size: 1.5em;
+          color: $secondary;
+        }
       }
     }
   }

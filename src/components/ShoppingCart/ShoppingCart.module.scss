@@ -1,5 +1,62 @@
+@import "../../styles/globalStyles/Flex.module.scss";
+
 .ShoppingCart {
+  width: 100%;
+  height: 100%;
+  padding: 0.5em;
+
+  & > .items {
+    height: 75%;
+    @extend %flexCol;
+    gap: 1em;
+
+    & > .item {
+      & > hr {
+        margin-top: 1em;
+      }
+    }
+  }
+
+  & > .footer {
     width: 100%;
-    height: 100%;
-    padding: 1em;
+    padding: 0.5em;
+    margin-top: auto;
+    @extend %flexCol;
+    gap: 0.5em;
+
+    & > .subtotalPriceContainer {
+      @extend %flexRow;
+      justify-content: space-between;
+
+      & > .title {
+        font-size: 0.875em;
+      }
+    }
+
+    & > .discountContainer {
+      @extend %flexRow;
+      justify-content: space-between;
+
+      & > .title {
+        font-size: 0.875em;
+      }
+    }
+
+    & > .totalPriceContainer {
+      @extend %flexRow;
+      justify-content: space-between;
+
+      & > .title {
+        font-size: 0.875em;
+      }
+    }
+
+    & > .checkout {
+      width: 100%;
+      @extend %flexRow;
+      align-items: center;
+      justify-content: center;
+      padding: 1em;
+    }
+  }
 }

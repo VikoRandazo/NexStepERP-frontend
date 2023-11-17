@@ -4,7 +4,7 @@ import { AppSettings, appSettingsSlice } from "./slices/appSettings";
 import { EntitySliceType, entitySlice } from "./slices/entities";
 import { UiSlice, UiSliceType } from "./slices/ui";
 import { TableSlice, TableSliceType } from "./slices/table";
-import { ShoppingCart, ShoppingCartSlice } from "./slices/shoppingCart";
+import { ShoppingCartSliceType, ShoppingCartSlice } from "./slices/shoppingCart";
 
 export interface StoreRootTypes {
   ui: UiSliceType;
@@ -12,7 +12,7 @@ export interface StoreRootTypes {
   entities: EntitySliceType;
   appSettings: AppSettings;
   sideBarSlice: SideBar;
-  shoppingCart: ShoppingCart;
+  shoppingCart: ShoppingCartSliceType;
 }
 
 export const store = configureStore({
