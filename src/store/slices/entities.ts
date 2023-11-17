@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ProductType } from "../../models/ProductType";
+import { ProductInitState, ProductType } from "../../models/ProductType";
 import { CustomerType } from "../../models/CustomerType";
 import { SaleType } from "../../models/SaleType";
 
@@ -7,11 +7,13 @@ export interface EntitySliceType {
   stock: ProductType[];
   clients: CustomerType[];
   sales: SaleType[];
+  selectedProducts: ProductType[];
 }
 export const initEntitiesState = {
   stock: [],
   clients: [],
   sales: [],
+  selectedProducts: [] as ProductType[],
 };
 
 export const entitySlice = createSlice({

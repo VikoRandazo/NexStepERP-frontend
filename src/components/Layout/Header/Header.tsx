@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from "./Header.module.scss";
 import { HiChatBubbleOvalLeftEllipsis, HiMiniBell, HiShoppingCart } from "react-icons/hi2";
 import { useSelector } from "react-redux";
@@ -10,8 +10,17 @@ import { PopoverTitleEnum } from "../../Elements/Popover/PopoverTitleEnum";
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
+  const [isActivePopoverShoppingCart, setIsActivePopoverShoppingCart] = useState<boolean>(false);
+
   const currentPage = useSelector((state: StoreRootTypes) => state.appSettings.pageName);
-  const shoppingCart = useSelector((state:StoreRootTypes) => state.shoppingCart)
+  const shoppingCart = useSelector((state: StoreRootTypes) => state.shoppingCart);
+
+  const handleOpenShoppingCartPopover = () => {
+    setIsActivePopoverShoppingCart(true);
+  };
+
+  
+
 
   return (
     <div className={styles.Header}>
@@ -20,9 +29,14 @@ const Header: FC<HeaderProps> = () => {
       </div>
       <div className={styles.user}>
         <div className={styles.system}>
-          <div className={styles.shoppingCart}>
+          <div className={styles.shoppingCart} onClick={handleOpenShoppingCartPopover}>
             <HiShoppingCart />
-            <Popover children={<ShoppingCart shoppingCart={shoppingCart}/>} title={PopoverTitleEnum.SHOPPING_CART} />
+            <Popover
+            isActivePopover={isActivePopoverShoppingCart}
+              setIsActivePopover={setIsActivePopoverShoppingCart}
+              children={<ShoppingCart shoppingCart={shoppingCart} />}
+              title={PopoverTitleEnum.SHOPPING_CART}
+            />
           </div>
           <div className={styles.notifications}>
             <HiMiniBell />

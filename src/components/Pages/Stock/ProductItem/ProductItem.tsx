@@ -1,9 +1,9 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from "./ProductItem.module.scss";
-import { ProductInitState, ProductType } from "../../../../models/ProductType";
+import { ProductType } from "../../../../models/ProductType";
 import { InputField } from "../../../Elements/Input/InputField";
 import { InteractionsModeEnum } from "../../../../models/shared/InteractionsMode";
-import { HiCheckCircle, HiPencil, HiTrash, HiXCircle } from "react-icons/hi2";
+import { HiCheckCircle, HiPencil, HiShoppingCart, HiTrash, HiXCircle } from "react-icons/hi2";
 import { ItemOptionType } from "../../../../models/ClientOption";
 import ItemOption from "../../../ClientCardOption/ItemOption";
 import instance from "../../../../api/axiosInstance";
@@ -11,29 +11,26 @@ import Modal from "../../../Modal/Modal";
 import { ModalTitleEnum } from "../../../../models/ModalTitleEnum";
 import { ModalDescriptionEnum } from "../../../../models/ModalDescriptionEnum";
 import Form from "../../../Form/Form";
-import NumberIncrementor from "../../../Elements/NumberIncrementor/NumberIncrementor";
 import { useDispatchHook } from "../../../../hooks/useDispatch";
-import { shoppingCartActions } from "../../../../store/slices/shoppingCart";
-import { useSelector } from "react-redux";
-import { StoreRootTypes } from "../../../../store/store";
-import { ProductSold } from "../../../../models/ProductSoldType";
+import { ShoppingCartSliceType, shoppingCartActions } from "../../../../store/slices/shoppingCart";
 
 interface ProductItemProps {
   product: ProductType;
+  shoppingCart: ShoppingCartSliceType;
   fields: InputField[];
   formikBag: any;
   mode: InteractionsModeEnum;
   setSelectedProductId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag }) => {
+const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag, shoppingCart }) => {
   const { dispatch } = useDispatchHook();
   const { _id, name, description, imageUrl, stockQuantity, manufacturer, category, price } =
     product;
 
   const [isActiveModal, setIsActiveModal] = useState<boolean>(false);
   const [numberIncrementor, setNumberIncrementor] = useState<number>(0);
-  const [shoppingCartItem, setShoppingCartItem] = useState<ProductType>(ProductInitState);
+
   const handleDeleteProduct = async () => {
     try {
       const response = await instance.delete(`/products/${_id}`);
@@ -47,38 +44,22 @@ const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag }) => {
     setIsActiveModal(true);
   };
 
-  const handleAddToCartQunatity = () => {
-    if (shoppingCartItem._id) {
-      setNumberIncrementor((prev) => prev + 1);
-      dispatch(shoppingCartActions.setProduct(shoppingCartItem));
-    }
-  };
-  const handleRemoveFromCartQunatity = () => {
-    if (_id) {
-      if (numberIncrementor > 0) {
-        setNumberIncrementor((prev) => prev - 1);
-        dispatch(shoppingCartActions.removeProduct(_id));
-      }
-    }
+  const productForShoppingCart = { product, quantity: 1 };
+
+  const handleAddToCart = () => {
+    dispatch(shoppingCartActions.setProduct(productForShoppingCart));
   };
 
   const productOptions: ItemOptionType[] = [
+    { icon: <HiShoppingCart />, text: "Add To Cart", action: handleAddToCart },
     { icon: <HiPencil />, text: "Edit Product", action: handleEditProduct },
     { icon: <HiTrash />, text: "Delete Item", action: handleDeleteProduct },
   ];
 
   useEffect(() => {
-    setShoppingCartItem({
-      _id,
-      name,
-      description,
-      price,
-      imageUrl,
-      category,
-      stockQuantity,
-      manufacturer,
-    });
-  }, []);
+    console.log(productForShoppingCart);
+    
+  }, [dispatch]);
 
   return (
     <div className={styles.ProductItem}>
@@ -119,25 +100,6 @@ const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag }) => {
           <span className={styles.stockQuantity}>in Stock: {stockQuantity}</span>
           <span className={styles.category}>{category}</span>
           <span className={styles.productId}>ID: {_id}</span>
-        </div>
-
-        <div className={styles.quantityAndPrice}>
-          <span className={styles.quantity}>
-            <NumberIncrementor
-              redux={true}
-              min={0}
-              max={stockQuantity}
-              value={numberIncrementor}
-              actionPlus={handleAddToCartQunatity}
-              actionMinus={handleRemoveFromCartQunatity}
-            />
-          </span>
-          <hr />
-          <span
-            className={numberIncrementor > 0 ? `${styles.selected} ${styles.price}` : styles.price}
-          >
-            <h4>{numberIncrementor > 0 ? price * numberIncrementor : price}$</h4>
-          </span>
         </div>
 
         <div className={styles.actions}>

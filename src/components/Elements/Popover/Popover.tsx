@@ -1,25 +1,37 @@
-import React, { FC, ReactElement, useEffect } from 'react';
-import styles from './Popover.module.scss';
-import { PopoverTitleEnum } from './PopoverTitleEnum';
+import React, { FC, ReactElement, useEffect, useRef } from "react";
+import styles from "./Popover.module.scss";
+import { PopoverTitleEnum } from "./PopoverTitleEnum";
 
 interface PopoverProps {
-  children: ReactElement
-  title: PopoverTitleEnum
+  isActivePopover: boolean;
+  setIsActivePopover: React.Dispatch<React.SetStateAction<boolean>>;
+  children: ReactElement;
+  title: PopoverTitleEnum;
 }
 
-const Popover: FC<PopoverProps> = ({children, title}) => {
+const Popover: FC<PopoverProps> = ({ children, title, isActivePopover, setIsActivePopover }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const closePopover = (e: MouseEvent) => {
+    e.stopPropagation()
+    if (ref.current && !ref.current.contains(e.target as Node)) {
+      setIsActivePopover(false);
+    }
+  };
 
+  
+  document.addEventListener("mousedown", closePopover);
   useEffect(() => {
-  },[])
+    document.removeEventListener("mousedown", closePopover);
+
+  }, [isActivePopover]);
   return (
-    <div className={styles.Popover}>
-      <div className={styles.title}>
-        {title}
-      </div>
+    <div
+      className={isActivePopover ? `${styles.Popover} ${styles.isActive}` : styles.Popover}
+      ref={ref}
+    >
+      <div className={styles.title}>{title}</div>
       <hr />
-      <div className={styles.content}>
-        {children}
-      </div>
+      <div className={styles.content}>{children}</div>
     </div>
   );
 };

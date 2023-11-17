@@ -27,7 +27,6 @@ const Clients: FC<ClientsProps> = () => {
         fields={fields}
         formikbagClient={formikBag}
         filterOptions={filterOptions}
-        setFilteredData={setFilteredClients}
       />
 
       <div className={styles.displayClients}>

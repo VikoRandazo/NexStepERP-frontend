@@ -25,7 +25,6 @@ export interface DataControlProps<T> {
   filterOptions: OptionType[];
   fields: InputField[];
   formikbagClient: any;
-  setFilteredData: React.Dispatch<React.SetStateAction<T[]>>;
 }
 
 const DataControl = <T,>({
@@ -33,7 +32,6 @@ const DataControl = <T,>({
   filterOptions,
   fields,
   formikbagClient,
-  setFilteredData,
 }: DataControlProps<T>) => {
   const { dispatch } = useDispatchHook();
 
@@ -51,7 +49,7 @@ const DataControl = <T,>({
     formikBag,
     handlers,
     data: filteredData,
-  } = useDataControlHook(data as any, setFilteredData);
+  } = useDataControlHook(data as any);
   const { handleSearch } = filteredData;
   const { isActiveCreateModal, entity, isActiveNewOrderModal, newOrderFields } = states;
   const { setIsActiveCreateModal, setIsActiveNewOrderModal } = setters;

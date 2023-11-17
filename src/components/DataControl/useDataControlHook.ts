@@ -11,7 +11,6 @@ import { InputField } from "../Elements/Input/InputField";
 
 export const useDataControlHook = <T extends object>(
   data: T[],
-  setFilteredData: React.Dispatch<React.SetStateAction<T>>
 ) => {
   const [filterBy, setFilterBy] = useState<FilterByProps>(FilterByEnum.NONE);
   const [isActiveCreateModal, setIsActiveCreateModal] = useState<boolean>(false);

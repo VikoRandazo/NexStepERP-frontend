@@ -7,18 +7,29 @@
   right: 0;
   margin-top: 1em;
   background-color: #fff;
-  border: 0.125em solid $primary;
-  height: 60vh;
-  aspect-ratio: 1 / 1.125;
+  border: 0.125em solid $background-medium;
+  backdrop-filter: blur(6px);
+  min-height: 60vh;
+  max-height: 80vh;
+  width: 30vw;
   border-radius: 1em;
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 10;
+  display: none;
+  opacity: 0;
 
+&.isActive {
+@extend %flexCol;
+opacity: 1;
+}
   & > .title {
     padding: 1em;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
   }
-
+  
   & > .content {
     padding: 1em;
   }

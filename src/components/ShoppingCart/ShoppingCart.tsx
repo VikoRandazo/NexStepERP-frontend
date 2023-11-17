@@ -1,24 +1,40 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import styles from "./ShoppingCart.module.scss";
 import CartItem from "./CartItem/CartItem";
-import { ShoppingCartSliceType } from "../../store/slices/shoppingCart";
+import {
+  ShoppingCartProduct,
+  ShoppingCartSliceType,
+  shoppingCartActions,
+} from "../../store/slices/shoppingCart";
 import { HiShoppingBag } from "react-icons/hi2";
 import BtnPrimary from "../Elements/Buttons/Btn-Primary/Btn-Primary";
+import { useSelector } from "react-redux";
+import { StoreRootTypes } from "../../store/store";
+import { useDispatchHook } from "../../hooks/useDispatch";
+import { entitiesAction } from "../../store/slices/entities";
+import { ProductType } from "../../models/ProductType";
+import BtnSecondary from "../Elements/Buttons/Btn-Secondary/Btn-Secondary";
 
 interface ShoppingCartProps {
   shoppingCart: ShoppingCartSliceType;
 }
 
 const ShoppingCart: FC<ShoppingCartProps> = ({ shoppingCart }) => {
-  const { products, totalPrice, lastUpdated } = shoppingCart;
+  const { dispatch } = useDispatchHook();
+  const { totalPrice, lastUpdated } = shoppingCart;
+  const cartProducts = useSelector((state: StoreRootTypes) => state.shoppingCart.products);
+
+  const clearCart = () => {
+    dispatch(shoppingCartActions.clearCart());
+  };
+
   return (
     <div className={styles.ShoppingCart}>
       <div className={styles.items}>
-        {products.map((_product) => {
-          const { product, quantity } = _product;
+        {cartProducts.map((product: ShoppingCartProduct, i) => {
           return (
             <span className={styles.item}>
-              <CartItem product={product} quantity={quantity} />
+              <CartItem key={i} product={product} />
               <hr />
             </span>
           );
@@ -41,12 +57,16 @@ const ShoppingCart: FC<ShoppingCartProps> = ({ shoppingCart }) => {
           <span className={styles.title}>Total:</span>
           <span className={styles.totalPrice}>{totalPrice * (1 - 0.25)}$</span>
         </div>
-        
+
         <div className={styles.checkout}>
+          <span className={styles.btnClearCart}>
+            <BtnSecondary text={"Clear Cart"} action={clearCart} />
+          </span>
           <span className={styles.btnCheckout}>
-          <BtnPrimary icon={<HiShoppingBag />} text={"Proceed To Checkout"} action={() => {}}/> 
+            <BtnPrimary icon={<HiShoppingBag />} text={"Proceed To Checkout"} action={() => {}} />
           </span>
         </div>
+      <span className={styles.lastUpdated}>Last updated: {lastUpdated}</span>
       </div>
     </div>
   );

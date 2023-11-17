@@ -30,11 +30,11 @@ const Stock: FC<StockProps> = () => {
   } = setters;
   const { deleteProducts, deleteSingleProduct, getCheckboxEvent } = functions;
   const { dispatch } = useDispatchHook();
-  const shoppingCartProducts = useSelector((state:StoreRootTypes) => state.shoppingCart.products)
+  
   // Analitycs
   const [mostPurchasedProduct, setMostPurchasedProduct] = useState<string>("none");
   const [salesPortion, setSalesPortion] = useState<number>(0);
-
+  const shoppingCart = useSelector((state:StoreRootTypes) => state.shoppingCart)
   const findMostPurchasedProduct = () => {
     let mostPurchasedProduct = { name: "none", amount: 0, totalSalesValue: 0 };
     let totalSales = 0;
@@ -69,9 +69,14 @@ const Stock: FC<StockProps> = () => {
     { title: "Portion Of Total Income", value: salesPortion + `%` },
   ];
 
+
+
+
   useEffect(() => {
     findMostPurchasedProduct();
-  }, [data.products]);
+    console.log(products);
+    
+  }, [products]);
 
   return (
     <div className={styles.Stock}>
@@ -91,14 +96,14 @@ const Stock: FC<StockProps> = () => {
         fields={fields}
         formikbagClient={formikBag}
         filterOptions={filterOptions}
-        setFilteredData={setFilteredProducts}
       />
 
       <div className={styles.displayClients}>
-        {filteredProducts.map((product) => (
+        {products.map((product) => (
           <ProductItem
             key={product._id}
             product={product}
+            shoppingCart={shoppingCart}
             fields={fields}
             formikBag={formikBag}
             mode={mode}

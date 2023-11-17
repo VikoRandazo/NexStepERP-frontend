@@ -17,6 +17,7 @@ const Modal: FC<ModalProps> = ({ children, isActive, setIsActiveModal, title, de
   const { dispatch } = useDispatchHook();
 
   const isOpen = useSelector((state: StoreRootTypes) => state.ui.modal.isOpen);
+  
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget || isOpen === true) {
       setIsActiveModal(false);

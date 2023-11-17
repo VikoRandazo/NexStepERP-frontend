@@ -1,18 +1,14 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import styles from "./CartItem.module.scss";
-import { ProductType } from "../../../models/ProductType";
 import NumberIncrementor from "../../Elements/NumberIncrementor/NumberIncrementor";
 import { useDispatchHook } from "../../../hooks/useDispatch";
-import { shoppingCartActions } from "../../../store/slices/shoppingCart";
-
+import { ShoppingCartProduct, shoppingCartActions } from "../../../store/slices/shoppingCart";
 interface CartItemProps {
-  product: ProductType;
-  quantity: number;
+  product:ShoppingCartProduct
 }
 
-
-const CartItem: FC<CartItemProps> = ({ product, quantity }) => {
-  const { _id, name, price, imageUrl, category, manufacturer, stockQuantity } = product;
+const CartItem: FC<CartItemProps> = ({ product }) => {
+  const { _id, name, price, manufacturer } = product.product;
 
   const { dispatch } = useDispatchHook();
 
@@ -25,32 +21,31 @@ const CartItem: FC<CartItemProps> = ({ product, quantity }) => {
       dispatch(shoppingCartActions.removeProduct(_id));
     }
   };
+
+
+  useEffect(() => {
+    console.log(_id);
+    
+  },[dispatch])
+
   return (
     <div className={styles.CartItem}>
       <div className={styles.details}>
-        <div className={styles.title}>
-
-        <h5>{name}</h5>
-        </div>
-        <div className={styles.manufacturer}>
-
-        <span>{manufacturer}</span>
-        </div>
+        <div className={styles.title}>{<h5>{name}</h5>}</div>
+        <div className={styles.manufacturer}>{<span>{manufacturer}</span>}</div>
       </div>
       <div className={styles.quantityAndPrice}>
         <span className={styles.quantity}>
-
-        <NumberIncrementor
-          redux={true}
-          min={0}
-          max={stockQuantity}
-          value={quantity}
-          actionPlus={actionPlus}
-          actionMinus={actionMinus}
+          <NumberIncrementor
+            redux={true}
+            min={0}
+            max={0}
+            value={product.quantity}
+            actionPlus={actionPlus}
+            actionMinus={actionMinus}
           />
-          </span>
-          <span className={styles.price}>{price}$</span>
-   
+        </span>
+        <span className={styles.sumPrice}>{price * product.quantity}$</span>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 export interface ProductType {
-  _id?: string | undefined;
+  _id: string | undefined;
   name: string;
   description?: string;
   price: number;
@@ -8,10 +8,10 @@ export interface ProductType {
   stockQuantity: number;
   manufacturer?: string;
   purchasesAmount?: number;
-  [key: string]: string | number | undefined;
 }
 
 export const ProductInitState: ProductType = {
+  _id: "",
   name: "",
   description: "",
   price: 0,
