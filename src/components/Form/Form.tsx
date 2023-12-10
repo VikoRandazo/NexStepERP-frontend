@@ -1,6 +1,5 @@
 import React, { FC, useState, useMemo, useEffect } from "react";
 import styles from "./Form.module.scss";
-import { InteractionsModeEnum } from "../../models/shared/InteractionsMode";
 import Input from "../Elements/Input/Input";
 import { InputField } from "../Elements/Input/InputField";
 import { StoreRootTypes } from "../../store/store";
@@ -15,18 +14,16 @@ import { OptionType } from "../../models/Elements/Option";
 import { useSelect } from "../Elements/Select/SelectFunctionality";
 import categories from "../Pages/Stock/categories.json";
 import countries from "../Pages/Clients/countries.json";
-import Label from "../Elements/Label/Label";
 import Img from "../Elements/Img/Img";
 import { EntityEnum } from "../../models/EntityEnum";
 
-interface FormProps {
+type FormProps = {
   fields: InputField[];
   formikBag: any;
-  selectedItem?: any;
   setIsActiveModal: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
-const Form: FC<FormProps> = ({ fields, formikBag, setIsActiveModal, selectedItem }) => {
+const Form: FC<FormProps> = ({ fields, formikBag, setIsActiveModal }) => {
   const entity = useSelector((state: StoreRootTypes) => state.ui.modal.type);
 
   const { data, handlers, setters, states } = useForm(fields, styles, entity, setIsActiveModal);
@@ -41,7 +38,7 @@ const Form: FC<FormProps> = ({ fields, formikBag, setIsActiveModal, selectedItem
     const list = entity === EntityEnum.STOCK ? categories : countries;
     return list.map((item: string) => ({
       name: item,
-      action: () => {},
+      value: item,
     }));
   }, [entity]);
 
@@ -52,55 +49,59 @@ const Form: FC<FormProps> = ({ fields, formikBag, setIsActiveModal, selectedItem
           {Object.values(groupedFields).map((group: InputField[], index) => (
             <div key={index} className={handleClassName(index)}>
               {group.map((field: InputField, i) => {
-                if (!field.hidden) {
-                  switch (field.element) {
-                    case "input":
-                      return (
-                        <span key={field.key} className={styles[field.key]}>
-                          <Input
-                            field={field}
-                            value={
-                              selectedItem ? selectedItem[field.key] : formikBag.values[field.key]
-                            }
-                            onChange={formikBag.handleChange}
-                          />
-                        </span>
-                      );
+                switch (field.element) {
+                  case "input":
+                    return (
+                      <span key={field.key} className={styles[field.key]}>
+                        <Input
+                          field={field}
+                          value={formikBag.values[field.key]}
+                          onChange={formikBag.handleChange}
+                        />
+                      </span>
+                    );
 
-                    case "select":
-                      return (
-                        <span
-                          key={field.key}
-                          className={styles[field.key]}
-                          onClick={handleOpenSelectMenu}
-                        >
-                          <Label label={field.title} for={field.key} />
-                          <Select
-                            name={field.key}
-                            isActive={isOpenSelect}
-                            options={options}
-                            placeholder={field.placeholder}
-                            value={selectedItem && selectedItem[field.key]}
-                          />
-                        </span>
-                      );
+                  case "img":
+                    return (
+                      <span key={field.key} className={styles[field.key]}>
+                        <Img
+                          url={formikBag.values[field.key] || ""}
+                          alt={field.key}
+                          formikChange={formikBag.handleChange}
+                          setFieldValue={formikBag.setFieldValue}
+                          onFileSelect={field.event}
+                        />
+                      </span>
+                    );
 
-                    case "img":
-                      return (
-                        <span key={field.key} className={styles[field.key]}>
-                          <Label label={field.title} for={field.key} />
-                          <Img
-                            url={formikBag.values[field.key] || ""}
-                            alt={field.title}
-                            formikChange={formikBag.handleChange}
-                            setFieldValue={formikBag.setFieldValue}
-                          />
-                        </span>
-                      );
+                  case "select":
+                    return (
+                      <span
+                        key={field.key}
+                        className={styles[field.key]}
+                        onClick={handleOpenSelectMenu}
+                      >
+                        <Select
+                          name={field.key}
+                          isOpen={isOpenSelect}
+                          isSelected={field.state}
+                          setIsSelected={field.setState}
+                          options={options}
+                          placeholder={field.placeholder}
+                          onChange={field.event}
+                        />
+                      </span>
+                    );
 
-                    default:
-                      return null;
-                  }
+                  case "h3":
+                    return (
+                      <span key={field.key} className={`${styles[field.key]} ${styles.subTitle}`}>
+                        <span>{field.title}</span>
+                      </span>
+                    );
+
+                  default:
+                    return null;
                 }
               })}
             </div>

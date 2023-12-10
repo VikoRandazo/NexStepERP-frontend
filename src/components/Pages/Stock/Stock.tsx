@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./Stock.module.scss";
-import { ProductType } from "../../../models/ProductType";
 import Modal from "../../Modal/Modal";
 import { useDispatchHook } from "../../../hooks/useDispatch";
 import { useStockHook } from "./useStockHook";
@@ -17,30 +16,31 @@ import { useSelector } from "react-redux";
 interface StockProps {}
 
 const Stock: FC<StockProps> = () => {
-  const { data, utiles, states, setters, functions, enums, formikBag } = useStockHook();
+  const { data, utiles, states, setters, functions, handlers, enums, formikBag } = useStockHook();
   const { products, filteredProducts } = data;
-  const { fields, filterOptions } = utiles;
-  const { currentCategory, selectedRows, mode, isActiveModal, displayInputUrl } = states;
+  const { fields } = utiles;
+  const { currentCategory, mode, isActiveModal, displayInputUrl } = states;
   const {
     setCurrentCategory,
     setSelectedProductId,
     setFilteredProducts,
     setIsActiveModal,
     setDisplayInputUrl,
+    setFieldValue,
   } = setters;
-  const { deleteProducts, deleteSingleProduct, getCheckboxEvent } = functions;
+  const { deleteSingleProduct, getCheckboxEvent } = functions;
+  const { handleSelectCategory } = handlers;
   const { dispatch } = useDispatchHook();
-  
+
   // Analitycs
   const [mostPurchasedProduct, setMostPurchasedProduct] = useState<string>("none");
   const [salesPortion, setSalesPortion] = useState<number>(0);
-  const shoppingCart = useSelector((state:StoreRootTypes) => state.shoppingCart)
+  const shoppingCart = useSelector((state: StoreRootTypes) => state.shoppingCart);
   const findMostPurchasedProduct = () => {
     let mostPurchasedProduct = { name: "none", amount: 0, totalSalesValue: 0 };
     let totalSales = 0;
 
-    // Calculate total sales and find the most purchased product simultaneously
-    data.products.reduce((acc, product) => {
+    products.reduce((acc, product) => {
       if (product.purchasesAmount) {
         const productTotalSalesValue = product.purchasesAmount * product.price;
         totalSales += productTotalSalesValue;
@@ -55,9 +55,8 @@ const Stock: FC<StockProps> = () => {
       return acc;
     }, mostPurchasedProduct);
 
-    // Calculate the portion of total sales for the most purchased product
     const salesPortion =
-      totalSales > 0 ? (mostPurchasedProduct.totalSalesValue / totalSales) * 100 : 0; // in percentage
+      totalSales > 0 ? (mostPurchasedProduct.totalSalesValue / totalSales) * 100 : 0;
 
     setMostPurchasedProduct(mostPurchasedProduct.name);
     setSalesPortion(+salesPortion.toFixed(2));
@@ -69,13 +68,8 @@ const Stock: FC<StockProps> = () => {
     { title: "Portion Of Total Income", value: salesPortion + `%` },
   ];
 
-
-
-
   useEffect(() => {
     findMostPurchasedProduct();
-    console.log(products);
-    
   }, [products]);
 
   return (
@@ -91,17 +85,12 @@ const Stock: FC<StockProps> = () => {
       />
 
       <Summary analysisObject={analysisData} />
-      <DataControl
-        data={products}
-        fields={fields}
-        formikbagClient={formikBag}
-        filterOptions={filterOptions}
-      />
+      <DataControl data={products} fields={fields} formikbagClient={formikBag} />
 
       <div className={styles.displayClients}>
         {products.map((product) => (
           <ProductItem
-            key={product._id}
+            key={product.id}
             product={product}
             shoppingCart={shoppingCart}
             fields={fields}

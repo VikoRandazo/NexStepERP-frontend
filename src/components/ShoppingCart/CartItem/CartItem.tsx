@@ -4,11 +4,11 @@ import NumberIncrementor from "../../Elements/NumberIncrementor/NumberIncremento
 import { useDispatchHook } from "../../../hooks/useDispatch";
 import { ShoppingCartProduct, shoppingCartActions } from "../../../store/slices/shoppingCart";
 interface CartItemProps {
-  product:ShoppingCartProduct
+  product: ShoppingCartProduct;
 }
 
 const CartItem: FC<CartItemProps> = ({ product }) => {
-  const { _id, name, price, manufacturer } = product.product;
+  const { id, name, price, manufacturer } = product.product;
 
   const { dispatch } = useDispatchHook();
 
@@ -17,16 +17,10 @@ const CartItem: FC<CartItemProps> = ({ product }) => {
   };
 
   const actionMinus = () => {
-    if (_id) {
-      dispatch(shoppingCartActions.removeProduct(_id));
+    if (id) {
+      dispatch(shoppingCartActions.removeProduct(id));
     }
   };
-
-
-  useEffect(() => {
-    console.log(_id);
-    
-  },[dispatch])
 
   return (
     <div className={styles.CartItem}>

@@ -26,7 +26,6 @@ const Clients: FC<ClientsProps> = () => {
         filterBy={FilterByEnum.DATE}
         fields={fields}
         formikbagClient={formikBag}
-        filterOptions={filterOptions}
       />
 
       <div className={styles.displayClients}>

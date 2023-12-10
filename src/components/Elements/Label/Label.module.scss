@@ -1,21 +1,23 @@
 @import "../../../styles/globalStyles/colorPallete.module.scss";
 
 .Label {
-  background-color: #fff;
-  position: relative;
-  padding: 0.375em 15%;
+  position: absolute;
+  top: 50%;
+  left: 0.375em;
+  transform: translate(0.375em, -50%);
+  padding: 0 0.375em;
   width: max-content;
   font-size: 0.75em;
-  border: 0.125em solid transparent;
-  color: $secondary;
+  color: rgba($text-color-light, 0.5);
   pointer-events: none;
-  font-weight: 700;
+  font-weight: 500;
   transition: all 0.3s ease;
-  background-color: $background-medium;
-  border-radius: 0.75em 0.75em 0 0;
+  border-radius: 0.5em;
   &.focused {
-    border: 0.125em solid $primary;
     color: $secondary;
-    background-color: $primary;
+    top: 1em;
+    transform: translate(auto, -50%);
+
+  
   }
 }

@@ -20,6 +20,7 @@ export const useClientHook = () => {
   const [clients, setClients] = useState<CustomerType[]>([]);
   const [filteredClients, setFilteredClients] = useState<CustomerType[]>(clients);
   const [selectedClientId, setSelectedClientId] = useState<string>("");
+  const [country, setCountry] = useState<string>("None");
 
   const mode = useSelector((state: StoreRootTypes) => state.ui.modal.mode);
 
@@ -33,19 +34,6 @@ export const useClientHook = () => {
       console.log(error);
     }
   };
-
-  const fields: InputField[] = [
-    { key: `firstName`, type: `text`, title: `First Name`, group: 1, element: "input" },
-    { key: `lastName`, type: `text`, title: `Last Name`, group: 1, element: "input" },
-    { key: `email`, type: `text`, title: `Email Address`, group: 2, element: "input" },
-    { key: `phoneNumber`, type: `text`, title: `Phone Number`, group: 2, element: "input" },
-    { key: `address.country`,title: `Country`, group: 3, element: "select", placeholder: SelectPlaceHolderEnum.COUNTRY},
-    { key: `address.city`, type: `text`, title: `City`, group: 3, element: "input" },
-    { key: `address.street`, type: `text`, title: `Street`, group: 3, element: "input" },
-    { key: `address.postalCode`, type: `text`, title: `Postal Code`, group: 3, element: "input" },
-  ];
-
-
 
   const preparedInitState = { ...initClientState };
   const { dateRegistered, purchaseHistory, ...rest } = preparedInitState;
@@ -90,10 +78,41 @@ export const useClientHook = () => {
     },
   });
 
+  const handleSetCountry = (e: React.MouseEvent<HTMLLIElement>) => {
+    const { innerText } = e.currentTarget;
+    console.log(innerText);
+    setCountry(innerText);
+  };
+
+  const fields: InputField[] = [
+    { key: `subTitle1Client`, type: `text`, title: `Personal Details`, group: 1, element: "h3" },
+    { key: `firstName`, type: `text`, title: `First Name`, group: 1, element: "input" },
+    { key: `lastName`, type: `text`, title: `Last Name`, group: 1, element: "input" },
+    { key: `subTitle2Client`, type: `text`, title: `Contact `, group: 2, element: "h3" },
+    { key: `email`, type: `text`, title: `Email Address`, group: 2, element: "input" },
+    { key: `phoneNumber`, type: `text`, title: `Phone Number`, group: 2, element: "input" },
+    { key: `subTitle3Client`, type: `text`, title: `Address `, group: 3, element: "h3" },
+    {
+      key: `address.country`,
+      type: `text`,
+      title: `Country`,
+      group: 4,
+      element: "select",
+      state: country,
+      setState: setCountry,
+      event: handleSetCountry,
+      placeholder: SelectPlaceHolderEnum.COUNTRY,
+    },
+    { key: `address.city`, type: `text`, title: `City`, group: 5, element: "input" },
+    { key: `address.street`, type: `text`, title: `Street`, group: 5, element: "input" },
+    { key: `address.postalCode`, type: `text`, title: `Postal Code`, group: 5, element: "input" },
+  ];
+
   const searchField: InputField = {
     key: `Search`,
     type: "text",
     title: "Search Client",
+    element: `input`,
     group: 1,
   };
 
@@ -112,12 +131,16 @@ export const useClientHook = () => {
 
   useEffect(() => {
     setFilteredClients(clients);
-    dispatch(entitiesAction.setClients(clients))
+    dispatch(entitiesAction.setClients(clients));
   }, [clients]);
 
   useEffect(() => {
     console.log(errors);
   }, [errors]);
+
+  useEffect(() => {
+    setFieldValue(`address.country`, country);
+  }, [country]);
 
   useEffect(() => {
     console.log(values);

@@ -10,6 +10,8 @@
   align-items: center;
   justify-content: space-between;
   border-radius: 0.25em;
+  z-index: 99999;
+  width: 100%;
   & > svg {
     font-size: 1.25em;
   }

@@ -31,8 +31,8 @@ export const entitySlice = createSlice({
       state.sales = payload;
     },
 
-    removeFromStock(state, { payload }: PayloadAction<string[]>) {
-      state.stock = state.stock.filter((productId: string) => {
+    removeFromStock(state, { payload }: PayloadAction<number[]>) {
+      state.stock = state.stock.filter((productId: number) => {
         return !payload.includes(productId);
       });
     },

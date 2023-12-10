@@ -30,7 +30,7 @@ export const ShoppingCartSlice = createSlice({
       const newProduct = payload;
 
       const productExist = state.products.find((obj: ShoppingCartProduct) => {
-        return obj.product._id === newProduct.product._id;
+        return obj.product.id === newProduct.product.id;
       });
 
       if (productExist) {
@@ -50,9 +50,9 @@ export const ShoppingCartSlice = createSlice({
       state.lastUpdated = new Date().toISOString();
     },
 
-    removeProduct(state, { payload }: PayloadAction<string>) {
+    removeProduct(state, { payload }: PayloadAction<number>) {
       const foundProduct = state.products.findIndex((obj: ShoppingCartProduct) => {
-        return obj.product._id === payload;
+        return obj.product.id === payload;
       });
 
       if (foundProduct !== -1) {

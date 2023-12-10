@@ -22,17 +22,11 @@ import { useSelector } from "react-redux";
 export interface DataControlProps<T> {
   data: T[];
   filterBy?: `Date`;
-  filterOptions: OptionType[];
   fields: InputField[];
   formikbagClient: any;
 }
 
-const DataControl = <T,>({
-  data,
-  filterOptions,
-  fields,
-  formikbagClient,
-}: DataControlProps<T>) => {
+const DataControl = <T,>({ data, fields, formikbagClient }: DataControlProps<T>) => {
   const { dispatch } = useDispatchHook();
 
   const [isOpenSelect, setIsOpenSelect] = useState(false);
@@ -51,14 +45,19 @@ const DataControl = <T,>({
     data: filteredData,
   } = useDataControlHook(data as any);
   const { handleSearch } = filteredData;
-  const { isActiveCreateModal, entity, isActiveNewOrderModal, newOrderFields } = states;
+  const { isActiveCreateModal, entity, isActiveNewOrderModal } = states;
   const { setIsActiveCreateModal, setIsActiveNewOrderModal } = setters;
   const { handleOpenCreateModal, handleOpenNewOrderModal } = handlers;
-  const search: InputField = { key: "search", type: "text", title: "search", group: 1 };
+  const search: InputField = {
+    key: "search",
+    type: "text",
+    title: "search",
+    element: "input",
+    group: 1,
+  };
 
-  
-  const [isActiveSelectClient, setIsActiveSelectClient] = useState<boolean>(false)
-  const clients = useSelector((state:StoreRootTypes) => state.entities.clients)
+  const [isActiveSelectClient, setIsActiveSelectClient] = useState<boolean>(false);
+  const clients = useSelector((state: StoreRootTypes) => state.entities.clients);
 
   const changeModalHeaderByEntity = () => {
     switch (entity) {
@@ -100,7 +99,7 @@ const DataControl = <T,>({
           />
         }
       />
-      
+
       <div className={styles.container}>
         <div className={styles.search}>
           <Input

@@ -1,0 +1,19 @@
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+@import "../../../styles/globalStyles/Flex.module.scss";
+
+.Checkout {
+    width: 100%;
+    height: 100%;
+    
+    & > .title {
+        padding: 1em 2em;
+        background-color: #fff;
+        border-radius: 0.5em;
+    }
+
+    & > .contactDetails {
+        padding: 1em 2em;
+        background-color: #fff;
+        border: 0.5em;
+    }
+}

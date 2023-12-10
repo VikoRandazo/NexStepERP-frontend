@@ -41,12 +41,10 @@ const Input: FC<InputProps<any>> = ({
     switch (error?.length !== 0) {
       case true:
         if (touched) {
-          console.log(styles.error);
           return styles.error;
         }
         break;
       case false:
-        console.log(styles.placeholder);
         return styles.placeholder;
 
       default:
@@ -56,7 +54,7 @@ const Input: FC<InputProps<any>> = ({
 
   return (
     <div className={styles.Input}>
-      <Label for={key as string} label={title} isFocused={focused} />
+      <Label for={key as string} label={field.title!} isFocused={focused} />
       {textarea ? (
         <textarea
           id={key as string}
@@ -73,7 +71,7 @@ const Input: FC<InputProps<any>> = ({
           id={key as string}
           type={type}
           name={key as string}
-          value={value}
+          value={value ? value : ""}
           onChange={onChange}
           onBlur={handleBlur}
           placeholder={touched && error ? error : placeholder}

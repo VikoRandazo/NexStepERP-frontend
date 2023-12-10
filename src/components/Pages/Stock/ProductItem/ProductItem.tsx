@@ -14,6 +14,7 @@ import Form from "../../../Form/Form";
 import { useDispatchHook } from "../../../../hooks/useDispatch";
 import { ShoppingCartSliceType, shoppingCartActions } from "../../../../store/slices/shoppingCart";
 
+
 interface ProductItemProps {
   product: ProductType;
   shoppingCart: ShoppingCartSliceType;
@@ -25,7 +26,7 @@ interface ProductItemProps {
 
 const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag, shoppingCart }) => {
   const { dispatch } = useDispatchHook();
-  const { _id, name, description, imageUrl, stockQuantity, manufacturer, category, price } =
+  const { id, name, description, imageUrl, stockQuantity, manufacturer, category, price } =
     product;
 
   const [isActiveModal, setIsActiveModal] = useState<boolean>(false);
@@ -33,7 +34,7 @@ const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag, shoppin
 
   const handleDeleteProduct = async () => {
     try {
-      const response = await instance.delete(`/products/${_id}`);
+      const response = await instance.delete(`/products/${id}`);
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -56,10 +57,7 @@ const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag, shoppin
     { icon: <HiTrash />, text: "Delete Item", action: handleDeleteProduct },
   ];
 
-  useEffect(() => {
-    console.log(productForShoppingCart);
-    
-  }, [dispatch]);
+
 
   return (
     <div className={styles.ProductItem}>
@@ -69,7 +67,6 @@ const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag, shoppin
             fields={fields}
             formikBag={formikBag}
             setIsActiveModal={setIsActiveModal}
-            selectedItem={product}
           />
         }
         title={ModalTitleEnum.EDIT_PRODUCT}
@@ -80,7 +77,7 @@ const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag, shoppin
 
       <div className={styles.container}>
         <div className={styles.image}>
-          <img src={imageUrl} alt="" />
+          <img src={"../../client/src/assets/images/products"} alt="" />
         </div>
         <div className={styles.details}>
           <div className={styles.title}>
@@ -99,7 +96,7 @@ const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag, shoppin
           <p className={styles.description}>{description}</p>
           <span className={styles.stockQuantity}>in Stock: {stockQuantity}</span>
           <span className={styles.category}>{category}</span>
-          <span className={styles.productId}>ID: {_id}</span>
+          <span className={styles.productId}>ID: {`${id}`}</span>
         </div>
 
         <div className={styles.actions}>

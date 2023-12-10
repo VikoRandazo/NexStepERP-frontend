@@ -57,8 +57,7 @@ const ClientItem: FC<ClientItemProps> = ({
     ],
     []
   );
-  console.log(purchaseHistory);
-
+  
   const openEditClientModal = useCallback(() => {
     setSelectedClientId(client._id ? client._id : "");
     dispatch(UiActions.setMode(InteractionsModeEnum.Edit));

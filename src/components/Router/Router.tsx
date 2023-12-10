@@ -6,6 +6,7 @@ import ForgotPassword from "../Auth/ForgotPassword/ForgotPassword";
 import Overview from "../Pages/Overview/Overview";
 import Stock from "../Pages/Stock/Stock";
 import Clients from "../Pages/Clients/Clients";
+import Checkout from "../Pages/Checkout/Checkout";
 interface RouterProps {}
 
 const Router: FC<RouterProps> = () => {
@@ -22,6 +23,7 @@ const Router: FC<RouterProps> = () => {
       <Route path={"/overview"} element={<Overview />} />
       <Route path={"/products"} element={<Stock />} />
       <Route path={"/clients"} element={<Clients />} />
+      <Route path={"/checkout"} element={<Checkout />} />
 
       {/* Default */}
       <Route path={"/"} element={<Overview />} />

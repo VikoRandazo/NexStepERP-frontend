@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./ShoppingCart.module.scss";
 import CartItem from "./CartItem/CartItem";
 import {
@@ -11,9 +11,8 @@ import BtnPrimary from "../Elements/Buttons/Btn-Primary/Btn-Primary";
 import { useSelector } from "react-redux";
 import { StoreRootTypes } from "../../store/store";
 import { useDispatchHook } from "../../hooks/useDispatch";
-import { entitiesAction } from "../../store/slices/entities";
-import { ProductType } from "../../models/ProductType";
 import BtnSecondary from "../Elements/Buttons/Btn-Secondary/Btn-Secondary";
+import { useNavigate } from "react-router-dom";
 
 interface ShoppingCartProps {
   shoppingCart: ShoppingCartSliceType;
@@ -21,11 +20,20 @@ interface ShoppingCartProps {
 
 const ShoppingCart: FC<ShoppingCartProps> = ({ shoppingCart }) => {
   const { dispatch } = useDispatchHook();
+  const navigate = useNavigate();
+
+  const [value, setValue] = useState<string>("");
   const { totalPrice, lastUpdated } = shoppingCart;
   const cartProducts = useSelector((state: StoreRootTypes) => state.shoppingCart.products);
 
   const clearCart = () => {
     dispatch(shoppingCartActions.clearCart());
+  };
+
+  const handleMoveToCheckout = () => {
+    if (cartProducts.length > 0) {
+      navigate(`checkout`);
+    }
   };
 
   return (
@@ -63,10 +71,14 @@ const ShoppingCart: FC<ShoppingCartProps> = ({ shoppingCart }) => {
             <BtnSecondary text={"Clear Cart"} action={clearCart} />
           </span>
           <span className={styles.btnCheckout}>
-            <BtnPrimary icon={<HiShoppingBag />} text={"Proceed To Checkout"} action={() => {}} />
+            <BtnPrimary
+              icon={<HiShoppingBag />}
+              text={"Proceed To Checkout"}
+              action={handleMoveToCheckout}
+            />
           </span>
         </div>
-      <span className={styles.lastUpdated}>Last updated: {lastUpdated}</span>
+        <span className={styles.lastUpdated}>Last updated: {lastUpdated}</span>
       </div>
     </div>
   );

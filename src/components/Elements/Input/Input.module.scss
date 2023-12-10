@@ -2,26 +2,26 @@
 @import "../../../styles/globalStyles/Flex.module.scss";
 
 .Input {
-  @extend %flexCol;
   flex: 1 1 0;
+  min-height: 2em;
   position: relative;
-  height: auto;
-
+  
   & > input,
   textarea {
     transition: all 0.4s ease;
     outline: none;
-    padding: 0 1em;
+    padding: 0.5em 1em;
+    padding-top: 2em;
     width: 100%;
     resize: none;
     background-color: $background-light;
     background-color: #fff;
     border: 0.125em solid transparent;
     border-bottom: 0.125em solid rgba($softDivider, 0.5);
-    height: 2.5em;
+    height: 4em;
     z-index: 1;
-    border-radius: 0 0.75em 0.75em;
-
+    border-radius:0.5em;
+    
     &:focus {
       border: 0.125em solid $primary;
       box-shadow: 0 0em 0.25em rgba($ShadowThin, 0);
