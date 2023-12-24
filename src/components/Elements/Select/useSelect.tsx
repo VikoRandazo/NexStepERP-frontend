@@ -1,11 +1,11 @@
 import { useRef, useEffect } from "react";
+import { OptionType } from "../../../models/Elements/Option";
 
 export const useSelect = (
   isOpenSelect: boolean,
   setIsOpenSelect: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const selectRef = useRef<HTMLSelectElement>(null);
-
   const handleOpenSelectMenu = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
     setIsOpenSelect((prev) => !prev);
@@ -17,6 +17,12 @@ export const useSelect = (
     }
   };
 
+  const formatOptions = (options: string[]) => {
+    return options.map((option, i) => {
+      return { id: i, value: option };
+    });
+  };
+
   useEffect(() => {
     document.addEventListener(`click`, handleClickOutside, false);
 
@@ -25,5 +31,5 @@ export const useSelect = (
     };
   }, []);
 
-  return { handleOpenSelectMenu };
+  return { handleOpenSelectMenu, formatOptions };
 };

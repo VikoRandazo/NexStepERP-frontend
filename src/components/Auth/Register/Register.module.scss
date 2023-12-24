@@ -1,1 +1,45 @@
-.AuthRegister {}
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+@import "../../../styles/globalStyles/Flex.module.scss";
+
+.Register {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+  @extend %flexCol;
+
+  align-items: center;
+  padding: 10% 1em 1em;
+
+  & > .container {
+    width: 25%;
+    height: 100%;
+
+    & > .main {
+      width: 100%;
+      @extend %flexCol;
+      text-align: center;
+    }
+
+    & > .footer {
+      width: 100%;
+
+      & > .actions {
+        @extend %flexRow;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 0.5em;
+        gap: 0.5em;
+
+      }
+      & > .googleAuth {
+        @extend %flexRow;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+    }
+  }
+}

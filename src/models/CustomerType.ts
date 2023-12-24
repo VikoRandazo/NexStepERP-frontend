@@ -2,17 +2,19 @@ import { Address, AddressInit } from "./shared/Address";
 import { PurchaseHistoryType, PurchaseHistoryInit } from "./shared/PurchaseHistory";
 
 export interface CustomerType {
-  _id?: string
+  id: number;
+  _id?: string;
   firstName: string;
   lastName: string;
   email: string;
   phoneNumber: string;
   dateRegistered: string;
-  address?: Address;
+  address: Address;
   purchaseHistory: PurchaseHistoryType[];
 }
 
 export const initClientState: CustomerType = {
+  id: 0,
   firstName: "",
   lastName: "",
   email: "",

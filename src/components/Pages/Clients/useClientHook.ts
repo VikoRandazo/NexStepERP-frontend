@@ -1,39 +1,25 @@
 import { useFormik } from "formik";
-import { CustomerType, initClientState } from "../../../models/CustomerType";
+import { initClientState } from "../../../models/CustomerType";
 import { InputField } from "../../Elements/Input/InputField";
-import { FilterByEnum } from "../../DataControl/TypeGuards";
-import { HiArrowDown } from "react-icons/hi2";
 import instance from "../../../api/axiosInstance";
-import { useEffect, useState } from "react";
-import clientValidationSchema from "./clientValidation";
+import { useEffect, useMemo, useState } from "react";
 import { UiActions } from "../../../store/slices/ui";
 import { useDispatchHook } from "../../../hooks/useDispatch";
 import { InteractionsModeEnum } from "../../../models/shared/InteractionsMode";
 import { useSelector } from "react-redux";
 import { StoreRootTypes } from "../../../store/store";
-import { EntityEnum } from "../../../models/EntityEnum";
 import { SelectPlaceHolderEnum } from "../../../models/SelectPlaceHolderEnum.";
 import { entitiesAction } from "../../../store/slices/entities";
+import countries from "./countries.json";
 
 export const useClientHook = () => {
+  console.log("rendered");
+
   const { dispatch } = useDispatchHook();
-  const [clients, setClients] = useState<CustomerType[]>([]);
-  const [filteredClients, setFilteredClients] = useState<CustomerType[]>(clients);
   const [selectedClientId, setSelectedClientId] = useState<string>("");
-  const [country, setCountry] = useState<string>("None");
 
   const mode = useSelector((state: StoreRootTypes) => state.ui.modal.mode);
-
-  const getClients = async () => {
-    try {
-      const response = await instance.get(`clients/all`);
-      const data = response.data;
-      console.log(data);
-      setClients(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const clients = useSelector((state: StoreRootTypes) => state.entities.clients.actions.setClients);
 
   const preparedInitState = { ...initClientState };
   const { dateRegistered, purchaseHistory, ...rest } = preparedInitState;
@@ -81,31 +67,81 @@ export const useClientHook = () => {
   const handleSetCountry = (e: React.MouseEvent<HTMLLIElement>) => {
     const { innerText } = e.currentTarget;
     console.log(innerText);
-    setCountry(innerText);
+    setFieldValue(`address.country`, innerText);
   };
+  const MemoizedCountries = useMemo(() => countries, []);
 
   const fields: InputField[] = [
-    { key: `subTitle1Client`, type: `text`, title: `Personal Details`, group: 1, element: "h3" },
-    { key: `firstName`, type: `text`, title: `First Name`, group: 1, element: "input" },
-    { key: `lastName`, type: `text`, title: `Last Name`, group: 1, element: "input" },
-    { key: `subTitle2Client`, type: `text`, title: `Contact `, group: 2, element: "h3" },
-    { key: `email`, type: `text`, title: `Email Address`, group: 2, element: "input" },
-    { key: `phoneNumber`, type: `text`, title: `Phone Number`, group: 2, element: "input" },
-    { key: `subTitle3Client`, type: `text`, title: `Address `, group: 3, element: "h3" },
+    { key: `subTitle1Client`,  title: `Personal Details`, group: 1, element: "h3" },
     {
-      key: `address.country`,
+      key: `firstName`,
       type: `text`,
-      title: `Country`,
-      group: 4,
-      element: "select",
-      state: country,
-      setState: setCountry,
-      event: handleSetCountry,
-      placeholder: SelectPlaceHolderEnum.COUNTRY,
+      title: `First Name`,
+      group: 1,
+      element: "input",
+      event: () => {},
     },
-    { key: `address.city`, type: `text`, title: `City`, group: 5, element: "input" },
-    { key: `address.street`, type: `text`, title: `Street`, group: 5, element: "input" },
-    { key: `address.postalCode`, type: `text`, title: `Postal Code`, group: 5, element: "input" },
+    {
+      key: `lastName`,
+      type: `text`,
+      title: `Last Name`,
+      group: 1,
+      element: "input",
+      event: () => {},
+    },
+    { key: `subTitle2Client`,  title: `Contact `, group: 2, element: "h3" },
+    {
+      key: `email`,
+      type: `text`,
+      title: `Email Address`,
+      group: 2,
+      element: "input",
+      event: () => {},
+    },
+    {
+      key: `phoneNumber`,
+      type: `text`,
+      title: `Phone Number`,
+      group: 2,
+      element: "input",
+      event: () => {},
+    },
+    { key: `subTitle3Client`, title: `Address `, group: 3, element: "h3" },
+    // {
+    //   key: `address.country`, //Formik Pointer
+    //   options: MemoizedCountries, // array of strings will be mapped as options
+    //   type: `text`, // type of the option
+    //   title: `Country`, // if using label it will get this title
+    //   group: 4, // groups elements with the same value together for styling purposes, forming a block that can be targeted with the CSS selector group4.
+    //   element: "select", // element to produce
+    //   state: values.address.country, // Formik state
+    //   event: handleSetCountry, // get the event from this function.
+    //   placeholder: "Choose a Country", // before selection it will show up
+    // },
+    {
+      key: `address.city`,
+      type: `text`,
+      title: `City`,
+      group: 5,
+      element: "input",
+      event: () => {},
+    },
+    {
+      key: `address.street`,
+      type: `text`,
+      title: `Street`,
+      group: 5,
+      element: "input",
+      event: () => {},
+    },
+    {
+      key: `address.postalCode`,
+      type: `text`,
+      title: `Postal Code`,
+      group: 5,
+      element: "input",
+      event: () => {},
+    },
   ];
 
   const searchField: InputField = {
@@ -114,44 +150,11 @@ export const useClientHook = () => {
     title: "Search Client",
     element: `input`,
     group: 1,
+    event: () => {}
   };
 
-  const filterDate = () => {};
-  const filterSpentMoney = () => {};
-
-  const filterOptions = [
-    { name: FilterByEnum.NONE, icon: HiArrowDown as React.ElementType, action: () => {} },
-    { name: FilterByEnum.DATE, icon: null, action: filterDate },
-    { name: FilterByEnum.MOENY_SPENT, icon: null, action: filterSpentMoney },
-  ];
-
-  useEffect(() => {
-    getClients();
-  }, []);
-
-  useEffect(() => {
-    setFilteredClients(clients);
-    dispatch(entitiesAction.setClients(clients));
-  }, [clients]);
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
-
-  useEffect(() => {
-    setFieldValue(`address.country`, country);
-  }, [country]);
-
-  useEffect(() => {
-    console.log(values);
-  }, [values]);
-
-  return {
-    data: { clients, fields, filteredClients },
-    dataControl: { filterOptions },
-    states: { searchField, mode, selectedClientId },
-    setters: { setFilteredClients, setSelectedClientId },
-    formikBag: {
+  const formikBag = useMemo(
+    () => ({
       handleChange,
       values,
       handleSubmit,
@@ -160,6 +163,26 @@ export const useClientHook = () => {
       handleBlur,
       setFieldValue,
       resetForm,
-    },
+    }),
+    [handleChange, values, handleSubmit, errors, touched, handleBlur, setFieldValue, resetForm]
+  );
+
+  const filterDate = () => {};
+  const filterSpentMoney = () => {};
+
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
+
+  useEffect(() => {
+    console.log(values);
+  }, [values]);
+
+  return {
+    data: { clients, fields },
+    dataControl: {},
+    states: { searchField, mode, selectedClientId },
+    setters: { setSelectedClientId },
+    formikBag,
   };
 };

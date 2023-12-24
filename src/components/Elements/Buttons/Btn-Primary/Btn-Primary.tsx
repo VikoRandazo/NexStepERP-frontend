@@ -3,7 +3,7 @@ import styles from "./Btn-Primary.module.scss";
 
 interface BtnPrimaryProps {
   icon?: ReactElement;
-  text: string;
+  text: string | undefined;
   action?: () => void;
 }
 

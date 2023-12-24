@@ -21,7 +21,8 @@ type NumberIncrementorProps =
 const NumberIncrementor: FC<NumberIncrementorProps> = (props) => {
   const isRedux = props.redux === true;
 
-  const handlePlus = () => {
+  const handlePlus = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     if (props.value !== props.max) {
       if (isRedux) {
         props.actionPlus();
@@ -31,7 +32,8 @@ const NumberIncrementor: FC<NumberIncrementorProps> = (props) => {
     }
   };
 
-  const handleMinus = () => {
+  const handleMinus = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     if (isRedux) {
       props.actionMinus();
     } else {

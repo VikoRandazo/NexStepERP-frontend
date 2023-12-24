@@ -3,70 +3,31 @@
 
 .DataControl {
   width: 100%;
-  border-radius: 1em;
+  min-height: 4em;
+  border-radius: 0.5em;
   background-color: #fff;
+  z-index: 999;
+  padding: 0 1em;
 
-  & > .container {
+  & > .filter {
+    // width: 30vw;
+    position: relative;
     @extend %flexRow;
-    gap: 1em;
-    justify-content: flex-start;
-    align-items: flex-end;
-    padding: 1em;
-
-    & > .search {
-      width: 24em;
+    height: 100%;
+    align-items: center;
+    
+    & > .filterPopOver {
+      width: auto;
+      z-index: 99;
+  
     }
-
-    & > .filter {
-      position: relative;
-      height: 100%;
-      width: fit-content;
-      @extend %flexRow;
-      transition: width 0.3s ease;
-      align-items: flex-end;
-      border-radius: 0.5em;
-
-      & > .renderedFields {
-        height: 100%;
-        @extend %flexRow;
-        align-items: center;
-
-        & > .fieldsContainer {
-          gap: 1em;
-          align-items: center;
-          @extend %flexRow;
-          max-width: 12em;
-          margin-left: 1em;
-
-          & > p {
-            margin: 0 0 -1em 0;
-          }
-
-          & > input {
-            min-width: 6em;
-          }
-        }
-      }
-
-      & > .selectContainer {
-        @extend %flexRow;
-        border-radius: 0.5em;
-
-        &:hover {
-          background-color: $secondary;
-        }
-
-        &.active {
-          width: min-content;
-          max-width: 12em;
-        }
-      }
-    }
-
-    & > .createEntity {
-      @extend %flexRow;
-      gap: 1em;
-      margin-left: auto;
+    & > .popover {
+      position: absolute;
+      top: 0;
+      height: 60vh;
+      width: 20vw;
+      margin-top: 1em;
+      
     }
   }
 }

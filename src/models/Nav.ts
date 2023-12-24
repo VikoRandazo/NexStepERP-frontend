@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
+import { PagesNames } from "./pagesName";
 
 export interface NavItem {
-    name: string;
+    name:string | any ;
     icon: ReactElement
 }

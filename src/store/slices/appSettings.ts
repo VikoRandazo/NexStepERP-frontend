@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PagesNames } from "../../models/pagesName";
 
 export interface AppSettings {
   pageName: string;
@@ -12,7 +13,8 @@ export const appSettingsSlice = createSlice({
   name: `appSettings`,
   initialState: initAppSettings,
   reducers: {
-    setPageName(state, { payload }) {
+    setPageName(state, { payload }:PayloadAction<PagesNames | string>) {
+      
       state.pageName = payload;
     },
   },

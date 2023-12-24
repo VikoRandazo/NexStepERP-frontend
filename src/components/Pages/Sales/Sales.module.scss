@@ -1,0 +1,13 @@
+@import "../../../styles/globalStyles/Flex.module.scss";
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+
+.Sales {
+    width: 100%;
+    @extend %flexCol;
+    align-items: center;
+    gap: 1em;
+
+    & > .salesTable {
+        width: 80%;
+    }
+}

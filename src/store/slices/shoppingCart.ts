@@ -13,7 +13,7 @@ export type ShoppingCartSliceType = {
   lastUpdated: string;
 };
 
-const initShoppingCart: ShoppingCartSliceType = {
+export const initShoppingCart: ShoppingCartSliceType = {
   date: new Date().toISOString(),
   client: null,
   products: [],

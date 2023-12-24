@@ -2,26 +2,14 @@
 @import "../../../styles/globalStyles/colorPallete.module.scss";
 @import "../../../styles/globalStyles/elements.module.scss";
 @import "../../../styles/animations/shared.module.scss";
+@import "../../../styles/animations/apearance.module.scss";
 
 .Stock {
   height: 100%;
   width: 100%;
   @extend %flexCol;
   justify-content: flex-start;
-  gap:1em;
-
-  & > .categories {
-    width: 100%;
-    min-height: 3em;
-    overflow-x: auto;
-    white-space: nowrap;
-    @extend %flexRow;
-    & > .list {
-      @extend %flexRow;
-      gap: 0.5em;
-      align-items: center;
-    }
-  }
+  gap: 1em;
 
   & > .actions {
     @extend %flexRow;
@@ -30,7 +18,7 @@
     width: 100%;
     min-height: 3em;
     padding: 0.5em 1em;
-    
+
     & > .topBar {
       width: 100%;
     }
@@ -73,8 +61,12 @@
     overflow: scroll;
   }
 
-  & > .displayClients {
+  & > .displayProducts {
+    height: 100%;
     @extend %flexCol;
-    gap: 1em;
+
+    & > span {
+      min-height: 28vh;
+    }
   }
 }

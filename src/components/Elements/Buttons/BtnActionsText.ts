@@ -17,4 +17,7 @@ export enum BtnActionsTextEnum {
   Action = `Action`,
   FORWARD = `Forward`,
   Back = `Back`,
+
+  LOGIN = `Login`,
+  REGISTER = `Register`,
 }

@@ -1,0 +1,18 @@
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+
+.Divider {
+  width: 100%;
+  position: relative;
+  padding: 1em 0;
+
+  & > span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $background-light;
+    font-weight: 300;
+    font-size: 0.875em;
+    padding: 1em;
+  }
+}

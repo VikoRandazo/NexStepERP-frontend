@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from "./CartItem.module.scss";
 import NumberIncrementor from "../../Elements/NumberIncrementor/NumberIncrementor";
 import { useDispatchHook } from "../../../hooks/useDispatch";
@@ -9,7 +9,7 @@ interface CartItemProps {
 
 const CartItem: FC<CartItemProps> = ({ product }) => {
   const { id, name, price, manufacturer } = product.product;
-
+  const [formattedPrice, setFormattedPrice] = useState<string>('0.00');
   const { dispatch } = useDispatchHook();
 
   const actionPlus = () => {
@@ -21,6 +21,11 @@ const CartItem: FC<CartItemProps> = ({ product }) => {
       dispatch(shoppingCartActions.removeProduct(id));
     }
   };
+
+  useEffect(() => {
+    const totalPrice = price * product.quantity;
+    setFormattedPrice(totalPrice.toFixed(2));
+  }, [price, product.quantity]);
 
   return (
     <div className={styles.CartItem}>
@@ -39,7 +44,7 @@ const CartItem: FC<CartItemProps> = ({ product }) => {
             actionMinus={actionMinus}
           />
         </span>
-        <span className={styles.sumPrice}>{price * product.quantity}$</span>
+        <span className={styles.sumPrice}>{formattedPrice}$</span>
       </div>
     </div>
   );

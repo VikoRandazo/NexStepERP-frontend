@@ -21,6 +21,9 @@ import SidebarItem from "./SidebarItem/SidebarItem";
 import { appSettingsActions } from "../../../store/slices/appSettings";
 import { UiActions } from "../../../store/slices/ui";
 import { EntityEnum } from "../../../models/EntityEnum";
+import { PagesNames } from "../../../models/pagesName";
+import { useSelector } from "react-redux";
+import { StoreRootTypes } from "../../../store/store";
 
 interface SideBarProps {}
 
@@ -50,28 +53,30 @@ const SideBar: FC<SideBarProps> = () => {
   }, [dispatch, location]);
 
   const navigation: NavItem[] = [
-    { name: `Overview`, icon: <HiSquaresPlus /> },
-    { name: `Products`, icon: <HiSquare3Stack3D /> },
-    { name: `Clients`, icon: <HiUser />},
-    { name: `Sales`, icon: <HiSquaresPlus /> },
-    { name: `Messages`, icon: <HiChatBubbleLeftEllipsis /> },
-    { name: `Settings`, icon: <HiCog6Tooth /> },
-    { name: `Logout`, icon: <HiPower /> },
+    { name: PagesNames.Overview, icon: <HiSquaresPlus /> },
+    { name: PagesNames.Stock, icon: <HiSquare3Stack3D /> },
+    { name: PagesNames.Clients, icon: <HiUser /> },
+    { name: PagesNames.Sales, icon: <HiSquaresPlus /> },
+    { name: PagesNames.Messages, icon: <HiChatBubbleLeftEllipsis /> },
+    { name: PagesNames.Settings, icon: <HiCog6Tooth /> },
   ];
+
+const user  = useSelector((state:StoreRootTypes) => state.userAuth)
+  const {user_verified} = user
 
   useEffect(() => {
     handleChangeEntity();
   }, [location]);
 
   return (
-    <div className={isExpended ? styles.SideBar : `${styles.SideBar} ${styles.collapsed}`}>
-      <div className={styles.header}>
-        <div className={styles.logo}>{isExpended ? <Horizontal /> : <Svg />}</div>
-      </div>
-      <nav className={styles.main}>
-        <ul className={styles.navItems}>
-          {navigation.map((item: NavItem, index) => {
-            return (
+    user_verified ? (
+      <div className={isExpended ? styles.SideBar : `${styles.SideBar} ${styles.collapsed}`}>
+        <div className={styles.header}>
+          <div className={styles.logo}>{isExpended ? <Horizontal /> : <Svg />}</div>
+        </div>
+        <nav className={styles.main}>
+          <ul className={styles.navItems}>
+            {navigation.map((item: NavItem, index) => (
               <SidebarItem
                 key={index}
                 name={item.name}
@@ -80,18 +85,18 @@ const SideBar: FC<SideBarProps> = () => {
                 isActive={activeNavItem === item.name}
                 setActiveNavItem={setActiveNavItem}
               />
-            );
-          })}
-        </ul>
-      </nav>
-      <div className={styles.footer}>
-        <BtnTransparent
-          icon={isExpended ? <HiArrowLeftCircle /> : <HiArrowRightCircle />}
-          action={handleExpandSideBar}
-        />
+            ))}
+          </ul>
+        </nav>
+        <div className={styles.footer}>
+          <BtnTransparent
+            icon={isExpended ? <HiArrowLeftCircle /> : <HiArrowRightCircle />}
+            action={handleExpandSideBar}
+          />
+        </div>
       </div>
-    </div>
+    ) : null
   );
-};
+  };
 
 export default SideBar;

@@ -3,20 +3,18 @@ import styles from "./SummaryItem.module.scss";
 import BtnOutline from "../../Elements/Buttons/Btn-Outline/Btn-Outline";
 import { HiMiniClipboardDocumentCheck } from "react-icons/hi2";
 import Modal from "../../Modal/Modal";
-import PurchaseHistory from "../../ClientItem/ClientPurchases/Purchase/Purchase";
+import { SummaryItemType } from "./SummaryItemType";
 
 interface SummaryItemProps {
-  keyLabel: string;
-  value: string | number;
+  summaryItem: SummaryItemType;
 }
 
-const SummaryItem: FC<SummaryItemProps> = ({ keyLabel, value }) => {
-const [isActiveModal, setIsActiveModal] = useState<boolean>(false)
-
-const openPurchaseHistory = () => {
-  setIsActiveModal(true)
-}
-
+const SummaryItem: FC<SummaryItemProps> = ({ summaryItem }) => {
+  const [isActiveModal, setIsActiveModal] = useState<boolean>(false);
+  const { keyLabel, value } = summaryItem;
+  const openPurchaseHistory = () => {
+    setIsActiveModal(true);
+  };
 
   return (
     <div className={styles.SummaryItem}>
@@ -24,12 +22,16 @@ const openPurchaseHistory = () => {
       <div className={styles.container}>
         <div className={styles.title}>
           <h5>{keyLabel}</h5>
+          <div className={styles.list}>
+            <BtnOutline
+              icon={<HiMiniClipboardDocumentCheck />}
+              text={"View List"}
+              action={openPurchaseHistory}
+            />
+          </div>
         </div>
         <div className={styles.value}>
           <span>{value}</span>
-        <div className={styles.list}>
-          <BtnOutline icon={<HiMiniClipboardDocumentCheck />} text={"View List"} action={openPurchaseHistory} />
-        </div>
         </div>
       </div>
     </div>

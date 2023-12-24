@@ -1,0 +1,12 @@
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+.Tr {
+    &:nth-of-type(2n + 1) {
+        background-color: $background-dark;
+    }
+
+    & > .checkbox {
+        height: 100%;
+        width: 100%;
+        background-color: aqua;
+    }
+}

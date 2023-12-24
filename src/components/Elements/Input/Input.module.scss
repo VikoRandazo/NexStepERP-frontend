@@ -5,56 +5,64 @@
   flex: 1 1 0;
   min-height: 2em;
   position: relative;
-  
-  & > input,
-  textarea {
-    transition: all 0.4s ease;
-    outline: none;
-    padding: 0.5em 1em;
-    padding-top: 2em;
-    width: 100%;
-    resize: none;
-    background-color: $background-light;
-    background-color: #fff;
-    border: 0.125em solid transparent;
-    border-bottom: 0.125em solid rgba($softDivider, 0.5);
-    height: 4em;
-    z-index: 1;
-    border-radius:0.5em;
+  & > .inputContainer {
+
+    & > .input {
+      & > input, textarea {
+        transition: all 0.4s ease;
+        outline: none;
+        padding: 0.5em 1em;
+      padding-top: 2em;
+      width: 100%;
+      resize: none;
+      background-color: $background-light;
+      background-color: #fff;
+      border: 0.125em solid transparent;
+      border-bottom: 0.125em solid rgba($softDivider, 0.5);
+      height: 4em;
+      z-index: 1;
+      border-radius: 0.5em;
+      
+      &:focus {
+        border: 0.125em solid $primary;
+        box-shadow: 0 0em 0.25em rgba($ShadowThin, 0);
+        border-radius: 0 0.5em 0.5em;
+      }
+      &.placeholder {
+        &::placeholder {
+          pointer-events: none;
+        }
+      }
+
+      &.error {
+        border: 0.125em solid rgba($outOfStock, 0.675);
+        &::placeholder {
+          color: rgba($outOfStock, 0.675);
+        }
+      }
+      
+      &:hover::placeholder,
+      &:focus::placeholder {
+        opacity: 0.3;
+      }
+      
+      &:disabled {
+        background-color: $background-grey-light;
+      }
+    }
     
-    &:focus {
-      border: 0.125em solid $primary;
-      box-shadow: 0 0em 0.25em rgba($ShadowThin, 0);
-      border-radius: 0 0.5em 0.5em;
+    & > .icon {
+      padding: 0 0.5em;
     }
-    &.placeholder {
-      &::placeholder {
-        pointer-events: none;
-      }
-    }
-
-    &.error {
-      &::placeholder {
-        color: rgba($outOfStock, 0.675);
-      }
-    }
-
-    &:hover::placeholder,
-    &:focus::placeholder {
-      opacity: 0.3;
-    }
-
-    &:disabled {
-      background-color: $background-grey-light;
+    & > textarea {
+      height: 8em;
     }
   }
-
-  & > textarea {
-    height: 8em;
-  }
-
+  
+  
   & > .error {
     font-size: 0.875em;
     color: $warning;
   }
+}
 }

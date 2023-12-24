@@ -3,26 +3,27 @@
 
 .Popover {
   position: absolute;
-  top: 100%;
+  top: 1em;
   right: 0;
   margin-top: 1em;
   background-color: #fff;
   border: 0.125em solid $background-medium;
   backdrop-filter: blur(6px);
-  min-height: 60vh;
   max-height: 80vh;
-  width: 30vw;
   border-radius: 1em;
-  overflow-y: auto;
-  overflow-x: hidden;
   z-index: 10;
   display: none;
   opacity: 0;
-
-&.isActive {
-@extend %flexCol;
-opacity: 1;
-}
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  
+  &.isActive {
+    @extend %flexCol;
+    opacity: 1;
+    height: 100%;
+    
+  }
   & > .title {
     padding: 1em;
     position: sticky;
@@ -31,6 +32,13 @@ opacity: 1;
   }
   
   & > .content {
+    height: 100%;
     padding: 1em;
+    overflow-y:auto ;
+    @extend %flexRow;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
   }
 }

@@ -7,15 +7,17 @@ import SideBar from "./SideBar/SideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { StoreRootTypes } from "../../store/store";
 import { sideBarActions } from "../../store/slices/sideBar";
+import Login from "../Auth/Login/Login";
 
 interface LayoutProps {}
 
 const Layout: FC<LayoutProps> = () => {
   const isExpandedSideBar = useSelector((state: StoreRootTypes) => state.sideBarSlice.isExpanded);
-
   return (
     <div className={styles.Layout}>
-      <div className={isExpandedSideBar ? styles.sidebar : `${styles.sidebar} ${styles.isExpanded}`}>
+      <div
+        className={isExpandedSideBar ? styles.sidebar : `${styles.sidebar} ${styles.isExpanded}`}
+      >
         <SideBar />
       </div>
       <div className={styles.layoutContainer}>
@@ -26,10 +28,6 @@ const Layout: FC<LayoutProps> = () => {
         <div className={styles.main}>
           <Main />
         </div>
-
-        {/* <div className={styles.footer}>
-          <Footer />
-        </div> */}
       </div>
     </div>
   );

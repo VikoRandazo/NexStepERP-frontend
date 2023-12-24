@@ -12,17 +12,17 @@ interface PopoverProps {
 const Popover: FC<PopoverProps> = ({ children, title, isActivePopover, setIsActivePopover }) => {
   const ref = useRef<HTMLDivElement>(null);
   const closePopover = (e: MouseEvent) => {
-    e.stopPropagation()
+    e.stopPropagation();
     if (ref.current && !ref.current.contains(e.target as Node)) {
       setIsActivePopover(false);
     }
   };
 
   
+
   document.addEventListener("mousedown", closePopover);
   useEffect(() => {
     document.removeEventListener("mousedown", closePopover);
-
   }, [isActivePopover]);
   return (
     <div

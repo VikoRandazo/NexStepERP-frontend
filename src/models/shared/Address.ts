@@ -11,5 +11,5 @@ export const AddressInit = {
   city: "",
   state: "",
   postalCode: "",
-  country: "",
+  country: "israel",
 };

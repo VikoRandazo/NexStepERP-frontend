@@ -5,8 +5,8 @@ import { config } from "process";
 const instance = axios.create({
   baseURL: `http://localhost:5000`,
   headers: {
-    'Content-Type': 'application/json'
-  }
+    "Content-Type": "application/json",
+  },
 });
 
 instance.interceptors.request.use(
@@ -19,8 +19,17 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => {
-   
     return Promise.reject(error);
   }
 );
-export default instance;
+
+ const googleAccessToken = localStorage.getItem(`token`);
+ export const googleAuthInstance = axios.create({
+  baseURL: `https://www.googleapis.com/oauth2/v3`,
+  headers: {
+    Accept: "application/json",
+    Authorization: `Bearer ${googleAccessToken}`,
+        
+  },
+});
+export default instance

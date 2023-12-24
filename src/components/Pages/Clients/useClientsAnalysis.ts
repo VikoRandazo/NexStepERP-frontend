@@ -2,18 +2,18 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { CustomerType } from "../../../models/CustomerType";
 import { StoreRootTypes } from "../../../store/store";
-import { AnalysisObject } from "../../../models/shared/AnalysisObject";
 import { PurchaseHistoryType } from "../../../models/shared/PurchaseHistory";
+import { SummaryItemType } from "../../Summary/SummaryItem/SummaryItemType";
 
 export const useClientsAnalysis = (clients: CustomerType[]) => {
   const [newClients, setNewClients] = useState<any[]>([]);
   const [haventOrderThisMonth, setHaventOrderThisMonth] = useState<any[]>([]);
   const entity = useSelector((state: StoreRootTypes) => state.ui.modal.type);
 
-  const analysisData: AnalysisObject[] = [
-    { title: `New This Month`, value: newClients.length },
-    { title: `Havent Order This Month`, value: haventOrderThisMonth.length },
-    { title: `Total ${entity}s`, value: clients.length },
+  const analysisData: SummaryItemType[] = [
+    { keyLabel: `New This Month`, value: newClients.length },
+    { keyLabel: `Havent Order This Month`, value: haventOrderThisMonth.length },
+    { keyLabel: `Total ${entity}`, value: clients.length },
   ];
 
   const newThisMonths = () => {

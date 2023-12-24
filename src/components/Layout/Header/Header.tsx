@@ -1,11 +1,21 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from "./Header.module.scss";
-import { HiChatBubbleOvalLeftEllipsis, HiMiniBell, HiShoppingCart } from "react-icons/hi2";
+import {
+  HiChatBubbleOvalLeftEllipsis,
+  HiMiniBell,
+  HiPower,
+  HiShoppingBag,
+  HiShoppingCart,
+} from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { StoreRootTypes } from "../../../store/store";
 import Popover from "../../Elements/Popover/Popover";
 import ShoppingCart from "../../ShoppingCart/ShoppingCart";
 import { PopoverTitleEnum } from "../../Elements/Popover/PopoverTitleEnum";
+import { useNavigate } from "react-router-dom";
+import { ButtonCTAEnums } from "../../../models/ButtonsCTAEnums";
+import BtnSecondary from "../../Elements/Buttons/Btn-Secondary/Btn-Secondary";
+import { useAuth } from "../../Auth/useAuth";
 
 interface HeaderProps {}
 
@@ -15,14 +25,24 @@ const Header: FC<HeaderProps> = () => {
   const currentPage = useSelector((state: StoreRootTypes) => state.appSettings.pageName);
   const shoppingCart = useSelector((state: StoreRootTypes) => state.shoppingCart);
 
-  const handleOpenShoppingCartPopover = () => {
-    setIsActivePopoverShoppingCart(true);
+  const handleOpenShoppingCartPopover = (e: React.MouseEvent<HTMLSpanElement>) => {
+    e.stopPropagation();
+    setIsActivePopoverShoppingCart((prev) => !prev);
   };
 
-  
+  const navigate = useNavigate();
 
+  const navigateCheckout = () => {
+    navigate(`/checkout`);
+  };
 
-  return (
+  const {register} = useAuth()
+  const {handlers} = register
+const {handleLogout} = handlers
+  const user = useSelector((state: StoreRootTypes) => state.userAuth);
+
+  const { firstName, lastName, email, user_verified } = user;
+  return user_verified ? (
     <div className={styles.Header}>
       <div className={styles.title}>
         <h2>{currentPage}</h2>
@@ -31,12 +51,27 @@ const Header: FC<HeaderProps> = () => {
         <div className={styles.system}>
           <div className={styles.shoppingCart} onClick={handleOpenShoppingCartPopover}>
             <HiShoppingCart />
-            <Popover
-            isActivePopover={isActivePopoverShoppingCart}
-              setIsActivePopover={setIsActivePopoverShoppingCart}
-              children={<ShoppingCart shoppingCart={shoppingCart} />}
-              title={PopoverTitleEnum.SHOPPING_CART}
-            />
+            <div
+              className={`${styles.popOverContainer} ${
+                isActivePopoverShoppingCart ? styles.active : ""
+              }`}
+            >
+              <Popover
+                isActivePopover={isActivePopoverShoppingCart}
+                setIsActivePopover={setIsActivePopoverShoppingCart}
+                children={
+                  <ShoppingCart
+                    shoppingCart={shoppingCart}
+                    btnConfig={{
+                      icon: <HiShoppingBag />,
+                      actionLabel: ButtonCTAEnums.CHECKOUT,
+                      action: navigateCheckout,
+                    }}
+                  />
+                }
+                title={PopoverTitleEnum.SHOPPING_CART}
+              />
+            </div>
           </div>
           <div className={styles.notifications}>
             <HiMiniBell />
@@ -45,16 +80,18 @@ const Header: FC<HeaderProps> = () => {
             <HiChatBubbleOvalLeftEllipsis />
           </div>
         </div>
-        {/* <div className={styles.userImg}>
-          <img src="https://did.li/akHCN" />
-        </div> */}
+
         <div className={styles.userDetails}>
-          <h5>user name</h5>
-          <span>demo@example.com</span>
+          <h5>{`${firstName} ${lastName}`}</h5>
+          <span>{`${email}`}</span>
         </div>
       </div>
+      <hr />
+      <div className={styles.logout}>
+        <BtnSecondary text={`Logout`} icon={<HiPower />} action={handleLogout} />
+      </div>
     </div>
-  );
+  ) : null;
 };
 
 export default Header;

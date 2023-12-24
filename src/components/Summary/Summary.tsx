@@ -12,7 +12,7 @@ const Summary = <T,>({ analysisObject }: SummaryProps<T>) => {
       {analysisObject.map((analysis:any, i) => (
         <>
           <hr className={styles.divider} />
-          <SummaryItem key={i} keyLabel={analysis.title} value={analysis.value} />
+          <SummaryItem key={i} summaryItem={analysis}  />
         </>
       ))}
     </div>

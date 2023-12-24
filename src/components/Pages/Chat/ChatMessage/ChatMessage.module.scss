@@ -1,0 +1,32 @@
+@import "../../../../styles/globalStyles/colorPallete.module.scss";
+@import "../../../../styles/globalStyles/Flex.module.scss";
+.ChatMessage {
+  max-width: 100%;
+  width: fit-content;
+  background-color: #fff;
+  border-radius: 0.5em;
+  padding: 0.5em 0.5em;
+
+  & > .messageContainer {
+    @extend %flexRow;
+    gap: 0;
+    //   overflow: hidden;
+    width: 100%;
+    overflow-wrap: break-word;
+    white-space: wrap;
+    & > .time {
+      margin-top: auto;
+      padding: 0.25em;
+      font-size: 0.75em;
+      color: $text-color-light;
+      & > span {
+        width: 100%;
+      }
+    }
+
+    & > .message {
+      & > span {
+      }
+    }
+  }
+}

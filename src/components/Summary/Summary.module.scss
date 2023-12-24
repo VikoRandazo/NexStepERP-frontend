@@ -2,18 +2,20 @@
 @import "../../styles/globalStyles/Flex.module.scss";
 
 .Summary {
+  min-height: 20vh;
   width: 100%;
   background-color: #fff;
   @extend %flexRow;
   gap: 1em;
   align-items: center;
   border-radius: 1em;
-  min-height: 11em;
+  overflow-x: auto;
+  overflow-y: hidden;
 
   & > .divider {
     border: none;
     width: 0.125em;
-    height: 70%;
+    height: 75%;
     background-color: $softDivider;
 
     &:nth-of-type(1) {

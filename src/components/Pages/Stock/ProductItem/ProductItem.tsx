@@ -3,7 +3,14 @@ import styles from "./ProductItem.module.scss";
 import { ProductType } from "../../../../models/ProductType";
 import { InputField } from "../../../Elements/Input/InputField";
 import { InteractionsModeEnum } from "../../../../models/shared/InteractionsMode";
-import { HiCheckCircle, HiPencil, HiShoppingCart, HiTrash, HiXCircle } from "react-icons/hi2";
+import {
+  HiCheckCircle,
+  HiDocumentDuplicate,
+  HiPencil,
+  HiShoppingCart,
+  HiTrash,
+  HiXCircle,
+} from "react-icons/hi2";
 import { ItemOptionType } from "../../../../models/ClientOption";
 import ItemOption from "../../../ClientCardOption/ItemOption";
 import instance from "../../../../api/axiosInstance";
@@ -13,7 +20,8 @@ import { ModalDescriptionEnum } from "../../../../models/ModalDescriptionEnum";
 import Form from "../../../Form/Form";
 import { useDispatchHook } from "../../../../hooks/useDispatch";
 import { ShoppingCartSliceType, shoppingCartActions } from "../../../../store/slices/shoppingCart";
-
+import { AxiosResponse } from "axios";
+import { entitiesAction } from "../../../../store/slices/entities";
 
 interface ProductItemProps {
   product: ProductType;
@@ -26,15 +34,30 @@ interface ProductItemProps {
 
 const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag, shoppingCart }) => {
   const { dispatch } = useDispatchHook();
-  const { id, name, description, imageUrl, stockQuantity, manufacturer, category, price } =
-    product;
+  const { id, name, description, imageUrl, stockQuantity, manufacturer, category, price } = product;
 
   const [isActiveModal, setIsActiveModal] = useState<boolean>(false);
   const [numberIncrementor, setNumberIncrementor] = useState<number>(0);
 
   const handleDeleteProduct = async () => {
     try {
-      const response = await instance.delete(`/products/${id}`);
+      const response: AxiosResponse<{
+        message: string;
+        product_deleted: { acknowledged: boolean; deletedCount: number };
+      }> = await instance.delete(`/products/${id}`);
+
+      dispatch(entitiesAction.removeProduct(id));
+      if (response.data.product_deleted.deletedCount !== 0) {
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDuplicateProduct = async () => {
+    const { _id, id, ...rest } = product;
+    try {
+      const response = await instance.post(`/products/new`, rest);
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -54,20 +77,15 @@ const ProductItem: FC<ProductItemProps> = ({ product, fields, formikBag, shoppin
   const productOptions: ItemOptionType[] = [
     { icon: <HiShoppingCart />, text: "Add To Cart", action: handleAddToCart },
     { icon: <HiPencil />, text: "Edit Product", action: handleEditProduct },
+    { icon: <HiDocumentDuplicate />, text: "Duplicate Product", action: handleDuplicateProduct },
     { icon: <HiTrash />, text: "Delete Item", action: handleDeleteProduct },
   ];
-
-
 
   return (
     <div className={styles.ProductItem}>
       <Modal
         children={
-          <Form
-            fields={fields}
-            formikBag={formikBag}
-            setIsActiveModal={setIsActiveModal}
-          />
+          <Form fields={fields} formikBag={formikBag} setIsActiveModal={setIsActiveModal} />
         }
         title={ModalTitleEnum.EDIT_PRODUCT}
         description={ModalDescriptionEnum.EDIT_PRODUCT}

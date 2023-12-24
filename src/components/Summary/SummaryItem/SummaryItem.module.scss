@@ -2,18 +2,19 @@
 @import "../../../styles/globalStyles/colorPallete.module.scss";
 
 .SummaryItem {
-  height: 100%;
-  aspect-ratio: 5 / 3;
+  height: 20vh;
+  aspect-ratio: 1.75 / 1;
 
   & > .container {
     height: 100%;
     @extend %flexCol;
     justify-content: space-between;
-    padding: 2em;
-
+    padding: 1em 2em 1em;
     & > .title {
+      @extend %flexCol;
       height: 25%;
       width: 100%;
+      justify-content: space-between;
 
       & > h5 {
         font-weight: 400;
@@ -25,12 +26,12 @@
       @extend %flexRow;
       justify-content: space-between;
       align-items: flex-end;
-      font-size: 1.375em;
+      font-size: 1.25em;
 
-      & > h2 {
-        font-size: 2em;
-        font-weight: 400;
-        text-align: center;
+      & > span {
+        font-size: 0.875em;
+        font-weight: 300;
+        text-align: left;
       }
 
       & > .list {

@@ -1,11 +1,9 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
+import React, { FC, useCallback, useMemo, useState } from "react";
 import styles from "./ClientItem.module.scss";
 import {
-  HiChevronRight,
   HiOutlineBellAlert,
   HiOutlineCreditCard,
   HiPencil,
-  HiPlus,
 } from "react-icons/hi2";
 import { CustomerType } from "../../models/CustomerType";
 import { useDispatchHook } from "../../hooks/useDispatch";
@@ -21,6 +19,8 @@ import ClientPurchases from "./ClientPurchases/ClientPurchases";
 import { ProductSoldInit } from "../../models/ProductSoldType";
 import ItemOption from "../ClientCardOption/ItemOption";
 import { ItemOptionType } from "../../models/ClientOption";
+import { useSelector } from "react-redux";
+import { StoreRootTypes } from "../../store/store";
 
 interface ClientItemProps {
   client: CustomerType;
@@ -45,7 +45,7 @@ const ClientItem: FC<ClientItemProps> = ({
   const [displayInputUrl, setDisplayInputUrl] = useState<boolean>(false);
 
   const { dispatch } = useDispatchHook();
-
+  const sales = useSelector((state: StoreRootTypes) => state.entities.sales);
   const openPurchaseHistory = () => {
     setIsActiveModal_PurchaseHistory(true);
   };
@@ -57,14 +57,13 @@ const ClientItem: FC<ClientItemProps> = ({
     ],
     []
   );
-  
+
   const openEditClientModal = useCallback(() => {
     setSelectedClientId(client._id ? client._id : "");
     dispatch(UiActions.setMode(InteractionsModeEnum.Edit));
     dispatch(UiActions.setEntity(EntityEnum.Clients));
     setIsActiveModal_EditClient(true);
   }, [dispatch, setSelectedClientId]);
-
 
   return (
     <div className={styles.ClientItem}>
@@ -85,8 +84,7 @@ const ClientItem: FC<ClientItemProps> = ({
       <Modal
         children={
           <ClientPurchases
-            productsSold={[ProductSoldInit]}
-            purchaseHistory={purchaseHistory}
+            purchaseHistory={sales}
             clientId={_id}
           />
         }
@@ -121,4 +119,4 @@ const ClientItem: FC<ClientItemProps> = ({
     </div>
   );
 };
-export default ClientItem;
+export default React.memo(ClientItem);

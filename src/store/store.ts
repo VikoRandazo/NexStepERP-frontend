@@ -5,6 +5,7 @@ import { EntitySliceType, entitySlice } from "./slices/entities";
 import { UiSlice, UiSliceType } from "./slices/ui";
 import { TableSlice, TableSliceType } from "./slices/table";
 import { ShoppingCartSliceType, ShoppingCartSlice } from "./slices/shoppingCart";
+import { UserAuth, userAuthSlice } from "./slices/auth";
 
 export interface StoreRootTypes {
   ui: UiSliceType;
@@ -13,6 +14,7 @@ export interface StoreRootTypes {
   appSettings: AppSettings;
   sideBarSlice: SideBar;
   shoppingCart: ShoppingCartSliceType;
+  userAuth: UserAuth;
 }
 
 export const store = configureStore({
@@ -23,5 +25,6 @@ export const store = configureStore({
     [sideBarSlice.name]: sideBarSlice.reducer,
     [appSettingsSlice.name]: appSettingsSlice.reducer,
     [ShoppingCartSlice.name]: ShoppingCartSlice.reducer,
+    [userAuthSlice.name]: userAuthSlice.reducer,
   },
 });

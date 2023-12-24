@@ -13,26 +13,22 @@ export const useForm = (
   fields: InputField[],
   styles: Styles,
   entity: EntityEnum | null,
-  setIsActiveModal: React.Dispatch<React.SetStateAction<boolean>>
+  setIsActiveModal?: React.Dispatch<React.SetStateAction<boolean>>,
+  customFormName?: string
 ) => {
   const { dispatch } = useDispatchHook();
   const mode = useSelector((state: StoreRootTypes) => state.ui.modal.mode);
+  const urlPath = useSelector((state: StoreRootTypes) => state.appSettings.pageName);
   const [buttonText, setButtonText] = useState<BtnActionsTextEnum>(BtnActionsTextEnum.CREATE);
   const [selectPlaceHolder, setSelectPlaceHolder] = useState<SelectPlaceHolderEnum>(
     SelectPlaceHolderEnum.COUNTRY
   );
   const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
+  const [selectStates, setSelectStates] = useState<{ [key: string]: boolean }>({});
 
-  const setSelectPlaceHolderAccordingToEntity = () => {
-    switch (entity) {
-      case EntityEnum.Clients:
-        setSelectPlaceHolder(SelectPlaceHolderEnum.COUNTRY);
-        break;
-      case EntityEnum.STOCK:
-        setSelectPlaceHolder(SelectPlaceHolderEnum.CATEGORIES);
-        break;
-    }
-  };
+  const handleOpenSelect = (key:string) => {
+    setSelectStates((prev => ({...prev, [key]: !prev[key]})))
+  }
 
   const setBtnTextAccordingToMode = () => {
     switch (mode) {
@@ -57,22 +53,16 @@ export const useForm = (
   }, {});
 
   const handleCloseModal = () => {
-    setIsActiveModal(false);
+    if (setIsActiveModal) {
+      setIsActiveModal(false);
+    }
   };
 
   const handleClassName = (index: number) => {
-    switch (entity) {
-      case EntityEnum.Clients:
-        return `${styles.group} ${styles[`group${index + 1}`]} ${styles.client}`;
-
-      case EntityEnum.STOCK:
-        return `${styles.group} ${styles[`group${index + 1}`]} ${styles.product}`;
-
-      case EntityEnum.Sales:
-        return `${styles.group} ${styles[`group${index + 1}`]} ${styles.sale}`;
-
-      default:
-        return `${styles.group} ${styles[`group${index + 1}`]}`;
+    if (customFormName) {
+      return `${styles.group} ${styles[`group${index + 1}`]} ${styles[customFormName]}`;
+    } else {
+      return `${styles.group} ${styles[`group${index + 1}`]} ${styles[urlPath]}`;
     }
   };
 
@@ -82,9 +72,9 @@ export const useForm = (
 
   return {
     data: { buttonText, groupedFields },
-    handlers: { handleCloseModal, handleClassName },
+    handlers: { handleCloseModal, handleClassName, handleOpenSelect },
     events: {},
-    states: { selectPlaceHolder, isOpenSelect },
-    setters: {setIsOpenSelect},
+    states: { selectPlaceHolder, isOpenSelect, selectStates },
+    setters: { setIsOpenSelect },
   };
 };

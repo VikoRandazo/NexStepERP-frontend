@@ -1,16 +1,17 @@
 import React, { FC } from "react";
 import styles from "./Btn-Secondary.module.scss";
-import { BtnActionsText, BtnActionsTextEnum } from "../BtnActionsText";
+import { BtnActionsTextEnum } from "../BtnActionsText";
 
 interface BtnSecondaryProps {
-  text: BtnActionsTextEnum | string;
-  icon? : React.ReactElement
+  text: BtnActionsTextEnum | string | undefined
+  icon?: React.ReactElement;
+  type?: "button" | "submit" | "reset";
   action?: () => void;
 }
 
-const BtnSecondary: FC<BtnSecondaryProps> = ({ text, action, icon }) => (
-  <button type={"button"} className={styles.BtnSecondary} onClick={action}>
-   {icon} {text}
+const BtnSecondary: FC<BtnSecondaryProps> = ({ text, action, icon, type }) => (
+  <button type={type ? type : "button"} className={styles.BtnSecondary} onClick={action}>
+     {text} {icon}
   </button>
 );
 

@@ -1,0 +1,17 @@
+@import "../../styles/globalStyles/colorPallete.module.scss";
+
+.DynamicFilter {
+    height: 100%;
+    width: 100%;
+
+    & > .fields {
+        height: 100%;
+        width: 100%;
+    }
+
+    & > .label {
+        color: $text-color-light;
+        font-size: 0.875em;
+        padding: 0.5em;
+    }
+}

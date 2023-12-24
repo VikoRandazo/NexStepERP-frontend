@@ -1,5 +1,7 @@
 export enum SelectPlaceHolderEnum {
-    COUNTRY = "Choose Country",
-    CATEGORIES = "Choose Category",
-    FILTER = "Filter By"
+  COUNTRY = "Select Country",
+  CATEGORIES = "Select Category",
+  FILTER_BY = "None",
+  CLIENT = "Select a Client",
+  MANUFACTURER = "Select Manufacturer",
 }

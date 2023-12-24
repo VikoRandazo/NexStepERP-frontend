@@ -1,21 +1,20 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import styles from "./ClientPurchases.module.scss";
 import PurchaseHistory from "./Purchase/Purchase";
 import { PurchaseHistoryType } from "../../../models/shared/PurchaseHistory";
-import { ProductSold } from "../../../models/ProductSoldType";
+import { Sale } from "../../../models/Sale";
 
 interface ClientPurchasesProps {
   clientId: string | null;
-  purchaseHistory: PurchaseHistoryType[];
-  productsSold: ProductSold[];
+  purchaseHistory: Sale[];
 }
 
-const ClientPurchases: FC<ClientPurchasesProps> = ({ clientId, purchaseHistory, productsSold }) => {
+const ClientPurchases: FC<ClientPurchasesProps> = ({ purchaseHistory }) => {
 
   return (
     <div className={styles.ClientPurchases}>
       {purchaseHistory.length ? (
-        purchaseHistory.map((purchase: PurchaseHistoryType) => {
+        purchaseHistory.map((purchase: Sale) => {
           return <PurchaseHistory purchase={purchase} />;
         })
       ) : (

@@ -1,4 +1,42 @@
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+@import "../../../styles/globalStyles/Flex.module.scss";
+
 .Login {
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  inset: 0;
+  @extend %flexCol;
+  align-items: center;
+  padding: 10% 1em 1em;
+  
+  & > .container {
+    min-height: 20%;
+    width: 25%;
+
+    & > .main {
+      width: 100%;
+      @extend %flexCol;
+      text-align: center;
+    }
+
+    & > .footer {
+      width: 100%;
+      @extend %flexCol;
+      gap: 1em;
+
+      & > .actions {
+        @extend %flexRow;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 0.5em;
+        gap: 0.5em;
+      }
+      & > .googleLogin {
+        @extend %flexRow;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+    }
+  }
 }

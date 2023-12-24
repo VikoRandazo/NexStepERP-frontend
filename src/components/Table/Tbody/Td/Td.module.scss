@@ -1,0 +1,11 @@
+@import "../../../../styles/globalStyles/colorPallete.module.scss";
+
+.Td {
+  padding: 1.25em 0em;
+  text-align: center;
+
+  & > input[type="checkbox"] {
+    height: 1.25em;
+    width: 1.25em;
+  }
+}

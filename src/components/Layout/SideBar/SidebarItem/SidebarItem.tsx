@@ -3,9 +3,10 @@ import styles from "./SidebarItem.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { appSettingsActions } from "../../../../store/slices/appSettings";
+import { PagesNames } from "../../../../models/pagesName";
 
 interface SidebarItemProps {
-  name: string;
+  name: PagesNames;
   icon: ReactElement;
   isExpanded: boolean;
   isActive: boolean;

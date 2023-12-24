@@ -2,17 +2,22 @@ import React, { FC } from "react";
 import styles from "./Purchase.module.scss";
 import { BtnActionsTextEnum } from "../../../Elements/Buttons/BtnActionsText";
 import BtnOutline from "../../../Elements/Buttons/Btn-Outline/Btn-Outline";
-import { PurchaseHistoryType } from "../../../../models/shared/PurchaseHistory";
 import { useFormatDate } from "../../../../hooks/useFormatDate";
+import { Sale } from "../../../../models/Sale";
 
 interface PurchaseProps {
-  purchase: PurchaseHistoryType;
+  purchase: Sale;
 }
 
-const PurchaseHistory: FC<PurchaseProps> = ({ purchase }) => {
-  const { productId, purchaseDate, quantity, amountPaid } = purchase;
+// date: string;
+// productsSold: ProductsSold[];
+// totalAmount: number;
+// customerId: string;
 
-  const date = useFormatDate(purchaseDate, `/`, true);
+const PurchaseHistory: FC<PurchaseProps> = ({ purchase }) => {
+  const {_id, customerId, date, productsSold, totalAmount } = purchase;
+
+  const formattedDate = useFormatDate(date, `/`, true);
 
   return (
     <div className={styles.Purchase}>
@@ -23,9 +28,8 @@ const PurchaseHistory: FC<PurchaseProps> = ({ purchase }) => {
         </div>
 
         <div className={styles.main}>
-          <span className={styles.purchaseId}>id: {productId}</span>
-          <span className={styles.quantity}>quantity: {quantity}</span>
-          <span className={styles.totalPrice}>{amountPaid}$</span>
+          <span className={styles.purchaseId}>id: {_id}</span>
+          <span className={styles.totalPrice}>{totalAmount}$</span>
           <span className={styles.actions}>
             <BtnOutline text={BtnActionsTextEnum.VIEW_DOCUMENT} action={() => {}} />
           </span>

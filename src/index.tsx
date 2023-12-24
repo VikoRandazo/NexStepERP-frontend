@@ -5,15 +5,18 @@ import Layout from "./components/Layout/Layout";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
-
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import googleAuth from "./components/Auth/client_secret_446328549551-3alvbth0amr2ihevs4lf3hbq15a1fmbc.apps.googleusercontent.com.json";
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <Layout />
-      </BrowserRouter>
-    </Provider>
+    <GoogleOAuthProvider clientId={googleAuth.web.client_id}>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Layout />
+        </BrowserRouter>
+      </Provider>
+    </GoogleOAuthProvider>
   </React.StrictMode>
 );
 
