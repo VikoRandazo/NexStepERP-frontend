@@ -377,6 +377,18 @@
           gap: 0.5em;
         }
       }
+
+      & > .group.ErrorModal {
+        width: 100%;
+        & > *input {
+          height: 3em;
+        }
+
+        &.group1 > {
+          width: 100%;
+        }
+      }
+
     }
   }
   & > .footer {

@@ -39,6 +39,7 @@ export const useAuth = () => {
       title: `Password`,
       group: 1,
       element: "input",
+      type:"password",
       event: (e: React.ChangeEvent<HTMLInputElement>) => {},
     },
     { key: `divider`, group: 1, element: "hr", title: `or register with` },

@@ -6,8 +6,6 @@ import { StoreRootTypes } from "../../store/store";
 import { useSelector } from "react-redux";
 import { useForm } from "./useForm";
 import BtnPrimary from "../Elements/Buttons/Btn-Primary/Btn-Primary";
-import { HiSparkles } from "react-icons/hi2";
-import { BtnActionsTextEnum } from "../Elements/Buttons/BtnActionsText";
 import BtnSecondary from "../Elements/Buttons/Btn-Secondary/Btn-Secondary";
 import Select from "../Elements/Select/Select";
 import { useSelect } from "../Elements/Select/useSelect";
@@ -66,10 +64,6 @@ const Form: FC<FormProps> = ({
     return value;
   };
 
-  useEffect(() => {
-    console.log(formikBag.touched);
-  }, [formikBag.touched]);
-
   return (
     <form className={styles.Form} onSubmit={handleSubmit}>
       <div className={styles.main}>
@@ -78,6 +72,7 @@ const Form: FC<FormProps> = ({
             <div key={index} className={handleClassName(index)}>
               {group.map((field: InputField, i) => {
                 const checkIfChained = handleChainedKey(formikBag.values, field.key);
+
                 switch (field.element) {
                   case "input":
                     return (
@@ -86,11 +81,13 @@ const Form: FC<FormProps> = ({
                           field={field}
                           value={checkIfChained}
                           onChange={formikBag.handleChange}
-                          error={formikBag.errors[field.key]}
+                          error={formikBag.errors ? formikBag.errors[field.key] : null}
                           onBlur={formikBag.handleBlur}
                         />
                         <div className={styles.error}>
-                          {formikBag.errors[field.key] && formikBag.touched[field.key]
+                          {formikBag.errors &&
+                          formikBag.errors[field.key] &&
+                          formikBag.touched[field.key]
                             ? formikBag.errors[field.key]
                             : null}
                         </div>
@@ -180,7 +177,7 @@ const Form: FC<FormProps> = ({
                         key={`${field.key}${field.group}`}
                         className={`${styles[field.key]} ${styles.subTitle}`}
                       >
-                        <Divider text={field.title}/>
+                        <Divider text={field.title} />
                       </span>
                     );
 

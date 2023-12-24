@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from "./Login.module.scss";
 import Form from "../../Form/Form";
 import BtnTransparent from "../../Elements/Buttons/Btn-Transparent/Btn-Transparent";
@@ -9,9 +9,10 @@ import { useAuth } from "../useAuth";
 import { useDispatchHook } from "../../../hooks/useDispatch";
 import { appSettingsActions } from "../../../store/slices/appSettings";
 import { GoogleLogin } from "@react-oauth/google";
+import Modal from "../../Modal/Modal";
+import ErrorModal from "../../ErrorModal/ErrorModal";
 
 interface LoginProps {}
-
 
 const Login: FC<LoginProps> = () => {
   const navigate = useNavigate();
@@ -36,8 +37,32 @@ const Login: FC<LoginProps> = () => {
     dispatch(appSettingsActions.setPageName(`Login`));
   }, []);
 
+  const [isOpenErrorModal, setIsOpenErrorModal] = useState<boolean>(false);
+
+  const handleSetError = (error: string) => {
+    const errorMessage = error;
+    setIsOpenErrorModal(true);
+    dispatch(appSettingsActions.setPageName(`ErrorModal`));
+  };
+
+
+
   return (
     <div className={styles.Login}>
+      <Modal
+        children={
+          <ErrorModal
+            error={"hello what is youe age?"}
+            type={"alert"}
+            okBtnAction={(prompt) => {
+              console.log(prompt);
+              setIsOpenErrorModal(false)
+            }}
+          />
+        }
+        isActive={isOpenErrorModal}
+        setIsActiveModal={setIsOpenErrorModal}
+      />
       <div className={styles.container}>
         <div className={styles.main}>
           <Form fields={fields} formikBag={formik} />
@@ -45,7 +70,9 @@ const Login: FC<LoginProps> = () => {
 
         <div className={styles.footer}>
           <div className={styles.actions}>
-            <BtnSecondary text={`Lets Go`} icon={<HiPaperAirplane />} action={handleSignIn} />
+            <span>
+              <BtnSecondary text={`Lets Go`} icon={<HiPaperAirplane />} action={handleSignIn} />
+            </span>
             <span>
               <hr />
             </span>
@@ -56,15 +83,11 @@ const Login: FC<LoginProps> = () => {
             />
           </div>
           <div className={styles.googleLogin}>
-            <GoogleLogin
-              onSuccess={googleResponse}
-              width={`300`}
-              type={`standard`}
-              useOneTap={true}
-            />
+            <GoogleLogin onSuccess={googleResponse} useOneTap={true} />
           </div>
         </div>
       </div>
+      <button onClick={() => handleSetError("Enter Your Name")}>open error</button>
     </div>
   );
 };

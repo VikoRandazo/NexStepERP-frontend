@@ -3,9 +3,10 @@
 
 .BtnSecondary {
   @extend %BasicButton;
-  flex: 0;
+  flex: 1;
   align-items: center;
   justify-content: center;
+  width: 100%;
 
   
   & > svg {

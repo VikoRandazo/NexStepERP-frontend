@@ -19,15 +19,13 @@ const Register: FC<RegisterProps> = () => {
   const { dispatch } = useDispatchHook();
 
   const { register } = useAuth();
-  const {formik, handlers, utiles, states, setters} = register
+  const { formik, handlers, utiles, states, setters } = register;
 
-  const {fields} = utiles
-  const {handleRegisterUser} = handlers
+  const { fields } = utiles;
+  const { handleRegisterUser } = handlers;
   const navigateLogin = () => {
     navigate(`/login`);
   };
-
-
 
   useEffect(() => {
     dispatch(appSettingsActions.setPageName(`Register`));
@@ -42,7 +40,13 @@ const Register: FC<RegisterProps> = () => {
 
         <div className={styles.footer}>
           <div className={styles.actions}>
-            <BtnSecondary text={`Sign Up`} icon={<HiPaperAirplane />} action={handleRegisterUser} />
+            <span>
+              <BtnSecondary
+                text={`Sign Up`}
+                icon={<HiPaperAirplane />}
+                action={handleRegisterUser}
+              />
+            </span>
             <span>
               <hr />
             </span>
