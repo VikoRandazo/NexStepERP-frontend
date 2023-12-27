@@ -13,22 +13,31 @@ interface LayoutProps {}
 
 const Layout: FC<LayoutProps> = () => {
   const isExpandedSideBar = useSelector((state: StoreRootTypes) => state.sideBarSlice.isExpanded);
+  const user_verified = useSelector((state: StoreRootTypes) => state.userAuth.user_verified);
   return (
     <div className={styles.Layout}>
-      <div
-        className={isExpandedSideBar ? styles.sidebar : `${styles.sidebar} ${styles.isExpanded}`}
-      >
-        <SideBar />
-      </div>
-      <div className={styles.layoutContainer}>
-        <div className={styles.header}>
-          <Header />
-        </div>
+      {user_verified ? (
+        <>
+          <div
+            className={
+              isExpandedSideBar ? styles.sidebar : `${styles.sidebar} ${styles.isExpanded}`
+            }
+          >
+            <SideBar />
+          </div>
+          <div className={styles.layoutContainer}>
+            <div className={styles.header}>
+              <Header />
+            </div>
 
-        <div className={styles.main}>
-          <Main />
-        </div>
-      </div>
+            <div className={styles.main}>
+              <Main />
+            </div>
+          </div>
+        </>
+      ) : (
+        <Main />
+      )}
     </div>
   );
 };

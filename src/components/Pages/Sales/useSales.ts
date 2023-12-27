@@ -14,7 +14,16 @@ export const useSales = () => {
   const [clientIds, setClientsIds] = useState<string[]>([]);
   const [clients, setClients] = useState<CustomerType[]>([]);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
-  const sales = useSelector((state:StoreRootTypes)=> state.entities.sales)
+  const sales = useSelector((state: StoreRootTypes) => state.entities.sales);
+
+  const getSales = async () => {
+    try {
+      const response = await instance.get(`sales/all`);
+      dispatch(entitiesAction.setSales(response.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSetClientsId = () => {
     const clientSet: Set<string> = new Set();
@@ -24,7 +33,7 @@ export const useSales = () => {
 
     setClientsIds([...clientSet]);
   };
-  
+
   const getClients = async () => {
     const response = await instance.post(`clients/multiple`, clientIds);
     setClients(response.data);
@@ -37,8 +46,6 @@ export const useSales = () => {
     console.log(checked);
   };
 
-
-
   const summaries: SummaryItemType[] = [
     {
       keyLabel: "Total Sales",
@@ -49,11 +56,17 @@ export const useSales = () => {
       value: "",
     },
   ];
-  
+
   useEffect(() => {
     handleSetClientsId();
     getClients();
   }, [sales]);
+
+  useEffect(() => {
+    if (sales.length < 1) {
+      getSales();
+    }
+  }, []);
 
   return {
     formik: formikBag,

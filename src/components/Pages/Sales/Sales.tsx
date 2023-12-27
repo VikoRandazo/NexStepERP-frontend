@@ -48,7 +48,7 @@ const Sales: FC<SalesProps> = () => {
   return (
     <div className={styles.Sales}>
       <Summary analysisObject={summaries} />
-      <DataControl data={[]} formikbag={formik} filterFields={[]} filterFunctions={{ "": () => { return []; } }} initStateFormik={{}}/>
+      <DataControl data={[]} formik={formik} />
       <div className={styles.salesTable}>
         <Table
           columns={columns}

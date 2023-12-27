@@ -23,6 +23,7 @@ type FormProps = {
     touched?: any;
     handleBlur?: any;
   };
+
   showFooter?: boolean;
   setIsActiveModal?: React.Dispatch<React.SetStateAction<boolean>>;
   customFormName?: string;
@@ -117,8 +118,8 @@ const Form: FC<FormProps> = ({
                         <Select
                           name={field.key}
                           isOpen={selectStates[field.key]}
-                          isSelected={field.isSelectedState}
-                          setIsSelected={field.setisSelectedState}
+                          isSelected={field.isSelected}
+                          setIsSelected={field.setisSelected!}
                           options={field.options}
                           placeholder={field.placeholder}
                           event={field.event}

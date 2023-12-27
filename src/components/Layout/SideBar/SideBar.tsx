@@ -61,42 +61,39 @@ const SideBar: FC<SideBarProps> = () => {
     { name: PagesNames.Settings, icon: <HiCog6Tooth /> },
   ];
 
-const user  = useSelector((state:StoreRootTypes) => state.userAuth)
-  const {user_verified} = user
+  const user = useSelector((state: StoreRootTypes) => state.userAuth);
 
   useEffect(() => {
     handleChangeEntity();
   }, [location]);
 
   return (
-    user_verified ? (
-      <div className={isExpended ? styles.SideBar : `${styles.SideBar} ${styles.collapsed}`}>
-        <div className={styles.header}>
-          <div className={styles.logo}>{isExpended ? <Horizontal /> : <Svg />}</div>
-        </div>
-        <nav className={styles.main}>
-          <ul className={styles.navItems}>
-            {navigation.map((item: NavItem, index) => (
-              <SidebarItem
-                key={index}
-                name={item.name}
-                icon={item.icon}
-                isExpanded={isExpended}
-                isActive={activeNavItem === item.name}
-                setActiveNavItem={setActiveNavItem}
-              />
-            ))}
-          </ul>
-        </nav>
-        <div className={styles.footer}>
-          <BtnTransparent
-            icon={isExpended ? <HiArrowLeftCircle /> : <HiArrowRightCircle />}
-            action={handleExpandSideBar}
-          />
-        </div>
+    <div className={isExpended ? styles.SideBar : `${styles.SideBar} ${styles.collapsed}`}>
+      <div className={styles.header}>
+        <div className={styles.logo}>{isExpended ? <Horizontal /> : <Svg />}</div>
       </div>
-    ) : null
+      <nav className={styles.main}>
+        <ul className={styles.navItems}>
+          {navigation.map((item: NavItem, index) => (
+            <SidebarItem
+              key={index}
+              name={item.name}
+              icon={item.icon}
+              isExpanded={isExpended}
+              isActive={activeNavItem === item.name}
+              setActiveNavItem={setActiveNavItem}
+            />
+          ))}
+        </ul>
+      </nav>
+      <div className={styles.footer}>
+        <BtnTransparent
+          icon={isExpended ? <HiArrowLeftCircle /> : <HiArrowRightCircle />}
+          action={handleExpandSideBar}
+        />
+      </div>
+    </div>
   );
-  };
+};
 
 export default SideBar;

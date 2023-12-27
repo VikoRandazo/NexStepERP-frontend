@@ -1,52 +1,33 @@
-import { useEffect, useState } from "react";
-import { CustomerType } from "../../models/CustomerType";
-import { ProductType } from "../../models/ProductType";
-import { Sale } from "../../models/Sale";
 import { useFormik } from "formik";
+import { useEffect, useState } from "react";
 
-export const useDynamicFilter = <T extends CustomerType | ProductType | Sale>(initStateFormik: {
-  [key: string]: any;
-}) => {
-  // ===============================================================================
-  // --------- useStates -----------------------------------------------------------
-  // ===============================================================================
+export const useDynamicFilter = (name: string, data: any[]) => {
+  const [hideProps, setHideProps] = useState<string[]>([]); // when ui is built, user will choose which to hide
 
-  // ===============================================================================
-  // ---------- Hooks -------------------------------------------------------------
-  // ===============================================================================
+  const [rangeValue, setRangeValue] = useState<{ [name: string]: { min: number; max: number } }>({
+    [name]: {
+      min: 0,
+      max: 0,
+    },
+  });
 
-  // ===============================================================================
-  // ---------- Formik -------------------------------------------------------------
-  // ===============================================================================
-  const { handleSubmit, values, handleChange, setFieldValue, resetForm } = useFormik({
-    initialValues: initStateFormik,
+  const { handleSubmit, values, handleChange, setFieldValue } = useFormik({
+    initialValues: {},
     onSubmit: () => {},
   });
-  // ===============================================================================
-  // ---------- Functions ----------------------------------------------------------
-  // ===============================================================================
-  // ===============================================================================
-  // ---------- Handlers -----------------------------------------------------------
-  // ===============================================================================
 
-  // ===============================================================================
-  // --------- States --------------------------------------------------------------
-  // ===============================================================================
-
-  // ===============================================================================
-  // --------- useEffects ----------------------------------------------------------
-  // ===============================================================================
+  const handleGetFilterProperties = () => {
+    if (data) {
+      const properties = Object.keys(data[0]).map((prop: string) => prop);
+      const hideStrictProps = ["_id", "id", "imageUrl", "description", "name"];
+      const formattedArray = properties.filter((prop) => !hideStrictProps.includes(prop));
+      console.log(formattedArray); // build filters fields for those in the array
+    }
+  };
 
   useEffect(() => {
-    console.log();
+    // handleGetFilterProperties();
   }, []);
 
-  return {
-    utiles: {},
-    handlers: {},
-    functions: {},
-    states: {},
-    setters: {},
-    formik: {handleSubmit, values, handleChange, setFieldValue, resetForm },
-  };
+  return { states: { rangeValue }, setters: { setRangeValue }, utiles: {} };
 };

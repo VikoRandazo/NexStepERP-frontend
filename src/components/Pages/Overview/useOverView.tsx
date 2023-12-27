@@ -24,6 +24,7 @@ export const useOverView = () => {
       console.log(error);
     }
   };
+
   const getClients = async () => {
     try {
       const response = await instance.get(`clients/all`);
@@ -32,6 +33,7 @@ export const useOverView = () => {
       console.log(error);
     }
   };
+
   const getSales = async () => {
     try {
       const response = await instance.get(`sales/all`);
@@ -46,9 +48,15 @@ export const useOverView = () => {
   const totalSales: AnalysisObject = { title: `Total Sales`, value: getTotalSales + `$` };
 
   useEffect(() => {
-    getProducts();
-    getClients();
-    getSales();
+    if (products.length === 0) {
+      getProducts();
+    }
+    if (clients.length === 0) {
+      getClients();
+    }
+    if (sales.length === 0) {
+      getSales();
+    }
   }, []);
   return { analysis: { totalSales } };
 };

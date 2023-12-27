@@ -36,13 +36,13 @@ const Header: FC<HeaderProps> = () => {
     navigate(`/checkout`);
   };
 
-  const {register} = useAuth()
-  const {handlers} = register
-const {handleLogout} = handlers
+  const { register } = useAuth();
+  const { handlers } = register;
+  const { handleLogout } = handlers;
   const user = useSelector((state: StoreRootTypes) => state.userAuth);
 
   const { firstName, lastName, email, user_verified } = user;
-  return user_verified ? (
+  return (
     <div className={styles.Header}>
       <div className={styles.title}>
         <h2>{currentPage}</h2>
@@ -91,7 +91,7 @@ const {handleLogout} = handlers
         <BtnSecondary text={`Logout`} icon={<HiPower />} action={handleLogout} />
       </div>
     </div>
-  ) : null;
+  );
 };
 
 export default Header;

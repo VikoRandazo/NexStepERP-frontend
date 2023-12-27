@@ -1,23 +1,29 @@
-import React, { FC, useState } from "react";
+import React, { FC, SetStateAction } from "react";
 import styles from "./Checkbox.module.scss";
+import { HiCheckBadge } from "react-icons/hi2";
 
 interface CheckboxProps {
-  checked: boolean;
-  onChange: any;
+  check: boolean;
+  setCheck: React.Dispatch<SetStateAction<boolean>>;
+  event: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const Checkbox: FC<CheckboxProps> = ({ checked = false, onChange }) => {
-  const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (onChange) {
-      onChange(e.target.checked);
-    }
+const Checkbox: FC<CheckboxProps> = ({ check, setCheck, event }) => {
+  const handleChange = (e: React.MouseEvent<HTMLDivElement>) => {
+    setCheck((prev) => !prev);
+    event(e);
   };
 
   return (
-    <label className={styles.Checkbox}>
-      <input type="checkbox" onChange={handleToggle} checked={checked} />
-      <span className={styles.slider} />
-    </label>
+    <div className={styles.Checkbox}>
+      <div
+        className={check ? `${styles.element} ${styles.isActive}` : styles.element}
+        onClick={handleChange}
+        data-check={check}
+      >
+        <HiCheckBadge />
+      </div>
+    </div>
   );
 };
 

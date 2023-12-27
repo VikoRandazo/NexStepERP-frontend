@@ -13,6 +13,8 @@ interface InputProps<T> {
   disabled?: boolean;
   placeholder?: string;
   autoComplete?: string | undefined;
+  min?:number
+  max?:number
 }
 
 function isInput(field: InputField): field is InputField & { element: "input" } {
@@ -88,6 +90,8 @@ const Input: FC<InputProps<any>> = ({
                 onFocus={handleFocus}
                 className={handleClassName()}
                 autoComplete={autoComplete}
+                min={field.min}
+                max={field.max}
               />
             )}
           </div>

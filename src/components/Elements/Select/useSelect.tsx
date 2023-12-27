@@ -6,6 +6,7 @@ export const useSelect = (
   setIsOpenSelect: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const selectRef = useRef<HTMLSelectElement>(null);
+  
   const handleOpenSelectMenu = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
     setIsOpenSelect((prev) => !prev);
@@ -31,5 +32,7 @@ export const useSelect = (
     };
   }, []);
 
-  return { handleOpenSelectMenu, formatOptions };
+  return { 
+    handleOpenSelectMenu, formatOptions 
+  };
 };

@@ -21,6 +21,7 @@ import ItemOption from "../ClientCardOption/ItemOption";
 import { ItemOptionType } from "../../models/ClientOption";
 import { useSelector } from "react-redux";
 import { StoreRootTypes } from "../../store/store";
+import { appSettingsActions } from "../../store/slices/appSettings";
 
 interface ClientItemProps {
   client: CustomerType;
@@ -63,6 +64,7 @@ const ClientItem: FC<ClientItemProps> = ({
     dispatch(UiActions.setMode(InteractionsModeEnum.Edit));
     dispatch(UiActions.setEntity(EntityEnum.Clients));
     setIsActiveModal_EditClient(true);
+    dispatch(appSettingsActions.setPageName(`Clients`))
   }, [dispatch, setSelectedClientId]);
 
   return (

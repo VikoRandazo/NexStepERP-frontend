@@ -1,35 +1,42 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useRef } from "react";
 import styles from "./Option.module.scss";
 import { OptionType } from "../../../models/Elements/Option";
+import { HiCheck } from "react-icons/hi2";
 
 type OptionProps = {
   option: OptionType;
-  isActive: boolean;
-  onChange: (e: React.MouseEvent<HTMLLIElement>) => void;
-  setSelected?: React.Dispatch<React.SetStateAction<string>>;
+  event: (e: React.MouseEvent<HTMLLIElement>) => void;
+  isSelected: OptionType;
+  setIsSelected: React.Dispatch<React.SetStateAction<OptionType>>;
 };
 
 const Option: FC<OptionProps> = (props) => {
-  const { option, isActive, setSelected, onChange } = props;
+  const { option, setIsSelected, event, isSelected } = props;
   const { id, value } = option;
 
+
   const handleOptionClick = (e: React.MouseEvent<HTMLLIElement>) => {
-    if (setSelected && e.currentTarget.dataset.value) {
-      const {value} = e.currentTarget.dataset
-      setSelected(value);
+
+    if (setIsSelected && e.currentTarget.dataset.value) {
+      setIsSelected(option);
     }
 
-    onChange(e);
+    event(e);
   };
 
+
+
   return (
-    <li
-      onClick={handleOptionClick}
-      className={isActive ? `${styles.Option} ${styles.active}` : styles.Option}
-      id={`${id}`}
-      data-value={value}
-    >
+    <li onClick={handleOptionClick} className={styles.Option} id={`${id}`} data-value={value}>
+      {option.icon ? <div className={styles.icon}>{option.icon}</div> : null}
+
       {value}
+
+      {option.value === isSelected.value ? (
+        <div className={styles.checkmark}>
+          <HiCheck />
+        </div>
+      ) : null}
     </li>
   );
 };

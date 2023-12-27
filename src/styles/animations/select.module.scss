@@ -1,12 +1,8 @@
-@keyframes openMenu {
+@keyframes reveal {
   0% {
-    display: none;
-    height: 0;
+    max-height: 0;
   }
   100% {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    flex-wrap: nowrap;
+    max-height: 100vh; 
   }
 }

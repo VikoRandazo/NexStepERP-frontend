@@ -68,6 +68,7 @@ export const useAuth = () => {
         const { access_token, user, user_verified } = response.data;
 
         const userVerified = { ...user, user_verified };
+        localStorage.setItem(`token`, access_token)
         dispatch(userAuthActions.token(access_token));
         dispatch(userAuthActions.setUser(userVerified));
         navigate(`/overview`);
@@ -183,7 +184,10 @@ export const useAuth = () => {
 
   const handleLogout = () => {
     dispatch(userAuthActions.logOut());
+    localStorage.removeItem(`token`)
+    navigate(`/login`)
   };
+  
 
   useEffect(() => {
     console.log(touched);

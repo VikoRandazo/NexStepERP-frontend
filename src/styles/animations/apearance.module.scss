@@ -8,3 +8,34 @@
     opacity: 100%;
   }
 }
+
+
+@keyframes check {
+  0% {
+    opacity: 0;
+    height: 0;
+    width: 0;
+    rotate: -360deg;
+  }
+  
+  50% {
+    opacity: 1;
+    height: 3em;
+    width: 3em;
+    rotate: 360deg;
+  }
+}
+
+@keyframes select {
+  0% {
+    opacity: 0;
+    height: 600%;
+    width: 600%;
+  }
+  
+  50% {
+    opacity: 1;
+    height: 2em;
+    width: 2em;
+  }
+}

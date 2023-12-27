@@ -14,7 +14,6 @@ const Clients: FC<ClientsProps> = () => {
   const { mode } = states;
   const { setSelectedClientId } = setters;
   const { clients, fields } = data;
-  // const {} = dataControl;
   const { analysisData } = useClientsAnalysis(clients);
 
   return (
@@ -22,8 +21,7 @@ const Clients: FC<ClientsProps> = () => {
       <Summary analysisObject={analysisData}/>
        <DataControl
         data={clients}
-        formikbag={formikBag}
-        filterFields={[]} filterFunctions={{ "": () => { return []; } }} initStateFormik={{}}      />
+        formik={""} />
 
       <div className={styles.displayClients}>
         {clients.map((client: CustomerType) => (

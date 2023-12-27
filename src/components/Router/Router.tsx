@@ -10,45 +10,100 @@ import Checkout from "../Pages/Checkout/Checkout";
 import Sales from "../Pages/Sales/Sales";
 import { useDispatchHook } from "../../hooks/useDispatch";
 import { appSettingsActions } from "../../store/slices/appSettings";
-import { PagesNames } from "../../models/pagesName";
 import Chat from "../Pages/Chat/Chat";
-import { useSelector } from "react-redux";
-import { StoreRootTypes } from "../../store/store";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 interface RouterProps {}
 
 const Router: FC<RouterProps> = () => {
   const { pathname } = useLocation();
   const { dispatch } = useDispatchHook();
-  const navigate = useNavigate();
 
-  const [pagePathName, setPagePathName] = useState<string>("/");
+  const formatPathname = () => {
+    const removeFirstLetter = pathname.split(`/`)[1].slice(1);
+    const uppercaseFirstLetter = pathname.split(`/`)[1][0].toUpperCase();
+
+    const formattedPathname = uppercaseFirstLetter + removeFirstLetter;
+
+    console.log(formattedPathname);
+      
+      dispatch(appSettingsActions.setPageName(formattedPathname));
+  };
 
   useEffect(() => {
-    dispatch(appSettingsActions.setPageName(pagePathName as PagesNames));
-  }, [pagePathName]);
-
-  const verified_user = useSelector((state: StoreRootTypes) => state.userAuth.user_verified);
+    if (pathname !== `/`) {
+      formatPathname();
+    }
+  }, [pathname]);
 
   return (
     <Routes>
       {/* Auth */}
-      <Route path={"/login"} element={<Login />} />
-      <Route path={"/register"} element={<Register />} />
+      <Route path={"/Login"} element={<Login />} />
+      <Route path={"/Register"} element={<Register />} />
       <Route path={"/forgot_password"} element={<ForgotPassword />} />
 
       {/* Pages */}
-      <Route path={"/overview"} element={verified_user ? <Overview /> : <Login />} />
-      <Route path={"/products"} element={verified_user ? <Stock /> : <Login />} />
-      <Route path={"/clients"} element={verified_user ? <Clients /> : <Login />} />
-      <Route path={"/sales"} element={verified_user ? <Sales /> : <Login />} />
-      <Route path={"/Messages"} element={verified_user ? <Chat /> : <Login />} />
+      <Route
+        path={"/Overview"}
+        element={
+          <ProtectedRoute>
+            <Overview />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={"/Products"}
+        element={
+          <ProtectedRoute>
+            <Stock />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={"/Clients"}
+        element={
+          <ProtectedRoute>
+            <Clients />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={"/Sales"}
+        element={
+          <ProtectedRoute>
+            <Sales />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={"/Messages"}
+        element={
+          <ProtectedRoute>
+            <Chat />
+          </ProtectedRoute>
+        }
+      />
 
       {/* checkout */}
-      <Route path={"/checkout"} element={verified_user ? <Checkout /> : <Login />} />
+      <Route
+        path={"/Checkout"}
+        element={
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        }
+      />
 
       {/* Default */}
-      <Route path={"/"} element={<Login />} />
+      <Route
+        path={"/"}
+        element={
+          <ProtectedRoute>
+            <Overview />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 };

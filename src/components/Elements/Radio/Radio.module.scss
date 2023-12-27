@@ -1,0 +1,60 @@
+@import "../../../styles/globalStyles/Flex.module.scss";
+@import "../../../styles/globalStyles/colorPallete.module.scss";
+@import "../../../styles/animations/apearance.module.scss";
+
+.Radio {
+  height: 100%;
+  cursor: pointer;
+
+  & > .options {
+    width: 100%;
+    gap: 1em;
+    @extend %flexRow;
+
+    & > .selection {
+      @extend %flexCol;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5em;
+
+      & > .element {
+        position: relative;
+        border: 0.125em solid $background-medium;
+        border-radius: 50%;
+        width: 2em;
+        height: 2em;
+        @extend %flexRow;
+        align-items: center;
+        justify-content: center;
+        color: rgba($secondary, 1);
+
+        & > svg {
+          position: absolute;
+          align-items: center;
+          justify-content: center;
+
+          transition: all 0.3s ease;
+          opacity: 0;
+          color: rgba($primary, 1);
+          height: 50%;
+          width: 50%;
+        }
+
+        &.isActive {
+          & > svg {
+            color: rgba($primary, 1);
+            animation: select 1s ease;
+            opacity: 1;
+            width: 2em;
+            height: 2em;
+          }
+        }
+      }
+      
+              & > .name {
+                font-size: 0.875em;
+                color: $text-color-light;
+              }
+    }
+  }
+}

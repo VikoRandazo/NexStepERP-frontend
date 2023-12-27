@@ -45,8 +45,6 @@ const Login: FC<LoginProps> = () => {
     dispatch(appSettingsActions.setPageName(`ErrorModal`));
   };
 
-
-
   return (
     <div className={styles.Login}>
       <Modal
@@ -56,7 +54,7 @@ const Login: FC<LoginProps> = () => {
             type={"alert"}
             okBtnAction={(prompt) => {
               console.log(prompt);
-              setIsOpenErrorModal(false)
+              setIsOpenErrorModal(false);
             }}
           />
         }

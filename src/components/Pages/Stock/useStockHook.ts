@@ -14,6 +14,9 @@ import { SelectPlaceHolderEnum } from "../../../models/SelectPlaceHolderEnum.";
 import { productValidationSchema } from "./productValidation";
 import { AxiosResponse } from "axios";
 import { OptionType } from "../../../models/Elements/Option";
+import { initSelectState } from "../../Elements/Select/Select";
+import  categories  from "./categories.json";
+import { SummaryItemType } from "../../Summary/SummaryItem/SummaryItemType";
 
 export const useStockHook = () => {
   const { dispatch } = useDispatchHook();
@@ -31,17 +34,29 @@ export const useStockHook = () => {
     message: string;
     product_deleted: number;
   }>();
-
+  const [mostPurchasedProduct, setMostPurchasedProduct] = useState<string>("none");
+  const [salesPortion, setSalesPortion] = useState<number>(0);
   const [displayInputUrl, setDisplayInputUrl] = useState<boolean>(false);
   const [isActiveModal, setIsActiveModal] = useState<boolean>(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>(`None`);
+  const [selectedCategory, setSelectedCategory] = useState<OptionType>(initSelectState);
   const [id, setId] = useState<number>(1800100 + products.length + 1);
   const [selectedFile, setSelectedFile] = useState<string>("../../../assets/images/products");
   const [productsState, setProductsState] = useState<ProductType[]>(products);
   const [formattedCategories, setFormattedCategories] = useState<OptionType[]>([]);
-  const [isOpenSelectForChoosingCategory, setIsOpenSelectForChoosingCategory] = useState<boolean>(false);
+  const [isOpenSelectForChoosingCategory, setIsOpenSelectForChoosingCategory] =
+    useState<boolean>(false);
 
-  const handleSetId = () => {
+    const getProducts = async () => {
+      try {
+        const response = await instance.get(`products/all`);
+        dispatch(entitiesAction.setStock(response.data));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+  
+    const handleSetId = () => {
     setId(1800100 + productsState.length + 1);
     console.log(productsState.length);
   };
@@ -101,16 +116,16 @@ export const useStockHook = () => {
     },
   });
 
-  const filterFormik = useFormik({
-    initialValues: { category: "", manufacturer: "", price: 0, purchasesAmount: 0 },
-    onSubmit: () => {},
-  });
-
-
   const handleSelectCategory = (e: React.MouseEvent<HTMLLIElement>) => {
-    const { innerText } = e.currentTarget;
-    setSelectedCategory(innerText);
-    setFieldValue(`category`, innerText);
+    const { value } = e.currentTarget.dataset;
+
+    if (value) {
+      const selectInit = { id: 0, value: value };
+
+      setSelectedCategory(selectInit);
+  
+    }
+    setFieldValue(`category`, value);
   };
 
   const handlePrepareSelectOptions = (options: OptionType[] | string[]) => {
@@ -124,6 +139,38 @@ export const useStockHook = () => {
       }
     }, []);
   };
+
+  const findMostPurchasedProduct = () => {
+    let mostPurchasedProduct = { name: "none", amount: 0, totalSalesValue: 0 };
+    let totalSales = 0;
+
+    products.reduce((acc, product) => {
+      if (product.purchasesAmount) {
+        const productTotalSalesValue = product.purchasesAmount * product.price;
+        totalSales += productTotalSalesValue;
+
+        if (product.purchasesAmount > acc.amount) {
+          acc.amount = +product.purchasesAmount;
+          acc.name = product.name;
+          acc.totalSalesValue = productTotalSalesValue;
+        }
+      }
+
+      return acc;
+    }, mostPurchasedProduct);
+
+    const salesPortion =
+      totalSales > 0 ? (mostPurchasedProduct.totalSalesValue / totalSales) * 100 : 0;
+
+    setMostPurchasedProduct(mostPurchasedProduct.name);
+    setSalesPortion(+salesPortion.toFixed(2));
+  };
+  const analysisData: SummaryItemType[] = [
+    { keyLabel: "Total Products", value: products.length },
+    { keyLabel: "Top Selling Product", value: mostPurchasedProduct },
+    { keyLabel: "Portion Of Total Income", value: salesPortion + `%` },
+  ];
+
 
   const fields: InputField[] = [
     {
@@ -146,23 +193,25 @@ export const useStockHook = () => {
       element: "input",
       event: () => {},
     },
+
+    {
+      key: "category",
+      options: formattedCategories,
+      isOpen: isOpenSelectForChoosingCategory,
+      isSelected: selectedCategory,
+      setisSelected: setSelectedCategory,
+      type: "text",
+      title: "Categories",
+      group: 3,
+      element: "select",
+      placeholder: "Choose a Category",
+      event: handleSelectCategory,
+    },
     {
       key: "subTitle2Product",
       title: "Set Additional Information",
       group: 4,
       element: "h3",
-    },
-    {
-      key: "category",
-      options: formattedCategories,
-      title: "Category",
-      type: "text",
-      group: 3,
-      element: "select",
-      isOpen: isOpenSelectForChoosingCategory,
-      isSelectedState: selectedCategory,
-      event: handleSelectCategory,
-      placeholder: SelectPlaceHolderEnum.CATEGORIES,
     },
     {
       key: "stockQuantity",
@@ -186,7 +235,7 @@ export const useStockHook = () => {
       textarea: true,
       group: 5,
       element: "input",
-      event: () => {}
+      event: () => {},
     },
   ];
 
@@ -206,7 +255,7 @@ export const useStockHook = () => {
   };
 
   useEffect(() => {
-    setFieldValue(`category`, selectedCategory);
+    setFieldValue(`category`, selectedCategory.value);
   }, [selectedCategory]);
 
   useEffect(() => {
@@ -227,12 +276,23 @@ export const useStockHook = () => {
     }
   }, [deletedResponse]);
 
+  useEffect(() => {
+    handlePrepareSelectOptions(categories);
+
+    if (products.length < 1) {
+      getProducts()
+    }
+  }, []);
+
+  useEffect(() => {
+    findMostPurchasedProduct();
+  }, [products]);
+
+
   return {
     data: { products, filteredProducts },
     utiles: {
       fields,
-      filterFormik,
-      // filterOptions
     },
     states: {
       interactionsMode,
@@ -268,5 +328,6 @@ export const useStockHook = () => {
       setFieldValue,
       resetForm,
     },
+    analysis:{analysisData}
   };
 };

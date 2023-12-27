@@ -8,6 +8,7 @@ import { initShoppingCart } from "../../../store/slices/shoppingCart";
 import { useSelector } from "react-redux";
 import { StoreRootTypes } from "../../../store/store";
 import { Sale } from "../../../models/Sale";
+import { initSelectState } from "../../Elements/Select/Select";
 
 export const useCheckout = () => {
   // ===============================================================================
@@ -39,7 +40,7 @@ export const useCheckout = () => {
   const { values, handleSubmit, setFieldValue, handleChange } = useFormik({
     initialValues: {
       isNewClient: 1,
-      client: "",
+      client: initSelectState,
       shoppingCart: initShoppingCart,
     },
     onSubmit: () => {},
@@ -89,7 +90,7 @@ export const useCheckout = () => {
         date: values.shoppingCart.lastUpdated,
         productsSold: products,
         totalAmount: values.shoppingCart.totalPrice,
-        customerId: values.client,
+        customerId: values.client.value,
       };
     });
   };
@@ -175,7 +176,7 @@ export const useCheckout = () => {
           group: 2,
           element: "select",
           isOpen: isOpenSelectForChoosingClient,
-          isSelectedState: values.client,
+          isSelected: values.client,
           event: handleSelectClient,
           placeholder: "Choose a Client",
         },

@@ -7,9 +7,11 @@ export type InputField =
       type?: "text" | "number" | "password" | "email" | "url" | "date";
       title: string;
       textarea?: boolean;
-      group: number;
+      group?: number;
       element: "input";
       id?: string;
+      min?:number
+      max?:number
       event: (e: React.ChangeEvent<HTMLInputElement>) => void;
     }
   | {
@@ -39,9 +41,9 @@ export type InputField =
       group: number;
       element: "select";
       isOpen: boolean;
-      isSelectedState: string;
+      isSelected: OptionType;
       placeholder: string;
-      setisSelectedState?: React.Dispatch<React.SetStateAction<string>>;
+      setisSelected?: React.Dispatch<React.SetStateAction<OptionType>>;
       event: (e: React.MouseEvent<HTMLLIElement>) => void;
     }
   | {

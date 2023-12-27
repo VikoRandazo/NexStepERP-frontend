@@ -26,9 +26,9 @@ export const useForm = (
   const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
   const [selectStates, setSelectStates] = useState<{ [key: string]: boolean }>({});
 
-  const handleOpenSelect = (key:string) => {
-    setSelectStates((prev => ({...prev, [key]: !prev[key]})))
-  }
+  const handleOpenSelect = (key: string) => {
+    setSelectStates((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   const setBtnTextAccordingToMode = () => {
     switch (mode) {
@@ -44,10 +44,12 @@ export const useForm = (
   };
 
   const groupedFields = fields.reduce<Record<number, InputField[]>>((acc, field) => {
-    if (!acc[field.group]) {
-      acc[field.group] = [];
+    if (field.group) {
+      if (!acc[field.group]) {
+        acc[field.group] = [];
+      }
+      acc[field.group].push(field);
     }
-    acc[field.group].push(field);
 
     return acc;
   }, {});

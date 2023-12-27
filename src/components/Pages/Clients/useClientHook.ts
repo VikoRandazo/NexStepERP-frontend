@@ -11,6 +11,7 @@ import { StoreRootTypes } from "../../../store/store";
 import { SelectPlaceHolderEnum } from "../../../models/SelectPlaceHolderEnum.";
 import { entitiesAction } from "../../../store/slices/entities";
 import countries from "./countries.json";
+import { OptionType } from "../../../models/Elements/Option";
 
 export const useClientHook = () => {
   console.log("rendered");
@@ -23,6 +24,15 @@ export const useClientHook = () => {
 
   const preparedInitState = { ...initClientState };
   const { dateRegistered, purchaseHistory, ...rest } = preparedInitState;
+
+  const getClients = async () => {
+    try {
+      const response = await instance.get(`clients/all`);
+      dispatch(entitiesAction.setClients(response.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const {
     handleChange,
@@ -71,8 +81,23 @@ export const useClientHook = () => {
   };
   const MemoizedCountries = useMemo(() => countries, []);
 
+  const [countriesMemo, setCountriesMemo] = useState<OptionType[]>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const formatOptions = (options: string[]) => {
+    return options.map((option, i) => {
+      console.log(option);
+      return { id: i, value: option };
+    });
+  };
+
+  useEffect(() => {
+    setCountriesMemo(formatOptions(countries));
+  }, []);
+
+  const [dummy, setDummy] = useState<OptionType>({ id: 0, value: "" });
   const fields: InputField[] = [
-    { key: `subTitle1Client`,  title: `Personal Details`, group: 1, element: "h3" },
+    { key: `subTitle1Client`, title: `Personal Details`, group: 1, element: "h3" },
     {
       key: `firstName`,
       type: `text`,
@@ -89,7 +114,7 @@ export const useClientHook = () => {
       element: "input",
       event: () => {},
     },
-    { key: `subTitle2Client`,  title: `Contact `, group: 2, element: "h3" },
+    { key: `subTitle2Client`, title: `Contact `, group: 2, element: "h3" },
     {
       key: `email`,
       type: `text`,
@@ -107,17 +132,20 @@ export const useClientHook = () => {
       event: () => {},
     },
     { key: `subTitle3Client`, title: `Address `, group: 3, element: "h3" },
-    // {
-    //   key: `address.country`, //Formik Pointer
-    //   options: MemoizedCountries, // array of strings will be mapped as options
-    //   type: `text`, // type of the option
-    //   title: `Country`, // if using label it will get this title
-    //   group: 4, // groups elements with the same value together for styling purposes, forming a block that can be targeted with the CSS selector group4.
-    //   element: "select", // element to produce
-    //   state: values.address.country, // Formik state
-    //   event: handleSetCountry, // get the event from this function.
-    //   placeholder: "Choose a Country", // before selection it will show up
-    // },
+    {
+      id: "241",
+      key: `address.country`,
+      isOpen: isOpen,
+      options: countriesMemo,
+      type: `text`,
+      title: `Country`,
+      group: 4,
+      element: "select",
+      isSelected: dummy,
+      setisSelected: setDummy,
+      event: handleSetCountry,
+      placeholder: "Choose a Country",
+    },
     {
       key: `address.city`,
       type: `text`,
@@ -150,7 +178,7 @@ export const useClientHook = () => {
     title: "Search Client",
     element: `input`,
     group: 1,
-    event: () => {}
+    event: () => {},
   };
 
   const formikBag = useMemo(
@@ -177,6 +205,11 @@ export const useClientHook = () => {
   useEffect(() => {
     console.log(values);
   }, [values]);
+  useEffect(() => {
+    if (clients.length < 1) {
+      getClients();
+    }
+  }, []);
 
   return {
     data: { clients, fields },

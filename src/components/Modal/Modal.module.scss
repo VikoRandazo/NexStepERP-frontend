@@ -3,7 +3,7 @@
 
 .Modal {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   position: fixed;
   inset: 0;
   z-index: 999999;
@@ -23,14 +23,16 @@
     @extend %flexRow;
     align-items: center;
     justify-content: center;
+    padding: 1em;
 
     & > .container {
       max-height: 100%;
       max-width: 100%;
       padding: 2em;
       background-color: $background-light;
-      border-radius: 0.75em;
+      border-radius: 0.5em;
       filter: drop-shadow(0 0.5em 1em rgba($ShadowMedium, 0.25));
+      overflow: auto;
 
       & > .header {
         @extend %flexCol;

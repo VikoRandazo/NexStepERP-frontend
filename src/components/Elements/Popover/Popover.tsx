@@ -6,7 +6,7 @@ interface PopoverProps {
   isActivePopover: boolean;
   setIsActivePopover: React.Dispatch<React.SetStateAction<boolean>>;
   children: ReactElement;
-  title: PopoverTitleEnum;
+  title: PopoverTitleEnum | string;
 }
 
 const Popover: FC<PopoverProps> = ({ children, title, isActivePopover, setIsActivePopover }) => {
